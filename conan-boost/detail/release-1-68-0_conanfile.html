@@ -380,16 +380,90 @@ class BoostConan(ConanFile):
                     # self.run(&#34;%s --show-libraries&#34; % b2_exe)
                     self.run(full_command)
 
+    @property
+    def _b2_os(self):
+        return {&#34;Windows&#34;: &#34;windows&#34;,
+                &#34;WindowsStore&#34;: &#34;windows&#34;,
+                &#34;Linux&#34;: &#34;linux&#34;,
+                &#34;Macos&#34;: &#34;darwin&#34;,
+                &#34;iOS&#34;: &#34;iphone&#34;,
+                &#34;watchOS&#34;: &#34;iphone&#34;,
+                &#34;tvOS&#34;: &#34;appletv&#34;,
+                &#34;FreeBSD&#34;: &#34;freebsd&#34;,
+                &#34;SunOS&#34;: &#34;solatis&#34;}.get(str(self.settings.os))
+
+    @property
+    def _b2_address_model(self):
+        return {&#34;x86&#34;: &#34;32&#34;,
+                &#34;x86_64&#34;: &#34;64&#34;,
+                &#34;ppc64le&#34;: &#34;64&#34;,
+                &#34;ppc64&#34;: &#34;64&#34;,
+                &#34;armv6&#34;: &#34;32&#34;,
+                &#34;armv7&#34;: &#34;32&#34;,
+                &#34;armv7s&#34;: &#34;32&#34;,
+                &#34;armv7k&#34;: &#34;32&#34;,
+                &#34;armv8&#34;: &#34;64&#34;,
+                &#34;mips&#34;: &#34;32&#34;,
+                &#34;mips64&#34;: &#34;64&#34;,
+                &#34;sparc&#34;: &#34;32&#34;,
+                &#34;sparcv9&#34;: &#34;64&#34;}.get(str(self.settings.arch))
+
+    @property
+    def _b2_binary_format(self):
+        return {&#34;Macos&#34;: &#34;mach-o&#34;,
+                &#34;iOS&#34;: &#34;mach-o&#34;,
+                &#34;watchOS&#34;: &#34;mach-o&#34;,
+                &#34;tvOS&#34;: &#34;mach-o&#34;,
+                &#34;Linux&#34;: &#34;elf&#34;,
+                &#34;Android&#34;: &#34;elf&#34;,
+                &#34;FreeBSD&#34;: &#34;elf&#34;,
+                &#34;SunOS&#34;: &#34;elf&#34;,
+                &#34;Windows&#34;: &#34;pe&#34;,
+                &#34;WindowsStore&#34;: &#34;pe&#34;}.get(str(self.settings.os))
+
+    @property
+    def _b2_architecture(self):
+        if str(self.settings.arch).startswith(&#39;x86&#39;):
+            return &#39;x86&#39;
+        elif str(self.settings.arch).startswith(&#39;ppc&#39;):
+            return &#39;power&#39;
+        elif str(self.settings.arch).startswith(&#39;arm&#39;):
+            return &#39;arm&#39;
+        elif str(self.settings.arch).startswith(&#39;sparc&#39;):
+            return &#39;sparc&#39;
+        elif str(self.settings.arch).startswith(&#39;mips64&#39;):
+            return &#39;mips64&#39;
+        elif str(self.settings.arch).startswith(&#39;mips&#39;):
+            return &#39;mips1&#39;
+        else:
+            return &#34;&#34;
+
+    @property
+    def _b2_abi(self):
+        if str(self.settings.arch).startswith(&#39;x86&#39;):
+            return &#34;ms&#34; if self.settings.os == &#34;Windows&#34; else &#34;sysv&#34;
+        elif str(self.settings.arch).startswith(&#39;ppc&#39;):
+            return &#34;sysv&#34;
+        elif str(self.settings.arch).startswith(&#39;arm&#39;):
+            return &#34;aapcs&#34;
+        elif str(self.settings.arch).startswith(&#39;mips&#39;):
+            return &#34;o32&#34;
+        else:
+            return None
+
     def get_build_flags(self):
 
         if tools.cross_building(self.settings):
             flags = self.get_build_cross_flags()
         else:
             flags = []
-            if self.settings.arch == &#39;x86&#39; and &#39;address-model=32&#39; not in flags:
-                flags.append(&#39;address-model=32&#39;)
-            elif self.settings.arch == &#39;x86_64&#39; and &#39;address-model=64&#39; not in flags:
-                flags.append(&#39;address-model=64&#39;)
+
+        # https://www.boost.org/doc/libs/1_68_0/libs/context/doc/html/context/architectures.html
+        flags.append(&#34;target-os=%s&#34; % self._b2_os)
+        flags.append(&#34;architecture=%s&#34; % self._b2_architecture)
+        flags.append(&#34;address-model=%s&#34; % self._b2_address_model)
+        flags.append(&#34;binary-format=%s&#34; % self._b2_binary_format)
+        flags.append(&#34;abi=%s&#34; % self._b2_abi)
 
         if self.settings.compiler == &#34;gcc&#34;:
             flags.append(&#34;--layout=system&#34;)
@@ -470,19 +544,10 @@ class BoostConan(ConanFile):
         arch = self.settings.get_safe(&#39;arch&#39;)
         flags = []
         self.output.info(&#34;Cross building, detecting compiler...&#34;)
-        arch = &#34;arm&#34; if arch.startswith(&#34;arm&#34;) else arch
-        arch = &#34;x86&#34; if arch == &#34;x86_64&#34; else arch
-        arch = &#34;power&#34; if arch in [&#34;ppc32&#34;, &#34;ppc64&#34;] else arch
-        flags.append(&#39;architecture=%s&#39; % arch)
-        bits = {&#34;x86_64&#34;: &#34;64&#34;, &#34;armv8&#34;: &#34;64&#34;}.get(str(self.settings.arch), &#34;32&#34;)
-        flags.append(&#39;address-model=%s&#39; % bits)
-        if self.settings.get_safe(&#39;os&#39;).lower() in (&#39;linux&#39;, &#39;android&#39;):
-            flags.append(&#39;binary-format=elf&#39;)
 
         if arch.startswith(&#39;arm&#39;):
             if &#39;hf&#39; in arch:
                 flags.append(&#39;-mfloat-abi=hard&#39;)
-            flags.append(&#39;abi=aapcs&#39;)
         elif arch in [&#34;x86&#34;, &#34;x86_64&#34;]:
             pass
         elif arch in [&#34;power&#34;]:
@@ -492,19 +557,6 @@ class BoostConan(ConanFile):
                             &#34;your architecture. :&#39;(&#34;)
         self.output.info(&#34;Cross building flags: %s&#34; % flags)
 
-        target = {&#34;Windows&#34;: &#34;windows&#34;,
-                  &#34;Macos&#34;: &#34;darwin&#34;,
-                  &#34;Linux&#34;: &#34;linux&#34;,
-                  &#34;Android&#34;: &#34;android&#34;,
-                  &#34;iOS&#34;: &#34;iphone&#34;,
-                  &#34;watchOS&#34;: &#34;iphone&#34;,
-                  &#34;tvOS&#34;: &#34;appletv&#34;,
-                  &#34;freeBSD&#34;: &#34;freebsd&#34;}.get(str(self.settings.os), None)
-
-        if not target:
-            raise Exception(&#34;Unknown target for %s&#34; % self.settings.os)
-
-        flags.append(&#34;target-os=%s&#34; % target)
         return flags
 
     def create_user_config_jam(self, folder):
@@ -762,7 +814,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2018-12-06 23:18:17</span> | Work in progress
+  <span class="text-muted">Generation done at 2018-12-07 23:18:54</span> | Work in progress
 
       </div>
     </footer>
