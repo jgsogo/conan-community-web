@@ -665,7 +665,7 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -5,21 +5,118 @@
+@@ -5,27 +5,118 @@
      PYTHON: &#34;C:\\Python37&#34;
  
      CONAN_USERNAME: &#34;conan&#34;
@@ -682,7 +682,13 @@
 +
  
      matrix:
--        - MINGW_CONFIGURATIONS: &#34;4.9@x86_64@seh@posix, 5@x86_64@seh@posix, 6@x86_64@seh@posix, 7@x86_64@seh@posix&#34;
+-        - MINGW_CONFIGURATIONS: &#34;4.9@x86_64@seh@posix&#34;
+-        - MINGW_CONFIGURATIONS: &#34;4.9@x86_64@sjlj@posix&#34;
+-        - MINGW_CONFIGURATIONS: &#34;4.9@x86@sjlj@posix&#34;
+-        - MINGW_CONFIGURATIONS: &#34;4.9@x86@dwarf2@posix&#34;
+-        - MINGW_CONFIGURATIONS: &#34;5@x86_64@seh@posix&#34;
+-        - MINGW_CONFIGURATIONS: &#34;6@x86_64@seh@posix&#34;
+-        - MINGW_CONFIGURATIONS: &#34;7@x86_64@seh@posix&#34;
 +      
          - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
            CONAN_VISUAL_VERSIONS: 12
@@ -788,7 +794,7 @@
  
  install:
    - set PATH=%PATH%;%PYTHON%/Scripts/
-@@ -29,4 +126,3 @@
+@@ -35,4 +126,3 @@
  
  test_script:
    - python build.py
@@ -812,7 +818,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2018-12-20 23:30:08</span> | Work in progress
+  <span class="text-muted">Generation done at 2018-12-21 23:30:45</span> | Work in progress
 
       </div>
     </footer>

@@ -678,7 +678,7 @@ class ZlibConan(ConanFile):
     author = &#34;Conan Community&#34;
     license = &#34;Zlib&#34;
     description = (&#34;A Massively Spiffy Yet Delicately Unobtrusive Compression Library &#34;
-                  &#34;(Also Free, Not to Mention Unencumbered by Patents)&#34;)
+                   &#34;(Also Free, Not to Mention Unencumbered by Patents)&#34;)
     settings = &#34;os&#34;, &#34;arch&#34;, &#34;compiler&#34;, &#34;build_type&#34;
     options = {&#34;shared&#34;: [True, False], &#34;fPIC&#34;: [True, False], &#34;minizip&#34;: [True, False]}
     default_options = &#34;shared=False&#34;, &#34;fPIC=True&#34;, &#34;minizip=False&#34;
@@ -721,6 +721,10 @@ class ZlibConan(ConanFile):
             with tools.chdir(&#34;_build&#34;):
                 if not tools.os_info.is_windows:
                     env_build = AutoToolsBuildEnvironment(self)
+
+                    if tools.is_apple_os(self.settings.os) and self.settings.get_safe(&#34;os.version&#34;):
+                        env_build.flags.append(tools.apple_deployment_target_flag(self.settings.os,
+                                                                                  self.settings.os.version))
 
                     if self.settings.os == &#34;Macos&#34;:
                         old_str = &#39;-install_name $libdir/$SHAREDLIBM&#39;
@@ -892,7 +896,7 @@ class ZlibConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2018-12-20 23:30:08</span> | Work in progress
+  <span class="text-muted">Generation done at 2018-12-21 23:30:45</span> | Work in progress
 
       </div>
     </footer>
