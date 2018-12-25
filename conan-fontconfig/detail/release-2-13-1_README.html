@@ -588,14 +588,14 @@
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link active" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/release-2-13-1_appveyor.html">
-                        appveyor.yml <span class="numberCircle numberCircle-error" title=""><span> </span></span>
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/release-2-13-1_build.html">
+                        build.py <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/release-2-13-1_build.html">
-                        build.py <span class="numberCircle numberCircle-error" title=""><span> </span></span>
+                    <a class="nav-link active" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/release-2-13-1_README.html">
+                        README.md <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
                 
@@ -612,174 +612,31 @@
 
 
     
-    <h4>appveyor.yml</h4>
+    <h4>README.md</h4>
     <div>
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,69 +1,122 @@
- build: false
- 
+@@ -1,14 +1,10 @@
+-[![Build Status](https://travis-ci.org/conan-community/conan-fontconfig.svg)](https://travis-ci.org/conan-community/conan-fontconfig)
 +
- environment:
--    PYTHON: &#34;C:\\Python27&#34;
--    PYTHON_VERSION: &#34;2.7.8&#34;
--    PYTHON_ARCH: &#34;32&#34;
-+    PYTHON: &#34;C:\\Python37&#34;
- 
--    CONAN_REFERENCE: &#34;fontconfig/2.13.1&#34;
-+    CONAN_USERNAME: &#34;conan&#34;
-     CONAN_CHANNEL: &#34;testing&#34;
--    CONAN_STABLE_BRANCH_PATTERN: &#34;release/*&#34;
--    CONAN_UPLOAD_ONLY_WHEN_STABLE: 1 # Will only upload when the branch matches &#34;release/*&#34;
--    CONAN_REMOTES: https://api.bintray.com/conan/bincrafters/public-conan@False@bincrafters
-+    CONAN_LOGIN_USERNAME: &#34;conanbot&#34;
-+    VS150COMNTOOLS: &#34;C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\&#34;
-+    CONAN_UPLOAD: &#34;https://api.bintray.com/conan/conan-community/conan&#34;
-+    CONAN_STABLE_BRANCH_PATTERN: &#34;(release|stable)/[a-zA-Z0-9_][a-zA-Z0-9_+.-]+&#34;
-+    CONAN_UPLOAD_ONLY_WHEN_STABLE: 1 # Will only upload when the branch matches stable pattern
-+    CONAN_TOTAL_PAGES: 1
 +
++
++[![Build Status](https://travis-ci.org/conan-community/conan-fontconfig.svg?branch=release/2.13.1)](https://travis-ci.org/conan-community/conan-fontconfig/builds/472146876)
++[![Build Status](None)](None)
  
-     matrix:
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 12
-+          CONAN_ARCHS: x86
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MT
-+          CONAN_CURRENT_PAGE: 1
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 12
-+          CONAN_ARCHS: x86
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MD
-+          CONAN_CURRENT_PAGE: 1
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 12
-+          CONAN_ARCHS: x86_64
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MT
-+          CONAN_CURRENT_PAGE: 1
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 12
-+          CONAN_ARCHS: x86_64
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MD
-+          CONAN_CURRENT_PAGE: 1
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 14
-+          CONAN_ARCHS: x86
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MT
-+          CONAN_CURRENT_PAGE: 1
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 14
-+          CONAN_ARCHS: x86
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MD
-+          CONAN_CURRENT_PAGE: 1
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 14
-+          CONAN_ARCHS: x86_64
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MT
-+          CONAN_CURRENT_PAGE: 1
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 14
-+          CONAN_ARCHS: x86_64
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MD
-+          CONAN_CURRENT_PAGE: 1
-+      
-         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-           CONAN_VISUAL_VERSIONS: 15
-+          CONAN_ARCHS: x86
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MT
-           CONAN_CURRENT_PAGE: 1
-+      
-         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-           CONAN_VISUAL_VERSIONS: 15
--          CONAN_CURRENT_PAGE: 2
--
--        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
--          CONAN_VISUAL_VERSIONS: 14
-+          CONAN_ARCHS: x86
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MD
-           CONAN_CURRENT_PAGE: 1
--        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
--          CONAN_VISUAL_VERSIONS: 14
--          CONAN_CURRENT_PAGE: 2
--
--        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
--          CONAN_VISUAL_VERSIONS: 12
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-+          CONAN_VISUAL_VERSIONS: 15
-+          CONAN_ARCHS: x86_64
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MT
-           CONAN_CURRENT_PAGE: 1
--        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
--          CONAN_VISUAL_VERSIONS: 12
--          CONAN_CURRENT_PAGE: 2
--
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-+          CONAN_VISUAL_VERSIONS: 15
-+          CONAN_ARCHS: x86_64
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MD
-+          CONAN_CURRENT_PAGE: 1
-+      
-+      
-         - MINGW_CONFIGURATIONS: &#34;4.9@x86_64@seh@posix&#34;
-           CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
-           CONAN_CURRENT_PAGE: 1
--
--        - MINGW_CONFIGURATIONS: &#34;4.9@x86_64@seh@posix&#34;
--          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
--          CONAN_CURRENT_PAGE: 2
--
-+      
-         - MINGW_CONFIGURATIONS: &#34;5@x86_64@seh@posix&#34;
-           CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
-           CONAN_CURRENT_PAGE: 1
--
--        - MINGW_CONFIGURATIONS: &#34;5@x86_64@seh@posix&#34;
--          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
--          CONAN_CURRENT_PAGE: 2
--
-+      
-         - MINGW_CONFIGURATIONS: &#34;6@x86_64@seh@posix&#34;
-           CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
-           CONAN_CURRENT_PAGE: 1
--
--        - MINGW_CONFIGURATIONS: &#34;6@x86_64@seh@posix&#34;
--          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
--          CONAN_CURRENT_PAGE: 2
--
-+      
-         - MINGW_CONFIGURATIONS: &#34;7@x86_64@seh@posix&#34;
-           CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
-           CONAN_CURRENT_PAGE: 1
--
--        - MINGW_CONFIGURATIONS: &#34;7@x86_64@seh@posix&#34;
--          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
--          CONAN_CURRENT_PAGE: 2
-+      
  
- install:
-   - set PATH=%PATH%;%PYTHON%/Scripts/</code>
+ # conan-fontconfig
+ 
+ 
+-[Conan](https://bintray.com/conan-community/conan/fontconfig%3Aconan) package for fontconfig 
+-library.
+-
+-
+-## Basic setup
+-
+-    $ conan install fontconfig/2.13.1@conan/stable
+-    </code>
         </pre>
     </div>
 
@@ -799,7 +656,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2018-12-24 23:34:11</span> | Work in progress
+  <span class="text-muted">Generation done at 2018-12-25 23:34:23</span> | Work in progress
 
       </div>
     </footer>

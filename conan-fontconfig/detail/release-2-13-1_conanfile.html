@@ -588,14 +588,14 @@
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/release-2-13-1_appveyor.html">
-                        appveyor.yml <span class="numberCircle numberCircle-error" title=""><span> </span></span>
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/release-2-13-1_build.html">
+                        build.py <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/release-2-13-1_build.html">
-                        build.py <span class="numberCircle numberCircle-error" title=""><span> </span></span>
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/release-2-13-1_README.html">
+                        README.md <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
                 
@@ -620,14 +620,18 @@ import os
 import shutil
 
 from conans import ConanFile, CMake, tools, AutoToolsBuildEnvironment
+from conans.errors import ConanInvalidConfiguration
 
 
 class FontconfigConan(ConanFile):
     name = &#34;fontconfig&#34;
     version = &#34;2.13.1&#34;
-    license = &#34;&lt;Put the package license here&gt;&#34;
-    url = &#34;&lt;Package recipe repository url here, for issues about the package&gt;&#34;
-    description = &#34;&lt;Description of Fontconfig here&gt;&#34;
+
+    license = &#34;https://gitlab.freedesktop.org/fontconfig/fontconfig/blob/master/COPYING&#34;
+    url = &#34;https://github.com/conan-community/conan-fontconfig&#34;
+    description = &#34;Fontconfig is a library for configuring and customizing font access&#34;
+    homepage = &#34;https://www.freedesktop.org/wiki/Software/fontconfig/&#34;
+
     settings = &#34;os&#34;, &#34;compiler&#34;, &#34;build_type&#34;, &#34;arch&#34;
     options = {&#34;shared&#34;: [True, False]}
     default_options = &#34;shared=False&#34;
@@ -635,11 +639,16 @@ class FontconfigConan(ConanFile):
 
     def requirements(self):
         self.requires(&#34;freetype/2.9.0@bincrafters/stable&#34;)
+        self.requires(&#34;expat/2.2.5@bincrafters/stable&#34;)
         if self.settings.os == &#34;Linux&#34;:
             self.requires(&#34;libuuid/1.0.3@bincrafters/stable&#34;)
 
     def build_requirements(self):
         self.build_requires(&#34;gperf/3.1@conan/stable&#34;)
+
+    def configure(self):
+        if self.settings.os == &#34;Windows&#34;:
+            raise ConanInvalidConfiguration(&#34;Windows builds are not supported.&#34;)
 
     def source(self):
         url = &#34;https://www.freedesktop.org/software/fontconfig/release/fontconfig-{version}.tar.gz&#34;
@@ -694,7 +703,7 @@ class FontconfigConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2018-12-24 23:34:11</span> | Work in progress
+  <span class="text-muted">Generation done at 2018-12-25 23:34:23</span> | Work in progress
 
       </div>
     </footer>
