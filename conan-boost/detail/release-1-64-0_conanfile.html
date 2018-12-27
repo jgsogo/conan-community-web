@@ -1001,6 +1001,9 @@ class BoostConan(ConanFile):
             contents += &#39;&lt;cflags&gt;&#34;%s&#34; &#39; % os.environ[&#34;CFLAGS&#34;]
         if &#34;LDFLAGS&#34; in os.environ:
             contents += &#39;&lt;ldflags&gt;&#34;%s&#34; &#39; % os.environ[&#34;LDFLAGS&#34;]
+        if &#34;ASFLAGS&#34; in os.environ:
+            contents += &#39;&lt;asmflags&gt;&#34;%s&#34; &#39; % os.environ[&#34;ASFLAGS&#34;]
+
         contents += &#34; ;&#34;
 
         self.output.warn(contents)
@@ -1161,7 +1164,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2018-12-26 23:32:22</span> | Work in progress
+  <span class="text-muted">Generation done at 2018-12-27 23:33:08</span> | Work in progress
 
       </div>
     </footer>
