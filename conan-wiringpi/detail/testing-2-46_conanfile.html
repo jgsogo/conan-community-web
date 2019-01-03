@@ -515,7 +515,7 @@
                 <span data-feather="file-text"></span>
                 conan-ncurses
                 
-                <span class="numberCircle numberCircle-error" title=""><span>14</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>18</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -615,19 +615,24 @@
     <h4>conanfile.py</h4>
     <div>
         <pre>
-            <code class="python">from conans import ConanFile, CMake, tools
+            <code class="python">#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from conans import ConanFile, CMake, tools
+from conans.errors import ConanInvalidConfiguration
 
 
 class WiringpiConan(ConanFile):
     name = &#34;wiringpi&#34;
     version = &#34;2.46&#34;
-    license = &#34;GPLv3&#34;
+    license = &#34;LGPL-3.0&#34;
     description = &#34;GPIO Interface library for the Raspberry Pi&#34;
     homepage = &#34;http://wiringpi.com/&#34;
+    author = &#34;Conan Community &lt;info@conan.io&gt;&#34;
+    topics = (&#34;conan&#34;, &#34;wiringpi&#34;, &#34;gpio&#34;, &#34;raspberrypi&#34;)
     url = &#34;https://github.com/conan-community/conan-wiringpi&#34;
     settings = &#34;os&#34;, &#34;compiler&#34;, &#34;build_type&#34;, &#34;arch&#34;
-    options = {&#34;shared&#34;: [True, False]}
-    default_options = &#34;shared=False&#34;
+    options = {&#34;shared&#34;: [True, False], &#34;fPIC&#34;: [True, False]}
+    default_options = {&#34;shared&#34;: False, &#34;fPIC&#34;: True}
     exports_sources = &#34;CMakeLists.txt&#34;
     exports = &#34;LICENSE&#34;
     generators = &#34;cmake&#34;
@@ -636,23 +641,26 @@ class WiringpiConan(ConanFile):
         del self.settings.compiler.libcxx
 
         if self.settings.os in (&#34;Windows&#34;, &#34;Macos&#34;):
-            raise Exception(&#34;This library is not suitable for Windows/Macos&#34;)
+            raise ConanInvalidConfiguration(&#34;This library is not suitable for Windows/Macos&#34;)
 
     def source(self):
-        self.run(&#34;git clone git://git.drogon.net/wiringPi&#34;)
-        with tools.chdir(&#34;wiringPi&#34;):
-            self.run(&#34;git checkout %s&#34; % self.version)
+        git = tools.Git()
+        git.clone(&#34;git://git.drogon.net/wiringPi&#34;, branch=&#34;master&#34;)
+        git.checkout(self.version)
 
-    def build(self):
+    def _configure_cmake(self):
         cmake = CMake(self)
         cmake.configure()
+        return cmake
+
+    def build(self):
+        cmake = self._configure_cmake()
         cmake.build()
 
     def package(self):
         self.copy(&#34;COPYING*&#34;, src=&#34;wiringPi&#34;, dst=&#34;licenses&#34;, keep_path=False)
-        self.copy(&#34;*.h&#34;, src=&#34;wiringPi/wiringPi&#34;, dst=&#34;include&#34;, keep_path=True)
-        self.copy(&#34;*.a*&#34;, dst=&#34;lib&#34;, keep_path=False)
-        self.copy(&#34;*.so*&#34;, dst=&#34;lib&#34;, keep_path=False)
+        cmake = self._configure_cmake()
+        cmake.install()
 
     def package_info(self):
         self.cpp_info.libs = [&#34;wiringPi&#34;, &#34;pthread&#34;, &#34;crypt&#34;, &#34;m&#34;, &#34;rt&#34;]
@@ -676,7 +684,7 @@ class WiringpiConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-01-03 00:12:42</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-01-03 23:39:16</span> | Work in progress
 
       </div>
     </footer>
