@@ -427,9 +427,9 @@
                 <span data-feather="file-text"></span>
                 conan-muparser
                 
-                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>14</span></span>
                 
-                <span class="numberCircle numberCircle-warning" title=""><span>6</span></span>
+                <span class="numberCircle numberCircle-warning" title=""><span>3</span></span>
               </a>
             </li>
         
@@ -539,20 +539,28 @@
         <a class="btn btn-sm btn-outline-secondary" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/index.html" role="button">Index <span data-feather="home"></span></a>
     </div>
     <div class="btn-group mr-2">
-        <a class="btn btn-sm btn-outline-secondary" href="https://github.com/conan-community/conan-muparser/tree/master" role="button">Github <span data-feather="external-link"></span></a>
+        <a class="btn btn-sm btn-outline-secondary" href="https://github.com/conan-community/conan-muparser/tree/testing/2.2.6" role="button">Github <span data-feather="external-link"></span></a>
         
         
     </div>
     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" id="branchesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span data-feather="git-branch"></span>
         
-            master
+            testing/2.2.6
         
     </button>
     <div class="dropdown-menu" aria-labelledby="branchesMenuButton">
         
-            <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/master.html">
-                master
+            <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/stable-2-2-6.html">
+                stable/2.2.6
+                
+                <span class="numberCircle numberCircle-error" title=""><span>6</span></span>
+                
+                
+            </a>
+        
+            <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/testing-2-2-6.html">
+                testing/2.2.6
                 
                 <span class="numberCircle numberCircle-error" title=""><span>4</span></span>
                 
@@ -570,35 +578,35 @@
         
             <ul class="nav nav-tabs">
               <li class="nav-item">
-                <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/master.html">Details</a>
+                <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/testing-2-2-6.html">Details</a>
               </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/master_conanfile.html">
+                    <a class="nav-link active" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/testing-2-2-6_conanfile.html">
                         conanfile.py
                     </a>
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/master_appveyor.html">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/testing-2-2-6_appveyor.html">
                         appveyor.yml <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link active" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/master_build.html">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/testing-2-2-6_build.html">
                         build.py <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/master_README.html">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/testing-2-2-6_README.html">
                         README.md <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/master_.travis.html">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/testing-2-2-6_.travis.html">
                         .travis.yml <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
@@ -610,62 +618,66 @@
 
 
     
-    <h4>build.py</h4>
+    <h4>conanfile.py</h4>
     <div>
         <pre>
-            <code class="diff">--- actual
-+++ expected
-@@ -1,45 +1,10 @@
--from conan.packager import ConanMultiPackager
--import os, re
-+#!/usr/bin/env python
-+# -*- coding: utf-8 -*-
- 
--
--def get_value_from_recipe(search_string):
--    with open(&#34;conanfile.py&#34;, &#34;r&#34;) as conanfile:
--        contents = conanfile.read()
--        result = re.search(search_string, contents)
--    return result
--
--def get_name_from_recipe():
--    return get_value_from_recipe(r&#39;&#39;&#39;name\s*=\s*[&#34;&#39;](\S*)[&#34;&#39;]&#39;&#39;&#39;).groups()[0]
--
--def get_version_from_recipe():
--    return get_value_from_recipe(r&#39;&#39;&#39;version\s*=\s*[&#34;&#39;](\S*)[&#34;&#39;]&#39;&#39;&#39;).groups()[0]
-+from cpt.packager import ConanMultiPackager
- 
- 
- if __name__ == &#34;__main__&#34;:
--    header_only = False
--    name = get_name_from_recipe()
--    version = get_version_from_recipe()
--    reference = &#34;{0}/{1}&#34;.format(name, version)
--    username = &#34;conan&#34;
--    login_username = &#34;conanbot&#34;
--    upload_remote = &#34;https://api.bintray.com/conan/conan-community/{0}&#34;.format(username)
--
--    builder = ConanMultiPackager(
--        stable_branch_pattern=&#34;stable/*&#34;,
--        upload_only_when_stable=True,
--        username=username,
--        login_username=login_username,
--        reference=reference,
--        upload=upload_remote,
--        remotes=upload_remote)
--
--    if header_only:
--        filtered_builds = []
--        for settings, options, env_vars, build_requires, reference in builder.items:
--            if settings[&#34;compiler&#34;] == &#34;gcc&#34;:
--                filtered_builds.append([settings, options, env_vars, build_requires])
--                break
--        builder.builds = filtered_builds
--    else:
--        builder.add_common_builds()
-+    builder = ConanMultiPackager()
-+    builder.add_common_builds()
-     builder.run()</code>
+            <code class="python">import os
+from conans import ConanFile, tools, CMake
+
+
+class MuparserConan(ConanFile):
+    name = &#34;muparser&#34;
+    version = &#34;2.2.6&#34;
+    description = &#34;Fast Math Parser Library&#34;
+    topics = (&#34;conan&#34;, &#34;muparser&#34;, &#34;math&#34;, &#34;parser&#34;)
+    url = &#34;https://github.com/conan-community/conan-muparser&#34;
+    homepage = &#34;http://beltoforion.de/article.php?a=muparser&#34;
+    author = &#34;Conan Community&#34;
+    license = &#34;MIT&#34;
+    exports = [&#34;LICENSE.md&#34;]
+    generators = &#34;cmake&#34;
+
+    settings = &#34;os&#34;, &#34;arch&#34;, &#34;compiler&#34;, &#34;build_type&#34;
+    options = {&#34;shared&#34;: [True, False], &#34;fPIC&#34;: [True, False]}
+    default_options = {&#34;shared&#34;: False, &#34;fPIC&#34;: True}
+
+    _source_subfolder = &#34;source_subfolder&#34;
+
+    def config_options(self):
+        if self.settings.os == &#34;Windows&#34;:
+            del self.options.fPIC
+
+    def source(self):
+        tools.get(&#34;https://github.com/beltoforion/{}/archive/v{}.zip&#34;.format(self.name, self.version),
+                  sha256=&#34;daf4a937abdc33b361d4a2fbc79bf311d5486ebc87c56596130e295db1302303&#34;)
+        os.rename(self.name + &#34;-&#34; + self.version, self._source_subfolder)
+
+        tools.replace_in_file(os.path.join(self._source_subfolder, &#39;CMakeLists.txt&#39;),
+                              &#39;project(muParserProject)&#39;,
+                              &#39;project(muParserProject)\n&#39;
+                              &#39;include(${CMAKE_CURRENT_SOURCE_DIR}/../conanbuildinfo.cmake)\n&#39;
+                              &#39;conan_basic_setup()&#39;)
+
+    def _configure_cmake(self):
+        cmake = CMake(self)
+        cmake.definitions[&#34;BUILD_SHARED_LIBS&#34;] = self.options.shared
+        cmake.definitions[&#34;ENABLE_SAMPLES&#34;] = False
+        cmake.configure(source_folder=self._source_subfolder)
+        return cmake
+
+    def build(self):
+        cmake = self._configure_cmake()
+        cmake.build()
+
+    def package(self):
+        self.copy(pattern=&#34;License.txt&#34;, src=self._source_subfolder, dst=&#34;licenses&#34;)
+        cmake = self._configure_cmake()
+        cmake.install()
+
+    def package_info(self):
+        self.cpp_info.libs = tools.collect_libs(self)
+        self.cpp_info.defines.append(&#34;MUPARSER_DLL&#34; if self.options.shared else &#34;MUPARSER_STATIC&#34;)
+</code>
         </pre>
     </div>
 
@@ -685,7 +697,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-01-03 23:39:25</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-01-04 23:39:34</span> | Work in progress
 
       </div>
     </footer>

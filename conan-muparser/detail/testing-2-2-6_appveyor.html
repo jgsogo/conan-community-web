@@ -427,9 +427,9 @@
                 <span data-feather="file-text"></span>
                 conan-muparser
                 
-                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>14</span></span>
                 
-                <span class="numberCircle numberCircle-warning" title=""><span>6</span></span>
+                <span class="numberCircle numberCircle-warning" title=""><span>3</span></span>
               </a>
             </li>
         
@@ -539,20 +539,28 @@
         <a class="btn btn-sm btn-outline-secondary" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/index.html" role="button">Index <span data-feather="home"></span></a>
     </div>
     <div class="btn-group mr-2">
-        <a class="btn btn-sm btn-outline-secondary" href="https://github.com/conan-community/conan-muparser/tree/master" role="button">Github <span data-feather="external-link"></span></a>
+        <a class="btn btn-sm btn-outline-secondary" href="https://github.com/conan-community/conan-muparser/tree/testing/2.2.6" role="button">Github <span data-feather="external-link"></span></a>
         
         
     </div>
     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" id="branchesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span data-feather="git-branch"></span>
         
-            master
+            testing/2.2.6
         
     </button>
     <div class="dropdown-menu" aria-labelledby="branchesMenuButton">
         
-            <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/master.html">
-                master
+            <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/stable-2-2-6.html">
+                stable/2.2.6
+                
+                <span class="numberCircle numberCircle-error" title=""><span>6</span></span>
+                
+                
+            </a>
+        
+            <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/testing-2-2-6.html">
+                testing/2.2.6
                 
                 <span class="numberCircle numberCircle-error" title=""><span>4</span></span>
                 
@@ -570,35 +578,35 @@
         
             <ul class="nav nav-tabs">
               <li class="nav-item">
-                <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/master.html">Details</a>
+                <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/testing-2-2-6.html">Details</a>
               </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/master_conanfile.html">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/testing-2-2-6_conanfile.html">
                         conanfile.py
                     </a>
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/master_appveyor.html">
+                    <a class="nav-link active" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/testing-2-2-6_appveyor.html">
                         appveyor.yml <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/master_build.html">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/testing-2-2-6_build.html">
                         build.py <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link active" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/master_README.html">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/testing-2-2-6_README.html">
                         README.md <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/master_.travis.html">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-muparser/detail/testing-2-2-6_.travis.html">
                         .travis.yml <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
@@ -610,49 +618,135 @@
 
 
     
-    <h4>README.md</h4>
+    <h4>appveyor.yml</h4>
     <div>
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,30 +1,10 @@
+@@ -1,16 +1,122 @@
+ build: false
 +
-+
-+
-+[![Build Status](https://travis-ci.org/conan-community/conan-muparser.svg?branch=master)](https://travis-ci.org/conan-community/conan-muparser/builds/465438638)
-+[![Build Status](https://ci.appveyor.com/api/projects/status/github/conan-community%2Fconan-muparser?branch=master&amp;svg=true)](https://ci.appveyor.com/project/ConanCIintegration/conan-muparser/builds/20871005)
-+
-+
- # conan-muparser
  
--![conan-muparser image](/images/conan-muparser.png)
+ environment:
+     PYTHON: &#34;C:\\Python37&#34;
  
--[![Download](https://api.bintray.com/packages/conan-community/conan/muparser%3Aconan/images/download.svg?version=2.2.6%3Astable)](https://bintray.com/conan-community/conan/muparser%3Aconan/2.2.6%3Astable/link)
--[![Build Status](https://travis-ci.org/conan-community/conan-muparser.svg?branch=stable%2F2.2.6)](https://travis-ci.org/conan-community/conan-muparser)
--[![Build status](https://ci.appveyor.com/api/projects/status/jyeh443gn0l0f3bi/branch/stable/2.2.6?svg=true)](https://ci.appveyor.com/project/&lt;appveyor_user&gt;/conan-muparser/branch/stable/2.2.6)
--
--[Conan.io](https://conan.io) package for [muparser](http://beltoforion.de/article.php?a=muparser) project.
--
--The packages generated with this *conanfile.py* can be found in [Bintray](https://bintray.com/conan-community/conan/muparser%3Aconan).
--
--## Basic setup
--
--    $ conan install muparser/2.2.6@conan/stable
--
--## Project setup
--
--If you handle multiple dependencies in your project is better to add a *conanfile.txt*:
--
--    [requires]
--    muparser/2.2.6@conan/stable
--
--    [generators]
--    txt
--    cmake
--
--## License
--
--[MIT License](LICENSE)</code>
++    CONAN_USERNAME: &#34;conan&#34;
++    CONAN_CHANNEL: &#34;testing&#34;
++    CONAN_LOGIN_USERNAME: &#34;conanbot&#34;
++    VS150COMNTOOLS: &#34;C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\&#34;
++    CONAN_UPLOAD: &#34;https://api.bintray.com/conan/conan-community/conan&#34;
++    CONAN_STABLE_BRANCH_PATTERN: &#34;(release|stable)/[a-zA-Z0-9_][a-zA-Z0-9_+.-]+&#34;
++    CONAN_UPLOAD_ONLY_WHEN_STABLE: 1 # Will only upload when the branch matches stable pattern
++    CONAN_TOTAL_PAGES: 1
++
++
+     matrix:
+-        - MINGW_CONFIGURATIONS: &#34;4.9@x86_64@seh@posix, 5@x86_64@seh@posix, 6@x86_64@seh@posix, 7@x86_64@seh@posix&#34;
++      
+         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+           CONAN_VISUAL_VERSIONS: 12
++          CONAN_ARCHS: x86
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MT
++          CONAN_CURRENT_PAGE: 1
++      
++        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
++          CONAN_VISUAL_VERSIONS: 12
++          CONAN_ARCHS: x86
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MD
++          CONAN_CURRENT_PAGE: 1
++      
++        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
++          CONAN_VISUAL_VERSIONS: 12
++          CONAN_ARCHS: x86_64
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MT
++          CONAN_CURRENT_PAGE: 1
++      
++        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
++          CONAN_VISUAL_VERSIONS: 12
++          CONAN_ARCHS: x86_64
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MD
++          CONAN_CURRENT_PAGE: 1
++      
+         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+           CONAN_VISUAL_VERSIONS: 14
++          CONAN_ARCHS: x86
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MT
++          CONAN_CURRENT_PAGE: 1
++      
++        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
++          CONAN_VISUAL_VERSIONS: 14
++          CONAN_ARCHS: x86
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MD
++          CONAN_CURRENT_PAGE: 1
++      
++        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
++          CONAN_VISUAL_VERSIONS: 14
++          CONAN_ARCHS: x86_64
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MT
++          CONAN_CURRENT_PAGE: 1
++      
++        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
++          CONAN_VISUAL_VERSIONS: 14
++          CONAN_ARCHS: x86_64
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MD
++          CONAN_CURRENT_PAGE: 1
++      
+         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+           CONAN_VISUAL_VERSIONS: 15
++          CONAN_ARCHS: x86
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MT
++          CONAN_CURRENT_PAGE: 1
++      
++        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
++          CONAN_VISUAL_VERSIONS: 15
++          CONAN_ARCHS: x86
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MD
++          CONAN_CURRENT_PAGE: 1
++      
++        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
++          CONAN_VISUAL_VERSIONS: 15
++          CONAN_ARCHS: x86_64
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MT
++          CONAN_CURRENT_PAGE: 1
++      
++        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
++          CONAN_VISUAL_VERSIONS: 15
++          CONAN_ARCHS: x86_64
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MD
++          CONAN_CURRENT_PAGE: 1
++      
++      
++        - MINGW_CONFIGURATIONS: &#34;4.9@x86_64@seh@posix&#34;
++          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
++          CONAN_CURRENT_PAGE: 1
++      
++        - MINGW_CONFIGURATIONS: &#34;5@x86_64@seh@posix&#34;
++          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
++          CONAN_CURRENT_PAGE: 1
++      
++        - MINGW_CONFIGURATIONS: &#34;6@x86_64@seh@posix&#34;
++          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
++          CONAN_CURRENT_PAGE: 1
++      
++        - MINGW_CONFIGURATIONS: &#34;7@x86_64@seh@posix&#34;
++          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
++          CONAN_CURRENT_PAGE: 1
++      
+ 
+ install:
+   - set PATH=%PATH%;%PYTHON%/Scripts/</code>
         </pre>
     </div>
 
@@ -672,7 +766,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-01-03 23:39:25</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-01-04 23:39:34</span> | Work in progress
 
       </div>
     </footer>
