@@ -1023,11 +1023,11 @@ class OpenSSLConan(ConanFile):
         elif self.settings.os == &#34;Android&#34;:
             target = {&#34;armv7&#34;: &#34;android-arm&#34;,
                       &#34;armv7hf&#34;: &#34;android-arm&#34;,
-                      &#34;armv8&#34;: &#34;android64-arm64&#34;,
+                      &#34;armv8&#34;: &#34;android-arm64&#34;,
                       &#34;x86&#34;: &#34;android-x86&#34;,
                       &#34;x86_64&#34;: &#34;android-x86_64&#34;,
                       &#34;mips&#34;: &#34;android-mips&#34;,
-                      &#34;mips64&#34;: &#34;anroid-mips64&#34;}.get(str(self.arch), None)
+                      &#34;mips64&#34;: &#34;android-mips64&#34;}.get(str(self.arch), None)
             if not target:
                 raise Exception(&#34;Unsupported arch for android&#34;)
         elif self.settings.os == &#34;SunOS&#34;:
@@ -1216,7 +1216,7 @@ class OpenSSLConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-01-04 23:37:09</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-01-05 23:36:37</span> | Work in progress
 
       </div>
     </footer>
