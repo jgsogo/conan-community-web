@@ -1130,6 +1130,10 @@ class BoostConan(ConanFile):
 
         with_toolset = {&#34;apple-clang&#34;: &#34;darwin&#34;}.get(str(self.settings.compiler),
                                                      str(self.settings.compiler))
+
+        # fallback for the case when no unversioned gcc/clang is available
+        if with_toolset in [&#34;gcc&#34;, &#34;clang&#34;] and not tools.which(with_toolset):
+            with_toolset = &#34;cc&#34;
         return with_toolset
 
     def bootstrap(self):
@@ -1263,7 +1267,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-01-07 23:38:05</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-01-08 23:40:20</span> | Work in progress
 
       </div>
     </footer>

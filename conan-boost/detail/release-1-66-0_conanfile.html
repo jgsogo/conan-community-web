@@ -729,6 +729,7 @@
         <pre>
             <code class="python">from conans import ConanFile
 from conans import tools
+from conans.model.version import Version
 import os
 
 # From from *1 (see below, b2 --show-libraries), also ordered following linkage order
@@ -798,6 +799,14 @@ class BoostConan(ConanFile):
         zip_name = &#34;%s%s&#34; % (self.folder_name, extension)
         url = &#34;https://dl.bintray.com/boostorg/release/%s/source/%s&#34; % (self.version, zip_name)
         tools.get(url, sha256=sha256)
+
+        if &#39;gcc&#39; == self.settings.compiler and Version(str(self.settings.compiler)) &lt; &#39;6&#39;:
+            # https://svn.boost.org/trac10/ticket/13368
+            tools.replace_in_file(
+                file_path=&#39;%s/boost/asio/detail/consuming_buffers.hpp&#39; % self.folder_name,
+                search=&#39;&amp;&amp; result.count &lt;&#39;,
+                replace=&#39;&amp;&amp; (result.count) &lt;&#39;
+            )
 
     ##################### BUILDING METHODS ###########################
 
@@ -1124,7 +1133,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-01-07 23:38:05</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-01-08 23:40:20</span> | Work in progress
 
       </div>
     </footer>
