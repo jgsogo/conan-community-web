@@ -275,7 +275,7 @@
                 
                 <span class="numberCircle numberCircle-error" title=""><span>20</span></span>
                 
-                <span class="numberCircle numberCircle-warning" title=""><span>3</span></span>
+                <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
             </li>
         
@@ -578,7 +578,7 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-cereal/detail/testing-1-2-2.html">
                 testing/1.2.2
                 
-                <span class="numberCircle numberCircle-error" title=""><span>3</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>4</span></span>
                 
                 
             </a>
@@ -612,6 +612,12 @@
                   </li>
                 
                   <li class="nav-item">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-cereal/detail/testing-1-2-2_appveyor.html">
+                        appveyor.yml <span class="numberCircle numberCircle-error" title=""><span> </span></span>
+                    </a>
+                  </li>
+                
+                  <li class="nav-item">
                     <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-cereal/detail/testing-1-2-2_build.html">
                         build.py <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
@@ -639,32 +645,40 @@
     <h4>conanfile.py</h4>
     <div>
         <pre>
-            <code class="python">from conans import ConanFile, tools
+            <code class="python">#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import os
+from conans import ConanFile, CMake, tools
 
 
 class CerealConan(ConanFile):
     name = &#34;cereal&#34;
     version = &#34;1.2.2&#34;
     description = &#34;Serialization header-only library for C++11.&#34;
-    homepage = &#34;https://github.com/USCiLab/cereal&#34;
-    license = &#34;BSD-3&#34;
-    no_copy_source = True
-    options = {&#34;thread_safe&#34;: [True, False]}
-    default_options = &#34;thread_safe=False&#34;
-    source_subfolder = &#34;sources&#34;
     url = &#34;https://github.com/conan-community/conan-cereal&#34;
+    homepage = &#34;https://github.com/USCiLab/cereal&#34;
+    author = &#34;Conan Community &lt;info@conan.io&gt;&#34;
+    topics = (&#34;conan&#34;, &#34;cereal&#34;, &#34;header-only&#34;, &#34;serialization&#34;, &#34;cpp11&#34;)
+    license = &#34;BSD-3&#34;
+    options = {&#34;thread_safe&#34;: [True, False]}
+    default_options = {&#34;thread_safe&#34;: False}
+    exports = &#34;LICENSE&#34;
+    exports_sources = &#34;CMakeLists.txt&#34;
+    generators = &#34;cmake&#34;
+    no_copy_source = True
+    _source_subfolder = &#34;source_subfolder&#34;
 
     def source(self):
         source_url = (&#34;%s/archive/v%s.zip&#34; % (self.homepage, self.version))
         tools.get(source_url)
-        os.rename(&#34;%s-%s&#34; % (self.name, self.version, ), self.source_subfolder)
+        os.rename(&#34;%s-%s&#34; % (self.name, self.version, ), self._source_subfolder)
 
     def package(self):
-        src_include = os.path.join(self.source_subfolder, &#34;include&#34;)
-        self.copy(&#34;*.h&#34;, dst=&#34;include&#34;, src=src_include)
-        self.copy(&#34;*.hpp&#34;, dst=&#34;include&#34;, src=src_include)
-        self.copy(&#34;*LICENSE*&#34;, dst=&#34;licenses&#34;, src=self.source_subfolder)
+        self.copy(&#34;LICENSE&#34;, dst=&#34;licenses&#34;, src=self._source_subfolder)
+        cmake = CMake(self)
+        cmake.definitions[&#34;JUST_INSTALL_CEREAL&#34;] = True
+        cmake.configure()
+        cmake.install()
 
     def package_id(self):
         self.info.header_only()
@@ -692,7 +706,7 @@ class CerealConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-01-08 23:41:50</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-01-09 23:41:18</span> | Work in progress
 
       </div>
     </footer>

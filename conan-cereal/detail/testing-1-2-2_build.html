@@ -275,7 +275,7 @@
                 
                 <span class="numberCircle numberCircle-error" title=""><span>20</span></span>
                 
-                <span class="numberCircle numberCircle-warning" title=""><span>3</span></span>
+                <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
             </li>
         
@@ -578,7 +578,7 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-cereal/detail/testing-1-2-2.html">
                 testing/1.2.2
                 
-                <span class="numberCircle numberCircle-error" title=""><span>3</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>4</span></span>
                 
                 
             </a>
@@ -612,6 +612,12 @@
                   </li>
                 
                   <li class="nav-item">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-cereal/detail/testing-1-2-2_appveyor.html">
+                        appveyor.yml <span class="numberCircle numberCircle-error" title=""><span> </span></span>
+                    </a>
+                  </li>
+                
+                  <li class="nav-item">
                     <a class="nav-link active" href="https://jgsogo.es/conan-community-web/conan-cereal/detail/testing-1-2-2_build.html">
                         build.py <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
@@ -641,25 +647,30 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,14 +1,10 @@
--from conan.packager import ConanMultiPackager
-+#!/usr/bin/env python
-+# -*- coding: utf-8 -*-
-+
-+from cpt.packager import ConanMultiPackager
+@@ -1,24 +1,10 @@
+ #!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+-import platform
+ from cpt.packager import ConanMultiPackager
  
  
  if __name__ == &#34;__main__&#34;:
--    builder = ConanMultiPackager(use_docker=True)
--    builder.add(settings={
--        &#39;os&#39;: &#39;Linux&#39;,
--        &#39;compiler.version&#39;: &#39;7&#39;,
--        &#39;compiler.libcxx&#39;: &#39;libstdc++11&#39;,
--        &#39;arch&#39;: &#39;x86_64&#39;,
--        &#39;build_type&#39;: &#39;Release&#39;,
--        &#39;compiler&#39;: &#39;gcc&#39;
--    })
-+    builder = ConanMultiPackager()
+     builder = ConanMultiPackager()
+-    if platform.system() == &#34;Windows&#34;:
+-        builder.add(settings={&#34;compiler&#34;:&#34;Visual Studio&#34;, &#34;compiler.version&#34;: &#34;15&#34;,
+-                              &#34;arch&#34;: &#34;x86&#34;, &#34;build_type&#34;: &#34;Release&#34;},
+-                    options={}, env_vars={}, build_requires={})
+-    elif platform.system() == &#34;Linux&#34;:
+-        builder.add(settings={&#34;compiler&#34;:&#34;gcc&#34;, &#34;compiler.version&#34;: &#34;8&#34;,
+-                              &#34;arch&#34;: &#34;x86_64&#34;, &#34;build_type&#34;: &#34;Release&#34;},
+-                    options={}, env_vars={}, build_requires={})
+-    elif platform.system() == &#34;Darwin&#34;:
+-        builder.add(settings={&#34;compiler&#34;:&#34;apple-clang&#34;, &#34;compiler.version&#34;: &#34;10.0&#34;,
+-                              &#34;arch&#34;: &#34;x86_64&#34;, &#34;build_type&#34;: &#34;Release&#34;},
+-                    options={}, env_vars={}, build_requires={})
+-    else:
+-        builder.add(settings={}, options={}, env_vars={}, build_requires={})
 +    builder.add_common_builds()
      builder.run()</code>
         </pre>
@@ -681,7 +692,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-01-08 23:41:50</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-01-09 23:41:18</span> | Work in progress
 
       </div>
     </footer>
