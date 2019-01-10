@@ -273,7 +273,7 @@
                 <span data-feather="file-text"></span>
                 conan-cereal
                 
-                <span class="numberCircle numberCircle-error" title=""><span>20</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>21</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -572,7 +572,7 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-cereal/detail/stable-1-2-2.html">
                 stable/1.2.2
                 
-                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>6</span></span>
                 
                 
             </a>
@@ -614,6 +614,12 @@
                   </li>
                 
                   <li class="nav-item">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-cereal/detail/stable-1-2-2_appveyor.html">
+                        appveyor.yml <span class="numberCircle numberCircle-error" title=""><span> </span></span>
+                    </a>
+                  </li>
+                
+                  <li class="nav-item">
                     <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-cereal/detail/stable-1-2-2_build.html">
                         build.py <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
@@ -643,35 +649,25 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,27 +1,106 @@
--
- env:
-    global:
--     - CONAN_REFERENCE: &#34;cereal/1.2.2&#34;
-      - CONAN_USERNAME: &#34;conan&#34;
-      - CONAN_LOGIN_USERNAME: &#34;conanbot&#34;
-      - CONAN_CHANNEL: &#34;testing&#34;
-      - CONAN_UPLOAD: &#34;https://api.bintray.com/conan/conan-community/conan&#34;
--     - CONAN_STABLE_BRANCH_PATTERN: &#34;stable/*&#34;
--     - CONAN_UPLOAD_ONLY_WHEN_STABLE: 1 # Will only upload when the branch matches &#34;release/*&#34;
+@@ -1,3 +1,15 @@
++env:
++   global:
++     - CONAN_USERNAME: &#34;conan&#34;
++     - CONAN_LOGIN_USERNAME: &#34;conanbot&#34;
++     - CONAN_CHANNEL: &#34;testing&#34;
++     - CONAN_UPLOAD: &#34;https://api.bintray.com/conan/conan-community/conan&#34;
 +     - CONAN_STABLE_BRANCH_PATTERN: &#34;(release|stable)/[a-zA-Z0-9_][a-zA-Z0-9_+.-]+&#34;
 +     - CONAN_UPLOAD_ONLY_WHEN_STABLE: 1 # Will only upload when the branch matches the stable pattern
 +     - CONAN_DOCKER_32_IMAGES: 1
 +     - CONAN_TOTAL_PAGES: 1
 +
- 
++
  linux: &amp;linux
     os: linux
--   sudo: required
-+   dist: xenial
-    language: python
--   python: &#34;3.6&#34;
-+   python: &#34;3.7&#34;
-    services:
-      - docker
-+osx: &amp;osx
-+   os: osx
-+   language: generic
+    dist: xenial
+@@ -9,13 +21,86 @@
+    os: osx
+    language: generic
  
 -matrix:
 +stages:
@@ -681,7 +677,11 @@
 +jobs:
     include:
 +     
-+      - &lt;&lt;: *linux
+       - &lt;&lt;: *linux
+-        env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8
+-      - &lt;&lt;: *osx
+-        osx_image: xcode10.1
+-        env: CONAN_APPLE_CLANG_VERSIONS=10.0
 +        stage: conan-linux
 +        env: CONAN_GCC_VERSIONS=4.8 CONAN_DOCKER_IMAGE=conanio/gcc48 CONAN_CURRENT_PAGE=1
 +     
@@ -705,10 +705,9 @@
 +        stage: conan-linux
 +        env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8 CONAN_CURRENT_PAGE=1
 +     
- 
++
 +     
-       - &lt;&lt;: *linux
--        env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=lasote/conangcc5
++      - &lt;&lt;: *linux
 +        stage: conan-linux
 +        env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=conanio/clang39 CONAN_CURRENT_PAGE=1
 +     
@@ -777,7 +776,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-01-09 23:41:18</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-01-10 23:42:09</span> | Work in progress
 
       </div>
     </footer>
