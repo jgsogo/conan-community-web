@@ -914,6 +914,9 @@ class OpenSSLConan(ConanFile):
 
     def configure(self):
         del self.settings.compiler.libcxx
+        if self.settings.os == &#34;Android&#34; and self.settings.compiler == &#34;clang&#34;:
+            raise Exception(&#34;Not supported Android + Clang, please submit a patch if you know &#34;
+                            &#34;how to build it: %s&#34; % self.url)
 
     def requirements(self):
         if not self.options.no_zlib:
@@ -953,7 +956,7 @@ class OpenSSLConan(ConanFile):
                 self.output.info(&#34;Activated option! %s&#34; % option_name)
                 config_options_string += &#34; %s&#34; % option_name.replace(&#34;_&#34;, &#34;-&#34;)
 
-        if self.settings.os in [&#34;Linux&#34;, &#34;SunOS&#34;, &#34;FreeBSD&#34;]:
+        if self.settings.os in [&#34;Linux&#34;, &#34;SunOS&#34;, &#34;FreeBSD&#34;, &#34;Android&#34;]:
             self.unix_build(config_options_string)
         elif self.settings.os == &#34;Macos&#34;:
             self.osx_build(config_options_string)
@@ -983,20 +986,40 @@ class OpenSSLConan(ConanFile):
         target_prefix = &#34;&#34;
         if self.settings.build_type == &#34;Debug&#34;:
             config_options_string = &#34; no-asm&#34; + config_options_string
-            extra_flags = extra_flags + &#34; -O0&#34;
+            extra_flags += &#34; -O0&#34;
             target_prefix = &#34;debug-&#34;
             if self.settings.compiler in [&#34;apple-clang&#34;, &#34;clang&#34;, &#34;gcc&#34;]:
-                extra_flags = extra_flags + &#34; -g3 -fno-omit-frame-pointer &#34; \
-                                            &#34;-fno-inline-functions&#34;
+                extra_flags += &#34; -g3 -fno-omit-frame-pointer -fno-inline-functions&#34;
 
         if self.settings.os == &#34;Linux&#34;:
             if self.settings.arch == &#34;x86&#34;:
                 target = &#34;%slinux-generic32&#34; % target_prefix
             elif self.settings.arch == &#34;x86_64&#34;:
                 target = &#34;%slinux-x86_64&#34; % target_prefix
-            elif self.settings.arch == &#34;armv7&#34;:
-                target = &#34;%slinux-armv4&#34; % target_prefix
+            elif self.settings.arch == &#34;armv8&#34;:  # Thanks @dashaomai!
+                target = &#34;%slinux-aarch64&#34; % target_prefix
+            elif str(self.settings.arch) in (&#34;ppc64le&#34;, &#34;ppc64&#34;, &#34;mips64&#34;, &#34;sparcv9&#34;):
+                target = &#34;linux-%s&#34; % str(self.settings.arch)
+            elif &#34;arm&#34; in self.settings.arch:
+                target = &#34;linux-armv4&#34;
+            elif &#34;mips&#34; == self.settings.arch:
+                target = &#34;linux-mips32&#34;
+            elif str(self.settings.arch) == &#34;e2k&#34;:
+                target = &#34;%slinux-generic64&#34; % target_prefix
+            else:
+                raise Exception(&#34;Unsupported arch for Linux&#34;)
 
+        elif self.settings.os == &#34;Android&#34;:
+            if &#34;armv7&#34; in self.settings.arch:
+                target = &#34;android-armv7&#34;
+            elif self.settings.arch == &#34;armv8&#34;:
+                target = &#34;android-aarch64&#34;
+            elif self.settings.arch == &#34;x86&#34;:
+                target = &#34;android-x86&#34;
+            elif self.settings.arch == &#34;mips&#34;:
+                target = &#34;android-mips&#34;
+            else:
+                raise Exception(&#34;Unsupported arch for Android&#34;)
         elif self.settings.os == &#34;SunOS&#34;:
             if self.settings.compiler in [&#34;apple-clang&#34;, &#34;clang&#34;, &#34;gcc&#34;]:
                 suffix = &#34;-gcc&#34;
@@ -1018,16 +1041,17 @@ class OpenSSLConan(ConanFile):
 
         elif self.settings.os == &#34;FreeBSD&#34;:
             target = &#34;%sBSD-%s&#34; % (target_prefix, self.settings.arch)
-
         else:
             raise Exception(&#34;Unsupported operating system: %s&#34; % self.settings.os)
 
         config_line = &#34;./Configure %s -fPIC %s %s&#34; % (config_options_string, target, extra_flags)
+
         self.output.warn(config_line)
         self.run_in_src(config_line)
-        self.run_in_src(&#34;make depend&#34;)
+        if self.settings.os != &#34;Android&#34;:
+            self.run_in_src(&#34;make depend&#34;)
         self.output.warn(&#34;----------MAKE OPENSSL %s-------------&#34; % self.version)
-        self.run_in_src(&#34;make&#34;)
+        self.run_in_src(&#34;make&#34;, show_output=True)
 
     def ios_build(self, config_options_string):
         def call(cmd):
@@ -1244,7 +1268,7 @@ class OpenSSLConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-01-14 23:41:03</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-01-15 23:42:40</span> | Work in progress
 
       </div>
     </footer>
