@@ -662,7 +662,6 @@ class MuparserConan(ConanFile):
 
     def _configure_cmake(self):
         cmake = CMake(self)
-        cmake.definitions[&#34;BUILD_SHARED_LIBS&#34;] = self.options.shared
         cmake.definitions[&#34;ENABLE_SAMPLES&#34;] = False
         cmake.configure(source_folder=self._source_subfolder)
         return cmake
@@ -699,7 +698,7 @@ class MuparserConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-01-15 23:45:21</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-01-16 23:46:21</span> | Work in progress
 
       </div>
     </footer>
