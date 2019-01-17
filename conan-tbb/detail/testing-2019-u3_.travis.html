@@ -718,7 +718,7 @@
  
  linux: &amp;linux
     os: linux
-@@ -17,51 +20,87 @@
+@@ -17,54 +20,87 @@
  osx: &amp;osx
     os: osx
     language: generic
@@ -820,6 +820,9 @@
 -      - &lt;&lt;: *linux
 -        env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60
 -
+-      - &lt;&lt;: *linux
+-        env: CONAN_CLANG_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/clang70
+-
 -      - &lt;&lt;: *osx
 -        osx_image: xcode8.3
 -        env: CONAN_APPLE_CLANG_VERSIONS=8.1
@@ -833,7 +836,7 @@
 -        env: CONAN_APPLE_CLANG_VERSIONS=9.1
 -
 -      - &lt;&lt;: *osx
--        osx_image: xcode10
+-        osx_image: xcode10.1
 -        env: CONAN_APPLE_CLANG_VERSIONS=10.0
 +        stage: conan-osx
 +        osx_image: xcode10.0
@@ -861,7 +864,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-01-16 23:44:44</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-01-17 23:44:44</span> | Work in progress
 
       </div>
     </footer>
