@@ -723,8 +723,9 @@ that have future-proof scalability&#34;&#34;&#34;
     topics = (&#34;conan&#34;, &#34;tbb&#34;, &#34;threading&#34;, &#34;parallelism&#34;, &#34;tbbmalloc&#34;)
     settings = &#34;os&#34;, &#34;compiler&#34;, &#34;build_type&#34;, &#34;arch&#34;
     options = {&#34;shared&#34;: [True, False], &#34;tbbmalloc&#34;: [True, False]}
-    default_options = {&#34;shared&#34;: False, &#34;tbbmalloc&#34;: True}
+    default_options = {&#34;shared&#34;: False, &#34;tbbmalloc&#34;: False}
     _source_subfolder = &#34;source_subfolder&#34;
+    _targets = [&#34;tbb&#34;]
 
     def config_options(self):
         if self.settings.os == &#34;Windows&#34;:
@@ -761,11 +762,11 @@ that have future-proof scalability&#34;&#34;&#34;
             else:
                 os.environ[name] = value
 
-        targets = &#34;tbb&#34;
         if self.options.tbbmalloc:
-            targets += &#34; tbbmalloc&#34;
-        if self.settings.os != &#34;Windows&#34; and self.options.shared:
-            targets += &#34; tbbproxy&#34;
+            self._targets.append(&#34;tbbmalloc&#34;)
+            if self.settings.os != &#34;Windows&#34; and self.options.shared:
+                self._targets.append(&#34;tbbproxy&#34;)
+
         extra = &#34;&#34; if self.settings.os == &#34;Windows&#34; or self.options.shared else &#34;extra_inc=big_iron.inc&#34;
         arch = &#34;ia32&#34; if self.settings.arch == &#34;x86&#34; else &#34;intel64&#34;
 
@@ -789,11 +790,11 @@ that have future-proof scalability&#34;&#34;&#34;
             if self.is_msvc:
                 # intentionally not using vcvars for clang-cl yet
                 with tools.vcvars(self.settings):
-                    self.run(&#34;%s arch=%s %s %s&#34; % (make, arch, extra, targets))
+                    self.run(&#34;%s arch=%s %s %s&#34; % (make, arch, extra, &#34; &#34;.join(self._targets)))
             elif self.is_mingw:
-                self.run(&#34;%s arch=%s compiler=gcc %s %s&#34; % (make, arch, extra, targets))
+                self.run(&#34;%s arch=%s compiler=gcc %s %s&#34; % (make, arch, extra, &#34; &#34;.join(self._targets)))
             else:
-                self.run(&#34;%s arch=%s %s %s&#34; % (make, arch, extra, targets))
+                self.run(&#34;%s arch=%s %s %s&#34; % (make, arch, extra, &#34; &#34;.join(self._targets)))
 
     def package(self):
         self.copy(&#34;LICENSE&#34;, dst=&#34;licenses&#34;, src=self._source_subfolder)
@@ -822,12 +823,8 @@ that have future-proof scalability&#34;&#34;&#34;
                              (fpath, fpath[0:fpath.rfind(&#34;.&#34; + extension) + len(extension) + 1]))
 
     def package_info(self):
-        lib_suffix = &#34;_debug&#34; if self.settings.build_type == &#34;Debug&#34; else &#34;&#34;
-        self.cpp_info.libs.append(&#34;tbb%s&#34; % lib_suffix)
-        if self.options.tbbmalloc:
-            self.cpp_info.libs.append(&#34;tbbmalloc%s&#34; % lib_suffix)
-        if self.settings.os != &#34;Windows&#34; and self.options.shared:
-            self.cpp_info.libs.append(&#34;tbbmalloc_proxy%s&#34; % lib_suffix)
+        suffix = &#34;_debug&#34; if self.settings.build_type == &#34;Debug&#34; else &#34;&#34;
+        self.cpp_info.libs = [&#34;{}{}&#34;.format(lib.replace(&#34;proxy&#34;, &#34;malloc_proxy&#34;), suffix) for lib in self._targets]
         if self.settings.os == &#34;Linux&#34;:
             self.cpp_info.libs.append(&#34;pthread&#34;)
 </code>
@@ -850,7 +847,7 @@ that have future-proof scalability&#34;&#34;&#34;
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-01-17 23:44:44</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-01-18 23:45:11</span> | Work in progress
 
       </div>
     </footer>
