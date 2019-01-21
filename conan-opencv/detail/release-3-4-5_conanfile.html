@@ -119,7 +119,7 @@
                 <span data-feather="file-text"></span>
                 conan-opencv
                 
-                <span class="numberCircle numberCircle-error" title=""><span>32</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>33</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>3</span></span>
               </a>
@@ -542,6 +542,8 @@
         <a class="btn btn-sm btn-outline-secondary" href="https://github.com/conan-community/conan-opencv/tree/release/3.4.5" role="button">Github <span data-feather="external-link"></span></a>
         
         
+            <a class="btn btn-sm btn-outline-secondary" href="https://bintray.com/conan-community/conan/opencv%3Aconan/3.4.5%3Astable" role="button">Bintray <span data-feather="external-link"></span></a>
+        
     </div>
     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" id="branchesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span data-feather="git-branch"></span>
@@ -570,7 +572,7 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-opencv/detail/release-3-4-5.html">
                 release/3.4.5
                 
-                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>6</span></span>
                 
                 
             </a>
@@ -788,6 +790,7 @@ class OpenCVConan(ConanFile):
         cmake.definitions[&#39;WITH_PROTOBUF&#39;] = False
         cmake.definitions[&#39;WITH_FFMPEG&#39;] = False
         cmake.definitions[&#34;WITH_CAROTENE&#34;] = False
+        cmake.definitions[&#39;WITH_QUIRC&#39;] = False
 
         if self.options.openexr:
             cmake.definitions[&#39;OPENEXR_ROOT&#39;] = self.deps_cpp_info[&#39;openexr&#39;].rootpath
@@ -931,7 +934,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-01-20 23:45:22</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-01-21 23:46:39</span> | Work in progress
 
       </div>
     </footer>

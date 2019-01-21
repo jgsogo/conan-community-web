@@ -119,7 +119,7 @@
                 <span data-feather="file-text"></span>
                 conan-opencv
                 
-                <span class="numberCircle numberCircle-error" title=""><span>32</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>33</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>3</span></span>
               </a>
@@ -542,6 +542,8 @@
         <a class="btn btn-sm btn-outline-secondary" href="https://github.com/conan-community/conan-opencv/tree/release/3.4.5" role="button">Github <span data-feather="external-link"></span></a>
         
         
+            <a class="btn btn-sm btn-outline-secondary" href="https://bintray.com/conan-community/conan/opencv%3Aconan/3.4.5%3Astable" role="button">Bintray <span data-feather="external-link"></span></a>
+        
     </div>
     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" id="branchesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span data-feather="git-branch"></span>
@@ -570,7 +572,7 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-opencv/detail/release-3-4-5.html">
                 release/3.4.5
                 
-                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>6</span></span>
                 
                 
             </a>
@@ -647,59 +649,71 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,45 +1,10 @@
+@@ -1,45 +1,37 @@
 -[![Download](https://api.bintray.com/packages/conan-community/conan/opencv%3Aconan/images/download.svg)](https://bintray.com/conan-community/conan/opencv%3Aconan/_latestVersion)
 -[![Build status](https://ci.appveyor.com/api/projects/status/github/ConanCIintegration/conan-opencv?svg=true)](https://ci.appveyor.com/project/ConanCIintegration/conan-opencv)
 -[![Build Status](https://travis-ci.org/conan-community/conan-opencv.svg)](https://travis-ci.org/conan-community/conan-opencv)
 -# Conan OpenCV
--
+ 
 - ![logo](logo.png)
--
+ 
 -Conan package for OpenCV library. https://opencv.org/
--
+ 
 -The packages generated with this **conanfile** can be found in [Bintray](https://bintray.com/conan-community/conan/opencv%3Aconan).
--
--## Basic setup
--
++[![Build Status](https://travis-ci.org/conan-community/conan-opencv.svg?branch=release/3.4.5)](https://travis-ci.org/conan-community/conan-opencv/builds/482256323)
++[![Build Status](https://ci.appveyor.com/api/projects/status/github/conan-community%2Fconan-opencv?branch=release/3.4.5&amp;svg=true)](https://ci.appveyor.com/project/ConanCIintegration/conan-opencv/builds/21763618)
++
++
++# conan-opencv
++
++
++
++[Conan](https://bintray.com/conan-community/conan/opencv%3Aconan/3.4.5%3Astable) package for conan-opencv library.
++
+ 
+ ## Basic setup
+ 
 -    $ conan install opencv/3.4.3@conan/stable
 -
--## Project setup
++    $ conan install opencv/3.4.5@conan/stable
++    
+ ## Project setup
+ 
+ If you handle multiple dependencies in your project is better to add a *conanfile.txt*
 -
--If you handle multiple dependencies in your project is better to add a *conanfile.txt*
--
--    [requires]
++    
+     [requires]
 -    opencv/3.4.3@conan/stable
--
--    [options]
++    opencv/3.4.5@conan/stable
+ 
+     [options]
 -    opencv:shared=True # False
 -    opencv:fPIC=True # False (only available for Linux and Macos)
 -
--    [generators]
--    cmake
--
++    
+     [generators]
+     cmake
+ 
 -## Issues
--
++Complete the installation of requirements for your project running:
+ 
 -If you wish to report an issue for Conan Community related to this package or any other, please do so here:
--
++    conan install . 
+ 
 -[Conan Community Issues](https://github.com/conan-community/community/issues)
--
++Project setup installs the library (and all his dependencies) and generates the files *conanbuildinfo.cmake* with all the 
++paths and variables that you need to link with your dependencies.
+ 
 -## Wish List
 -
 -If you wish to make a request for Conan Community creating a new package, please do so here:
 -
 -[Conan Wish List](https://github.com/conan-io/wishlist)
- 
- 
+-
+-
 -## License
- 
--[MIT](LICENSE)
-+[![Build Status](https://travis-ci.org/conan-community/conan-opencv.svg?branch=release/3.4.5)](https://travis-ci.org/conan-community/conan-opencv/builds/482178028)
-+[![Build Status](https://ci.appveyor.com/api/projects/status/github/conan-community%2Fconan-opencv?branch=release/3.4.5&amp;svg=true)](https://ci.appveyor.com/project/ConanCIintegration/conan-opencv/builds/21759804)
-+
-+
-+# conan-opencv
-+
-+</code>
+-
+-[MIT](LICENSE)</code>
         </pre>
     </div>
 
@@ -719,7 +733,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-01-20 23:45:22</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-01-21 23:46:39</span> | Work in progress
 
       </div>
     </footer>
