@@ -64,7 +64,7 @@
                 <span data-feather="file-text"></span>
                 conan-openssl
                 
-                <span class="numberCircle numberCircle-error" title=""><span>142</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>100</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>3</span></span>
               </a>
@@ -75,7 +75,7 @@
                 <span data-feather="file-text"></span>
                 conan-boost
                 
-                <span class="numberCircle numberCircle-error" title=""><span>87</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>67</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -729,7 +729,7 @@
  
  linux: &amp;linux
     os: linux
-@@ -17,43 +20,87 @@
+@@ -17,55 +20,87 @@
  osx: &amp;osx
     os: osx
     language: generic
@@ -769,7 +769,7 @@
  
 +     
        - &lt;&lt;: *linux
--        env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=lasote/conangcc49
+-        env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=conanio/gcc49
 +        stage: conan-linux
 +        env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=conanio/clang39 CONAN_CURRENT_PAGE=1
 +     
@@ -792,28 +792,44 @@
  
 +     
        - &lt;&lt;: *linux
--        env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=lasote/conangcc5
+-        env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=conanio/gcc5
 -
 +        stage: conan-osx
 +        osx_image: xcode7.3
 +        env: CONAN_APPLE_CLANG_VERSIONS=7.3 CONAN_CURRENT_PAGE=1
 +     
        - &lt;&lt;: *linux
--        env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=lasote/conangcc6
+-        env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=conanio/gcc6
 -
 +        stage: conan-osx
 +        osx_image: xcode8.1
 +        env: CONAN_APPLE_CLANG_VERSIONS=8.1 CONAN_CURRENT_PAGE=1
 +     
        - &lt;&lt;: *linux
--        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=lasote/conangcc7
+-        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7
 -
 +        stage: conan-osx
 +        osx_image: xcode9.0
 +        env: CONAN_APPLE_CLANG_VERSIONS=9.0 CONAN_CURRENT_PAGE=1
 +     
        - &lt;&lt;: *linux
--        env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=lasote/conangcc8
+-        env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8
+-
++        stage: conan-osx
++        osx_image: xcode9.1
++        env: CONAN_APPLE_CLANG_VERSIONS=9.1 CONAN_CURRENT_PAGE=1
++     
+       - &lt;&lt;: *linux
+-        env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=conanio/clang39
+-
+-      - &lt;&lt;: *linux
+-        env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=conanio/clang40
+-
+-      - &lt;&lt;: *linux
+-        env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=conanio/clang50
+-
+-      - &lt;&lt;: *linux
+-        env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60
 -
 -      - &lt;&lt;: *osx
 -        osx_image: xcode7.3
@@ -828,17 +844,12 @@
 -        env: CONAN_APPLE_CLANG_VERSIONS=9.0
 -
 -      - &lt;&lt;: *osx
--        osx_image: xcode9.3
+-        osx_image: xcode9.4
 -        env: CONAN_APPLE_CLANG_VERSIONS=9.1
 -
 -      - &lt;&lt;: *osx
--        osx_image: xcode10
+-        osx_image: xcode10.1
 -        env: CONAN_APPLE_CLANG_VERSIONS=10.0
-+        stage: conan-osx
-+        osx_image: xcode9.1
-+        env: CONAN_APPLE_CLANG_VERSIONS=9.1 CONAN_CURRENT_PAGE=1
-+     
-+      - &lt;&lt;: *linux
 +        stage: conan-osx
 +        osx_image: xcode10.0
 +        env: CONAN_APPLE_CLANG_VERSIONS=10.0 CONAN_CURRENT_PAGE=1
@@ -865,7 +876,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-01-23 23:47:32</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-01-24 23:47:28</span> | Work in progress
 
       </div>
     </footer>

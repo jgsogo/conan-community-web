@@ -64,7 +64,7 @@
                 <span data-feather="file-text"></span>
                 conan-openssl
                 
-                <span class="numberCircle numberCircle-error" title=""><span>142</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>100</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>3</span></span>
               </a>
@@ -75,7 +75,7 @@
                 <span data-feather="file-text"></span>
                 conan-boost
                 
-                <span class="numberCircle numberCircle-error" title=""><span>87</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>67</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -714,17 +714,13 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,27 +1,122 @@
+@@ -1,41 +1,122 @@
  build: false
- 
 +
- environment:
--    PYTHON: &#34;C:\\Python27&#34;
--    PYTHON_VERSION: &#34;2.7.8&#34;
--    PYTHON_ARCH: &#34;32&#34;
-+    PYTHON: &#34;C:\\Python37&#34;
  
--    CONAN_REFERENCE: &#34;TBB/2018_U5&#34;
+ environment:
+     PYTHON: &#34;C:\\Python37&#34;
+ 
      CONAN_USERNAME: &#34;conan&#34;
 +    CONAN_CHANNEL: &#34;testing&#34;
      CONAN_LOGIN_USERNAME: &#34;conanbot&#34;
@@ -740,10 +736,12 @@
  
      matrix:
 -        - MINGW_CONFIGURATIONS: &#34;4.9@x86_64@seh@posix, 5@x86_64@seh@posix, 6@x86_64@seh@posix, 7@x86_64@seh@posix&#34;
+-
 +      
          - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
            CONAN_VISUAL_VERSIONS: 12
-+          CONAN_ARCHS: x86
+           CONAN_ARCHS: x86
+-
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MT
 +          CONAN_CURRENT_PAGE: 1
@@ -755,9 +753,10 @@
 +          CONAN_VISUAL_RUNTIMES: MD
 +          CONAN_CURRENT_PAGE: 1
 +      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 12
-+          CONAN_ARCHS: x86_64
+         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+           CONAN_VISUAL_VERSIONS: 12
+           CONAN_ARCHS: x86_64
+-
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MT
 +          CONAN_CURRENT_PAGE: 1
@@ -771,7 +770,8 @@
 +      
          - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
            CONAN_VISUAL_VERSIONS: 14
-+          CONAN_ARCHS: x86
+           CONAN_ARCHS: x86
+-
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MT
 +          CONAN_CURRENT_PAGE: 1
@@ -783,9 +783,10 @@
 +          CONAN_VISUAL_RUNTIMES: MD
 +          CONAN_CURRENT_PAGE: 1
 +      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 14
-+          CONAN_ARCHS: x86_64
+         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+           CONAN_VISUAL_VERSIONS: 14
+           CONAN_ARCHS: x86_64
+-
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MT
 +          CONAN_CURRENT_PAGE: 1
@@ -799,8 +800,8 @@
 +      
          - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
            CONAN_VISUAL_VERSIONS: 15
+           CONAN_ARCHS: x86
 -
-+          CONAN_ARCHS: x86
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MT
 +          CONAN_CURRENT_PAGE: 1
@@ -812,9 +813,9 @@
 +          CONAN_VISUAL_RUNTIMES: MD
 +          CONAN_CURRENT_PAGE: 1
 +      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-+          CONAN_VISUAL_VERSIONS: 15
-+          CONAN_ARCHS: x86_64
+         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+           CONAN_VISUAL_VERSIONS: 15
+           CONAN_ARCHS: x86_64
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MT
 +          CONAN_CURRENT_PAGE: 1
@@ -846,7 +847,7 @@
  
  install:
    - set PATH=%PATH%;%PYTHON%/Scripts/
-@@ -30,6 +125,4 @@
+@@ -44,6 +125,4 @@
    - conan user # It creates the conan data directory
  
  test_script:
@@ -872,7 +873,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-01-23 23:47:32</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-01-24 23:47:28</span> | Work in progress
 
       </div>
     </footer>
