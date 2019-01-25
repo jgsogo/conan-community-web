@@ -716,7 +716,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-from conans import ConanFile, tools, MSBuild
+from conans import ConanFile, tools
 from conans.model.version import Version
 from conans.errors import ConanInvalidConfiguration
 
@@ -733,9 +733,10 @@ that have future-proof scalability&#34;&#34;&#34;
     author = &#34;Conan Community&#34;
     topics = (&#34;conan&#34;, &#34;tbb&#34;, &#34;threading&#34;, &#34;parallelism&#34;, &#34;tbbmalloc&#34;)
     settings = &#34;os&#34;, &#34;compiler&#34;, &#34;build_type&#34;, &#34;arch&#34;
-    options = {&#34;shared&#34;: [True, False]}
-    default_options = {&#34;shared&#34;: False}
+    options = {&#34;shared&#34;: [True, False], &#34;tbbmalloc&#34;: [True, False], &#34;tbbproxy&#34;: [True, False]}
+    default_options = {&#34;shared&#34;: False, &#34;tbbmalloc&#34;: False, &#34;tbbproxy&#34;: False}
     _source_subfolder = &#34;source_subfolder&#34;
+    _targets = [&#34;tbb&#34;]
 
     def config_options(self):
         if self.settings.os == &#34;Windows&#34;:
@@ -748,6 +749,10 @@ that have future-proof scalability&#34;&#34;&#34;
             raise ConanInvalidConfiguration(&#34;%s %s couldn&#39;t be built by apple-clang &lt; 8.0&#34; % (self.name, self.version))
         if self.settings.os != &#34;Windows&#34; and self.options.shared:
             self.output.warn(&#34;Intel-TBB strongly discourages usage of static linkage&#34;)
+        if self.options.tbbproxy and \
+           (not self.options.shared or \
+            not self.options.tbbmalloc):
+            raise ConanInvalidConfiguration(&#34;tbbproxy needs tbbmaloc and shared options&#34;)
 
     @property
     def is_msvc(self):
@@ -772,6 +777,11 @@ that have future-proof scalability&#34;&#34;&#34;
             else:
                 os.environ[name] = value
 
+        if self.options.tbbmalloc:
+            self._targets.append(&#34;tbbmalloc&#34;)
+        if self.options.tbbproxy:
+            self._targets.append(&#34;tbbproxy&#34;)
+
         extra = &#34;&#34; if self.settings.os == &#34;Windows&#34; or self.options.shared else &#34;extra_inc=big_iron.inc&#34;
         arch = &#34;ia32&#34; if self.settings.arch == &#34;x86&#34; else &#34;intel64&#34;
 
@@ -795,11 +805,11 @@ that have future-proof scalability&#34;&#34;&#34;
             if self.is_msvc:
                 # intentionally not using vcvars for clang-cl yet
                 with tools.vcvars(self.settings):
-                    self.run(&#34;%s arch=%s %s&#34; % (make, arch, extra))
+                    self.run(&#34;%s arch=%s %s %s&#34; % (make, arch, extra, &#34; &#34;.join(self._targets)))
             elif self.is_mingw:
-                self.run(&#34;%s arch=%s compiler=gcc %s&#34; % (make, arch, extra))
+                self.run(&#34;%s arch=%s compiler=gcc %s %s&#34; % (make, arch, extra, &#34; &#34;.join(self._targets)))
             else:
-                self.run(&#34;%s arch=%s %s&#34; % (make, arch, extra))
+                self.run(&#34;%s arch=%s %s %s&#34; % (make, arch, extra, &#34; &#34;.join(self._targets)))
 
     def package(self):
         self.copy(&#34;LICENSE&#34;, dst=&#34;licenses&#34;, src=self._source_subfolder)
@@ -828,15 +838,9 @@ that have future-proof scalability&#34;&#34;&#34;
                              (fpath, fpath[0:fpath.rfind(&#34;.&#34; + extension) + len(extension) + 1]))
 
     def package_info(self):
-        if self.settings.build_type == &#34;Debug&#34;:
-            self.cpp_info.libs.extend([&#34;tbb_debug&#34;, &#34;tbbmalloc_debug&#34;])
-            if self.settings.os != &#34;Windows&#34; and self.options.shared:
-                self.cpp_info.libs.extend([&#34;tbbmalloc_proxy_debug&#34;])
-        else:
-            self.cpp_info.libs.extend([&#34;tbb&#34;, &#34;tbbmalloc&#34;])
-            if self.settings.os != &#34;Windows&#34; and self.options.shared:
-                self.cpp_info.libs.extend([&#34;tbbmalloc_proxy&#34;])
-
+        suffix = &#34;_debug&#34; if self.settings.build_type == &#34;Debug&#34; else &#34;&#34;
+        libs = {&#34;tbb&#34;: &#34;tbb&#34;, &#34;tbbproxy&#34;: &#34;tbbmalloc_proxy&#34;, &#34;tbbmalloc&#34;: &#34;tbbmalloc&#34;}
+        self.cpp_info.libs = [&#34;{}{}&#34;.format(libs[target], suffix) for target in self._targets]
         if self.settings.os == &#34;Linux&#34;:
             self.cpp_info.libs.append(&#34;pthread&#34;)
 </code>
@@ -859,7 +863,7 @@ that have future-proof scalability&#34;&#34;&#34;
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-01-24 23:47:28</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-01-25 23:48:10</span> | Work in progress
 
       </div>
     </footer>

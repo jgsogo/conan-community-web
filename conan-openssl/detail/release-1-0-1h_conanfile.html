@@ -786,13 +786,13 @@ from conans.model.version import Version
 
 class OpenSSLConan(ConanFile):
     name = &#34;OpenSSL&#34;
-    version = &#34;1.0.2q&#34;
+    version = &#34;1.0.1h&#34;
     settings = &#34;os&#34;, &#34;compiler&#34;, &#34;arch&#34;, &#34;build_type&#34;
     url = &#34;http://github.com/lasote/conan-openssl&#34;
     license = &#34;The current OpenSSL licence is an &#39;Apache style&#39; license: https://www.openssl.org/source/license.html&#34;
     description = &#34;OpenSSL is an open source project that provides a robust, commercial-grade, and full-featured &#34; \
                   &#34;toolkit for the Transport Layer Security (TLS) and Secure Sockets Layer (SSL) protocols&#34;
-    # https://github.com/openssl/openssl/blob/OpenSSL_1_0_2l/INSTALL
+    # https://github.com/openssl/openssl/blob/OpenSSL_1_0_1h/INSTALL
     options = {&#34;no_threads&#34;: [True, False],
                &#34;no_zlib&#34;: [True, False],
                &#34;shared&#34;: [True, False],
@@ -814,10 +814,11 @@ class OpenSSLConan(ConanFile):
                &#34;no_rsa&#34;: [True, False],
                &#34;no_sha&#34;: [True, False]}
     default_options = &#34;=False\n&#34;.join(options.keys()) + &#34;=False&#34;
+    exports = [&#39;vs2015.patch&#39;]
 
     # When a new version is available they move the tar.gz to old/ location
     source_tgz = &#34;https://www.openssl.org/source/openssl-%s.tar.gz&#34; % version
-    source_tgz_old = &#34;https://www.openssl.org/source/old/1.0.2/openssl-%s.tar.gz&#34; % version
+    source_tgz_old = &#34;https://www.openssl.org/source/old/1.0.1/openssl-%s.tar.gz&#34; % version
 
     def build_requirements(self):
         # useful for example for conditional build_requires
@@ -833,9 +834,10 @@ class OpenSSLConan(ConanFile):
         except:
             tools.download(self.source_tgz, &#34;openssl.tar.gz&#34;)
         tools.unzip(&#34;openssl.tar.gz&#34;)
-        tools.check_sha256(&#34;openssl.tar.gz&#34;,
-                           &#34;5744cfcbcec2b1b48629f7354203bc1e5e9b5466998bbccc5b5fcde3b18eb684&#34;)
+        tools.check_sha1(&#34;openssl.tar.gz&#34;,
+                           &#34;b2239599c8bf8f7fc48590a55205c26abe560bf8&#34;)
         os.unlink(&#34;openssl.tar.gz&#34;)
+        tools.patch(base_path=&#34;openssl-%s&#34; % self.version, patch_file=&#34;vs2015.patch&#34;, strip=1)
 
     def configure(self):
         if client_version &lt; Version(&#34;1.0.0&#34;):
@@ -875,8 +877,8 @@ class OpenSSLConan(ConanFile):
             self.output.info(&#34;=====&gt; Options: %s&#34; % config_options_string)
         if self.settings.os == &#34;Android&#34; and self.settings.compiler == &#34;clang&#34;:
             tools.replace_in_file(&#34;./openssl-%s/Configure&#34; % self.version, 
-                                &#39;&#39;&#39;&#34;android-armv7&#34;,&#34;gcc:-march=armv7-a -mandroid -I\$(ANDROID_DEV)/include -B\$(ANDROID_DEV)/lib -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR:${armv4_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)&#34;,&#39;&#39;&#39;,
-                                &#39;&#39;&#39;&#34;android-armv7&#34;,&#34;clang:$ENV{&#39;CFLAGS&#39;} -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl $ENV{&#39;LDFLAGS&#39;}:BN_LLONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR:${armv4_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)&#34;,&#39;&#39;&#39;)
+                                &#39;&#39;&#39;&#34;android-armv7&#34;,&#34;gcc:-march=armv7-a -mandroid -I\\$(ANDROID_DEV)/include -B\\$(ANDROID_DEV)/lib -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR:${armv4_asm}:dlfcn:linux-shared:-fPIC::.so.\\$(SHLIB_MAJOR).\\$(SHLIB_MINOR)&#34;,&#39;&#39;&#39;,
+                                &#39;&#39;&#39;&#34;android-armv7&#34;,&#34;clang:$ENV{&#39;CFLAGS&#39;} -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl $ENV{&#39;LDFLAGS&#39;}:BN_LLONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR:${armv4_asm}:dlfcn:linux-shared:-fPIC::.so.\\$(SHLIB_MAJOR).\\$(SHLIB_MINOR)&#34;,&#39;&#39;&#39;)
 
         for option_name in self.options.values.fields:
             activated = getattr(self.options, option_name)
@@ -980,8 +982,8 @@ class OpenSSLConan(ConanFile):
 
         self.output.warn(config_line)
         self.run_in_src(config_line)
-        if not tools.cross_building(self.settings):
-            self.run_in_src(&#34;make depend&#34;)
+#        if not tools.cross_building(self.settings):
+#            self.run_in_src(&#34;make depend&#34;)
         self.output.warn(&#34;----------MAKE OPENSSL %s-------------&#34; % self.version)
         self.run_in_src(&#34;make&#34;, show_output=True)
 
@@ -1072,9 +1074,6 @@ class OpenSSLConan(ConanFile):
 
             replace_runtime_in_file(&#34;./%s/ms/ntdll.mak&#34; % self.subfolder)
             replace_runtime_in_file(&#34;./%s/ms/nt.mak&#34; % self.subfolder)
-            if self.settings.arch == &#34;x86&#34;:  # Do not consider warning as errors, 1.0.2n error with x86 builds
-                tools.replace_in_file(&#34;./%s/ms/nt.mak&#34; % self.subfolder, &#34;-WX&#34;, &#34;&#34;)
-                tools.replace_in_file(&#34;./%s/ms/ntdll.mak&#34; % self.subfolder, &#34;-WX&#34;, &#34;&#34;)
 
             make_command = &#34;nmake -f ms\\ntdll.mak&#34; if self.options.shared else &#34;nmake -f ms\\nt.mak &#34;
             self.output.warn(&#34;----------MAKE OPENSSL %s-------------&#34; % self.version)
@@ -1173,7 +1172,7 @@ class OpenSSLConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-01-24 23:46:24</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-01-25 23:47:08</span> | Work in progress
 
       </div>
     </footer>
