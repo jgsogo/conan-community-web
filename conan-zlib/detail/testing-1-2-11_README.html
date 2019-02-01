@@ -207,7 +207,7 @@
                 <span data-feather="file-text"></span>
                 conan-strawberryperl
                 
-                <span class="numberCircle numberCircle-error" title=""><span>10</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>20</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>3</span></span>
               </a>
@@ -674,10 +674,10 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,66 +1,10 @@
+@@ -1,69 +1,10 @@
 -[![Download](https://api.bintray.com/packages/conan-community/conan/zlib%3Aconan/images/download.svg) ](https://bintray.com/conan-community/conan/zlib%3Aconan/_latestVersion)
--[![Build Status Travis](https://travis-ci.org/conan-community/conan-zlib.svg?branch=release%2F1.2.11)](https://travis-ci.org/conan-community/conan-zlib)
--[![Build Status AppVeyor](https://ci.appveyor.com/api/projects/status/github/conan-community/conan-zlib?branch=release%2F1.2.11&amp;svg=true)](https://ci.appveyor.com/project/ConanCIintegration/conan-zlib)
+-[![Build Status Travis](https://travis-ci.org/conan-community/conan-zlib.svg)](https://travis-ci.org/conan-community/conan-zlib)
+-[![Build Status AppVeyor](https://ci.appveyor.com/api/projects/status/github/conan-community/conan-zlib?svg=true)](https://ci.appveyor.com/project/ConanCIintegration/conan-zlib)
 -
 -## Conan package recipe for [*zlib*](https://zlib.net)
 -
@@ -731,11 +731,14 @@
 -| ------------- |:----------------- |:------------:|
 -| shared      | False |  [True, False] |
 -| fPIC      | True |  [True, False] |
+-| minizip      | False |  [True, False] |
 -
 -
 -## Add Remote
 -
--    $ conan remote add conan-community &#34;https://api.bintray.com/conan/conan-community/conan&#34;
+-Conan Community has its own Bintray repository, however, we are working to distribute all package in the Conan Center:
+-
+-    $ conan remote add conan-center &#34;https://conan.bintray.com&#34;
 -
 -
 -## Conan Recipe License
@@ -763,7 +766,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-01-31 23:50:18</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-01 23:50:32</span> | Work in progress
 
       </div>
     </footer>
