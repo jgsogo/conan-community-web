@@ -656,8 +656,8 @@
  
  if __name__ == &#34;__main__&#34;:
      builder = ConanMultiPackager()
--    builder.add({&#34;os&#34;: &#34;Windows&#34;, &#34;arch&#34;: &#34;x86_64&#34;}, {}, {}, {})
--    builder.add({&#34;os&#34;: &#34;Windows&#34;, &#34;arch&#34;: &#34;x86&#34;}, {}, {}, {})
+-    builder.add({&#34;os_build&#34;: &#34;Windows&#34;, &#34;arch_build&#34;: &#34;x86_64&#34;}, {}, {}, {})
+-    builder.add({&#34;os_build&#34;: &#34;Windows&#34;, &#34;arch_build&#34;: &#34;x86&#34;}, {}, {}, {})
 +    builder.add_common_builds()
      builder.run()</code>
         </pre>
@@ -679,7 +679,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-02 23:52:57</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-03 23:52:57</span> | Work in progress
 
       </div>
     </footer>
