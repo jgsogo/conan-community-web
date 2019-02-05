@@ -676,10 +676,10 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,66 +1,37 @@
+@@ -1,69 +1,37 @@
 -[![Download](https://api.bintray.com/packages/conan-community/conan/zlib%3Aconan/images/download.svg) ](https://bintray.com/conan-community/conan/zlib%3Aconan/_latestVersion)
--[![Build Status Travis](https://travis-ci.org/conan-community/conan-zlib.svg?branch=release%2F1.2.11)](https://travis-ci.org/conan-community/conan-zlib)
--[![Build Status AppVeyor](https://ci.appveyor.com/api/projects/status/github/conan-community/conan-zlib?branch=release%2F1.2.11&amp;svg=true)](https://ci.appveyor.com/project/ConanCIintegration/conan-zlib)
+-[![Build Status Travis](https://travis-ci.org/conan-community/conan-zlib.svg)](https://travis-ci.org/conan-community/conan-zlib)
+-[![Build Status AppVeyor](https://ci.appveyor.com/api/projects/status/github/conan-community/conan-zlib?svg=true)](https://ci.appveyor.com/project/ConanCIintegration/conan-zlib)
 -
 -## Conan package recipe for [*zlib*](https://zlib.net)
 -
@@ -693,8 +693,8 @@
 -If you wish to report an issue or make a request for a package, please do so here:
 -
 -[Issues Tracker](https://github.com/conan-community/community/issues)
-+[![Build Status](https://travis-ci.org/conan-community/conan-zlib.svg?branch=release/1.2.11)](https://travis-ci.org/conan-community/conan-zlib/builds/487226204)
-+[![Build Status](https://ci.appveyor.com/api/projects/status/github/conan-community%2Fconan-zlib?branch=release/1.2.11&amp;svg=true)](https://ci.appveyor.com/project/ConanCIintegration/conan-zlib/builds/22042183)
++[![Build Status](https://travis-ci.org/conan-community/conan-zlib.svg?branch=release/1.2.11)](https://travis-ci.org/conan-community/conan-zlib/builds/488948505)
++[![Build Status](https://ci.appveyor.com/api/projects/status/github/conan-community%2Fconan-zlib?branch=release/1.2.11&amp;svg=true)](https://ci.appveyor.com/project/ConanCIintegration/conan-zlib/builds/22131738)
  
  
 -## For Users
@@ -747,11 +747,14 @@
 -| ------------- |:----------------- |:------------:|
 -| shared      | False |  [True, False] |
 -| fPIC      | True |  [True, False] |
+-| minizip      | False |  [True, False] |
 -
 -
 -## Add Remote
 -
--    $ conan remote add conan-community &#34;https://api.bintray.com/conan/conan-community/conan&#34;
+-Conan Community has its own Bintray repository, however, we are working to distribute all package in the Conan Center:
+-
+-    $ conan remote add conan-center &#34;https://conan.bintray.com&#34;
 -
 -
 -## Conan Recipe License
@@ -779,7 +782,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-04 23:52:10</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-05 23:52:40</span> | Work in progress
 
       </div>
     </footer>
