@@ -681,7 +681,8 @@ class OpenCVConan(ConanFile):
                &#34;png&#34;: [True, False],
                &#34;jasper&#34;: [True, False],
                &#34;openexr&#34;: [True, False],
-               &#34;gtk&#34;: [None, 2, 3]}
+               &#34;gtk&#34;: [None, 2, 3],
+               &#34;nonfree&#34;: [True, False]}
     default_options = {&#34;shared&#34;: False,
                        &#34;fPIC&#34;: True,
                        &#34;contrib&#34;: False,
@@ -691,7 +692,8 @@ class OpenCVConan(ConanFile):
                        &#34;png&#34;: True,
                        &#34;jasper&#34;: True,
                        &#34;openexr&#34;: True,
-                       &#34;gtk&#34;: 3}
+                       &#34;gtk&#34;: 3,
+                       &#34;nonfree&#34;: False}
     exports_sources = [&#34;CMakeLists.txt&#34;]
     generators = &#34;cmake&#34;
     description = &#34;OpenCV (Open Source Computer Vision Library) is an open source computer vision and machine &#34; \
@@ -820,6 +822,9 @@ class OpenCVConan(ConanFile):
 
         if self.options.contrib:
             cmake.definitions[&#39;OPENCV_EXTRA_MODULES_PATH&#39;] = os.path.join(self.build_folder, &#39;contrib&#39;, &#39;modules&#39;)
+
+        if self.options.nonfree:
+            cmake.definitions[&#39;OPENCV_ENABLE_NONFREE&#39;] = True
 
         cmake.configure(build_folder=self._build_subfolder)
         return cmake
@@ -958,7 +963,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-09 23:55:41</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-10 23:56:31</span> | Work in progress
 
       </div>
     </footer>
