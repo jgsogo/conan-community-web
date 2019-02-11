@@ -725,21 +725,31 @@ class BoostConan(ConanFile):
     options = {
         &#34;shared&#34;: [True, False],
         &#34;header_only&#34;: [True, False],
+        &#34;error_code_header_only&#34;: [True, False],
+        &#34;system_no_deprecated&#34;: [True, False],
+        &#34;asio_no_deprecated&#34;: [True, False],
         &#34;fPIC&#34;: [True, False],
         &#34;layout&#34;: [&#34;system&#34;, &#34;versioned&#34;, &#34;tagged&#34;],
         &#34;magic_autolink&#34;: [True, False],  # enables BOOST_ALL_NO_LIB
         &#34;python_executable&#34;: &#34;ANY&#34;,  # system default python installation is used, if None
-        &#34;python_version&#34;: &#34;ANY&#34;  # major.minor; computed automatically, if None
+        &#34;python_version&#34;: &#34;ANY&#34;,  # major.minor; computed automatically, if None
+        &#34;namespace&#34;: &#34;ANY&#34;,  # custom boost namespace for bcp, e.g. myboost
+        &#34;namespace_alias&#34;: [True, False]  # enable namespace alias for bcp, boost=myboost
     }
     options.update({&#34;without_%s&#34; % libname: [True, False] for libname in lib_list})
 
     default_options = [&#34;shared=False&#34;,
                        &#34;header_only=False&#34;,
+                       &#34;error_code_header_only=False&#34;,
+                       &#34;system_no_deprecated=False&#34;,
+                       &#34;asio_no_deprecated=False&#34;,
                        &#34;fPIC=True&#34;,
                        &#34;layout=system&#34;,
                        &#34;magic_autolink=False&#34;,
                        &#34;python_executable=None&#34;,
-                       &#34;python_version=None&#34;]
+                       &#34;python_version=None&#34;,
+                       &#34;namespace=boost&#34;,
+                       &#34;namespace_alias=False&#34;]
 
     default_options.extend([&#34;without_%s=False&#34; % libname for libname in lib_list if libname != &#34;python&#34;])
     default_options.append(&#34;without_python=True&#34;)
@@ -754,9 +764,15 @@ class BoostConan(ConanFile):
 
     exports = [&#39;patches/*&#39;]
 
+    _bcp_dir = &#34;custom-boost&#34;
+
     def config_options(self):
         if self.settings.os == &#34;Windows&#34;:
             self.options.remove(&#34;fPIC&#34;)
+
+    @property
+    def _is_msvc(self):
+        return self.settings.compiler == &#34;Visual Studio&#34;
 
     @property
     def zip_bzip2_requires_needed(self):
@@ -944,8 +960,8 @@ class BoostConan(ConanFile):
             libdir = os.path.join(os.path.dirname(libdest), &#34;libs&#34;)
 
         candidates = [ldlibrary, library]
-        library_prefixes = [&#34;&#34;] if self.settings.compiler == &#34;Visual Studio&#34; else [&#34;&#34;, &#34;lib&#34;]
-        library_suffixes = [&#34;.lib&#34;] if self.settings.compiler == &#34;Visual Studio&#34; else [&#34;.so&#34;, &#34;.dll.a&#34;, &#34;.a&#34;]
+        library_prefixes = [&#34;&#34;] if self._is_msvc else [&#34;&#34;, &#34;lib&#34;]
+        library_suffixes = [&#34;.lib&#34;] if self._is_msvc else [&#34;.so&#34;, &#34;.dll.a&#34;, &#34;.a&#34;]
         if with_dyld:
             library_suffixes.insert(0, &#34;.dylib&#34;)
 
@@ -968,39 +984,104 @@ class BoostConan(ConanFile):
                     return python_lib.replace(&#39;\\&#39;, &#39;/&#39;)
         raise Exception(&#34;couldn&#39;t locate python libraries - make sure you have installed python development files&#34;)
 
-    def build(self):
-        if self.options.header_only:
-            self.output.warn(&#34;Header only package, skipping build&#34;)
-            return
-
+    def _clean(self):
         src = os.path.join(self.source_folder, self.folder_name)
         clean_dirs = [os.path.join(self.build_folder, &#34;bin.v2&#34;),
                       os.path.join(self.build_folder, &#34;architecture&#34;),
+                      os.path.join(self.source_folder, self._bcp_dir),
+                      os.path.join(src, &#34;dist&#34;, &#34;bin&#34;),
                       os.path.join(src, &#34;stage&#34;),
                       os.path.join(src, &#34;tools&#34;, &#34;build&#34;, &#34;src&#34;, &#34;engine&#34;, &#34;bootstrap&#34;),
                       os.path.join(src, &#34;tools&#34;, &#34;build&#34;, &#34;src&#34;, &#34;engine&#34;, &#34;bin.ntx86&#34;),
                       os.path.join(src, &#34;tools&#34;, &#34;build&#34;, &#34;src&#34;, &#34;engine&#34;, &#34;bin.ntx86_64&#34;)]
         for d in clean_dirs:
             if os.path.isdir(d):
+                self.output.warn(&#39;removing &#34;%s&#34;&#39; % d)
                 shutil.rmtree(d)
 
-        b2_exe = self.bootstrap()
+    @property
+    def _b2_exe(self):
+        folder = os.path.join(self.source_folder, self.folder_name, &#34;tools&#34;, &#34;build&#34;)
+        return os.path.join(folder, &#34;b2.exe&#34; if tools.os_info.is_windows else &#34;b2&#34;)
+
+    @property
+    def _bcp_exe(self):
+        folder = os.path.join(self.source_folder, self.folder_name, &#34;dist&#34;, &#34;bin&#34;)
+        return os.path.join(folder, &#34;bcp.exe&#34; if tools.os_info.is_windows else &#34;bcp&#34;)
+
+    @property
+    def _use_bcp(self):
+        return self.options.namespace != &#34;boost&#34;
+
+    @property
+    def _boost_dir(self):
+        return self._bcp_dir if self._use_bcp else self.folder_name
+
+    @property
+    def _boost_build_dir(self):
+        return os.path.join(self.source_folder, self.folder_name, &#34;tools&#34;, &#34;build&#34;)
+
+    def _build_bcp(self):
+        folder = os.path.join(self.source_folder, self.folder_name, &#39;tools&#39;, &#39;bcp&#39;)
+        with tools.vcvars(self.settings) if self._is_msvc else tools.no_op():
+            with tools.chdir(folder):
+                command = &#34;%s -j%s --abbreviate-paths -d2&#34; % (self._b2_exe, tools.cpu_count())
+                self.output.warn(command)
+                self.run(command)
+
+    def _run_bcp(self):
+        with tools.vcvars(self.settings) if self._is_msvc else tools.no_op():
+            with tools.chdir(self.source_folder):
+                os.mkdir(self._bcp_dir)
+                namespace = &#34;--namespace=%s&#34; % self.options.namespace
+                alias = &#34;--namespace-alias&#34; if self.options.namespace_alias else &#34;&#34;
+                boostdir = &#34;--boost=%s&#34; % self.folder_name
+                libraries = {&#34;build&#34;, &#34;boost-build.jam&#34;, &#34;boostcpp.jam&#34;}
+                for d in os.listdir(os.path.join(self.folder_name, &#34;boost&#34;)):
+                    if os.path.isdir(os.path.join(self.folder_name, &#34;boost&#34;, d)):
+                        libraries.add(d)
+                for d in os.listdir(os.path.join(self.folder_name, &#34;libs&#34;)):
+                    if os.path.isdir(os.path.join(self.folder_name, &#34;libs&#34;, d)):
+                        libraries.add(d)
+                libraries = &#39; &#39;.join(libraries)
+                command = &#34;{bcp} {namespace} {alias} &#34; \
+                          &#34;{boostdir} {libraries} {outdir}&#34;.format(bcp=self._bcp_exe,
+                                                                   namespace=namespace,
+                                                                   alias=alias,
+                                                                   libraries=libraries,
+                                                                   boostdir=boostdir,
+                                                                   outdir=self._bcp_dir)
+                self.output.warn(command)
+                self.run(command)
+
+    def build(self):
+        if self.options.header_only:
+            self.output.warn(&#34;Header only package, skipping build&#34;)
+            return
+
+        self._clean()
+        self._bootstrap()
+
+        if self._use_bcp:
+            self._build_bcp()
+            self._run_bcp()
+
         flags = self.get_build_flags()
         # Help locating bzip2 and zlib
-        self.create_user_config_jam(self.build_folder)
+        self.create_user_config_jam(self._boost_build_dir)
 
         # JOIN ALL FLAGS
         b2_flags = &#34; &#34;.join(flags)
-        full_command = &#34;%s %s -j%s --abbreviate-paths -d2&#34; % (b2_exe, b2_flags, tools.cpu_count())
+        full_command = &#34;%s %s -j%s --abbreviate-paths -d2&#34; % (self._b2_exe, b2_flags, tools.cpu_count())
         # -d2 is to print more debug info and avoid travis timing out without output
-        sources = os.path.join(self.source_folder, self.folder_name)
+        sources = os.path.join(self.source_folder, self._boost_dir)
         full_command += &#39; --debug-configuration --build-dir=&#34;%s&#34;&#39; % self.build_folder
         self.output.warn(full_command)
 
-        with tools.vcvars(self.settings) if self.settings.compiler == &#34;Visual Studio&#34; else tools.no_op():
+        with tools.vcvars(self.settings) if self._is_msvc else tools.no_op():
             with tools.chdir(sources):
                 # to locate user config jam (BOOST_BUILD_PATH)
-                with tools.environment_append({&#34;BOOST_BUILD_PATH&#34;: self.build_folder}):
+                with tools.environment_append({&#34;BOOST_BUILD_PATH&#34;: self._boost_build_dir}):
                     # To show the libraries *1
                     # self.run(&#34;%s --show-libraries&#34; % b2_exe)
                     self.run(full_command)
@@ -1088,12 +1169,12 @@ class BoostConan(ConanFile):
             flags.append(&#34;abi=%s&#34; % self._b2_abi)
 
         flags.append(&#34;--layout=%s&#34; % self.options.layout)
+        flags.append(&#34;-sBOOST_BUILD_PATH=%s&#34; % self._boost_build_dir)
 
-        if self.settings.compiler == &#34;Visual Studio&#34; and self.settings.compiler.runtime:
+        if self._is_msvc and self.settings.compiler.runtime:
             flags.append(&#34;runtime-link=%s&#34; % (&#34;static&#34; if &#34;MT&#34; in str(self.settings.compiler.runtime) else &#34;shared&#34;))
 
-        if self.settings.os == &#34;Windows&#34; and self.settings.compiler == &#34;gcc&#34;:
-            flags.append(&#34;threading=multi&#34;)
+        flags.append(&#34;threading=multi&#34;)
 
         flags.append(&#34;link=%s&#34; % (&#34;static&#34; if not self.options.shared else &#34;shared&#34;))
         if self.settings.build_type == &#34;Debug&#34;:
@@ -1105,9 +1186,10 @@ class BoostConan(ConanFile):
             if getattr(self.options, &#34;without_%s&#34; % libname):
                 flags.append(&#34;--without-%s&#34; % libname)
 
+        toolset, _, _ = self.get_toolset_version_and_exe()
+        flags.append(&#34;toolset=%s&#34; % toolset)
+
         if self.settings.cppstd:
-            toolset, _, _ = self.get_toolset_version_and_exe()
-            flags.append(&#34;toolset=%s&#34; % toolset)
             flags.append(&#34;cxxflags=%s&#34; % cppstd_flag(
                     self.settings.get_safe(&#34;compiler&#34;),
                     self.settings.get_safe(&#34;compiler.version&#34;),
@@ -1137,6 +1219,13 @@ class BoostConan(ConanFile):
                         cxx_flags.append(&#34;-stdlib=libstdc++&#34;)
             except:
                 pass
+
+        if self.options.error_code_header_only:
+            flags.append(&#34;define=BOOST_ERROR_CODE_HEADER_ONLY=1&#34;)
+        if self.options.system_no_deprecated:
+            flags.append(&#34;define=BOOST_SYSTEM_NO_DEPRECATED=1&#34;)
+        if self.options.asio_no_deprecated:
+            flags.append(&#34;define=BOOST_ASIO_NO_DEPRECATED=1&#34;)
 
         if tools.is_apple_os(self.settings.os):
             if self.settings.get_safe(&#34;os.version&#34;):
@@ -1259,7 +1348,7 @@ class BoostConan(ConanFile):
     def get_toolset_version_and_exe(self):
         compiler_version = str(self.settings.compiler.version)
         compiler = str(self.settings.compiler)
-        if self.settings.compiler == &#34;Visual Studio&#34;:
+        if self._is_msvc:
             cversion = self.settings.compiler.version
             _msvc_version = &#34;14.1&#34; if Version(str(cversion)) &gt;= &#34;15&#34; else &#34;%s.0&#34; % cversion
             return &#34;msvc&#34;, _msvc_version, &#34;&#34;
@@ -1285,9 +1374,12 @@ class BoostConan(ConanFile):
 
     ##################### BOOSTRAP METHODS ###########################
     def _get_boostrap_toolset(self):
-        if self.settings.os == &#34;Windows&#34; and self.settings.compiler == &#34;Visual Studio&#34;:
+        if self._is_msvc:
             comp_ver = self.settings.compiler.version
             return &#34;vc%s&#34; % (&#34;141&#34; if Version(str(comp_ver)) &gt;= &#34;15&#34; else comp_ver)
+
+        if tools.os_info.is_windows:
+            return &#34;&#34;
 
         with_toolset = {&#34;apple-clang&#34;: &#34;darwin&#34;}.get(str(self.settings.compiler),
                                                      str(self.settings.compiler))
@@ -1297,11 +1389,11 @@ class BoostConan(ConanFile):
             with_toolset = &#34;cc&#34;
         return with_toolset
 
-    def bootstrap(self):
+    def _bootstrap(self):
         folder = os.path.join(self.source_folder, self.folder_name, &#34;tools&#34;, &#34;build&#34;)
         try:
             bootstrap = &#34;bootstrap.bat&#34; if tools.os_info.is_windows else &#34;./bootstrap.sh&#34;
-            with tools.vcvars(self.settings) if self.settings.compiler == &#34;Visual Studio&#34; else tools.no_op():
+            with tools.vcvars(self.settings) if self._is_msvc else tools.no_op():
                 self.output.info(&#34;Using %s %s&#34; % (self.settings.compiler, self.settings.compiler.version))
                 with tools.chdir(folder):
                     option = &#34;&#34; if tools.os_info.is_windows else &#34;-with-toolset=&#34;
@@ -1313,15 +1405,14 @@ class BoostConan(ConanFile):
             if os.path.exists(os.path.join(folder, &#34;bootstrap.log&#34;)):
                 self.output.warn(tools.load(os.path.join(folder, &#34;bootstrap.log&#34;)))
             raise
-        return os.path.join(folder, &#34;b2.exe&#34;) if tools.os_info.is_windows else os.path.join(folder, &#34;b2&#34;)
 
     ####################################################################
 
     def package(self):
         # This stage/lib is in source_folder... Face palm, looks like it builds in build but then
         # copy to source with the good lib name
-        out_lib_dir = os.path.join(self.folder_name, &#34;stage&#34;, &#34;lib&#34;)
-        self.copy(pattern=&#34;*&#34;, dst=&#34;include/boost&#34;, src=&#34;%s/boost&#34; % self.folder_name)
+        out_lib_dir = os.path.join(self._boost_dir, &#34;stage&#34;, &#34;lib&#34;)
+        self.copy(pattern=&#34;*&#34;, dst=&#34;include/boost&#34;, src=&#34;%s/boost&#34; % self._boost_dir)
         if not self.options.shared:
             self.copy(pattern=&#34;*.a&#34;, dst=&#34;lib&#34;, src=out_lib_dir, keep_path=False)
         self.copy(pattern=&#34;*.so&#34;, dst=&#34;lib&#34;, src=out_lib_dir, keep_path=False, symlinks=True)
@@ -1368,12 +1459,21 @@ class BoostConan(ConanFile):
         else:
             self.cpp_info.defines.append(&#34;BOOST_USE_STATIC_LIBS&#34;)
 
+        if self.options.system_no_deprecated:
+            self.cpp_info.defines.append(&#34;BOOST_SYSTEM_NO_DEPRECATED&#34;)
+
+        if self.options.asio_no_deprecated:
+            self.cpp_info.defines.append(&#34;BOOST_ASIO_NO_DEPRECATED&#34;)
+
         if not self.options.header_only:
+            if self.options.error_code_header_only:
+                self.cpp_info.defines.append(&#34;BOOST_ERROR_CODE_HEADER_ONLY&#34;)
+
             if not self.options.without_python:
                 if not self.options.shared:
                     self.cpp_info.defines.append(&#34;BOOST_PYTHON_STATIC_LIB&#34;)
 
-            if self.settings.compiler == &#34;Visual Studio&#34;:
+            if self._is_msvc:
                 if not self.options.magic_autolink:
                     # DISABLES AUTO LINKING! NO SMART AND MAGIC DECISIONS THANKS!
                     self.cpp_info.defines.append(&#34;BOOST_ALL_NO_LIB&#34;)
@@ -1412,7 +1512,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-10 23:56:09</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-11 23:57:20</span> | Work in progress
 
       </div>
     </footer>

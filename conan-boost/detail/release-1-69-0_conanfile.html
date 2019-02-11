@@ -731,7 +731,7 @@ class BoostConan(ConanFile):
         &#34;system_no_deprecated&#34;: [True, False],
         &#34;asio_no_deprecated&#34;: [True, False],
         &#34;fPIC&#34;: [True, False],
-        &#34;skip_lib_rename&#34;: [True, False],
+        &#34;layout&#34;: [&#34;system&#34;, &#34;versioned&#34;, &#34;tagged&#34;],
         &#34;magic_autolink&#34;: [True, False],  # enables BOOST_ALL_NO_LIB
         &#34;python_executable&#34;: &#34;ANY&#34;,  # system default python installation is used, if None
         &#34;python_version&#34;: &#34;ANY&#34;,  # major.minor; computed automatically, if None
@@ -746,7 +746,7 @@ class BoostConan(ConanFile):
                        &#34;system_no_deprecated=False&#34;,
                        &#34;asio_no_deprecated=False&#34;,
                        &#34;fPIC=True&#34;,
-                       &#34;skip_lib_rename=False&#34;,
+                       &#34;layout=system&#34;,
                        &#34;magic_autolink=False&#34;,
                        &#34;python_executable=None&#34;,
                        &#34;python_version=None&#34;,
@@ -1170,9 +1170,8 @@ class BoostConan(ConanFile):
         if self._b2_abi:
             flags.append(&#34;abi=%s&#34; % self._b2_abi)
 
+        flags.append(&#34;--layout=%s&#34; % self.options.layout)
         flags.append(&#34;-sBOOST_BUILD_PATH=%s&#34; % self._boost_build_dir)
-        if self.settings.compiler == &#34;gcc&#34;:
-            flags.append(&#34;--layout=system&#34;)
 
         if self._is_msvc and self.settings.compiler.runtime:
             flags.append(&#34;runtime-link=%s&#34; % (&#34;static&#34; if &#34;MT&#34; in str(self.settings.compiler.runtime) else &#34;shared&#34;))
@@ -1428,26 +1427,6 @@ class BoostConan(ConanFile):
         if not os.path.exists(os.path.join(self.package_folder, &#34;lib&#34;)):
             return
 
-        self.renames_to_make_cmake_find_package_happy()
-
-    def renames_to_make_cmake_find_package_happy(self):
-        if not self.options.skip_lib_rename:
-            # CMake findPackage help
-            renames = []
-            for libname in os.listdir(os.path.join(self.package_folder, &#34;lib&#34;)):
-                new_name = libname
-                libpath = os.path.join(self.package_folder, &#34;lib&#34;, libname)
-                if &#34;-&#34; in libname:
-                    new_name = libname.split(&#34;-&#34;, 1)[0] + &#34;.&#34; + libname.split(&#34;.&#34;)[-1]
-                    if new_name.startswith(&#34;lib&#34;):
-                        new_name = new_name[3:]
-                renames.append([libpath, os.path.join(self.package_folder, &#34;lib&#34;, new_name)])
-
-            for original, new in renames:
-                if original != new and not os.path.exists(new):
-                    self.output.info(&#34;Rename: %s =&gt; %s&#34; % (original, new))
-                    os.rename(original, new)
-
     def package_info(self):
         gen_libs = tools.collect_libs(self)
 
@@ -1499,9 +1478,13 @@ class BoostConan(ConanFile):
             if self._is_msvc:
                 if not self.options.magic_autolink:
                     # DISABLES AUTO LINKING! NO SMART AND MAGIC DECISIONS THANKS!
-                    self.cpp_info.defines.extend([&#34;BOOST_ALL_NO_LIB&#34;])
+                    self.cpp_info.defines.append(&#34;BOOST_ALL_NO_LIB&#34;)
                     self.output.info(&#34;Disabled magic autolinking (smart and magic decisions)&#34;)
                 else:
+                    if self.options.layout == &#34;system&#34;:
+                        self.cpp_info.defines.append(&#34;BOOST_AUTO_LINK_SYSTEM&#34;)
+                    elif self.options.layout == &#34;tagged&#34;:
+                        self.cpp_info.defines.append(&#34;BOOST_AUTO_LINK_TAGGED&#34;)
                     self.output.info(&#34;Enabled magic autolinking (smart and magic decisions)&#34;)
 
                 # https://github.com/conan-community/conan-boost/issues/127#issuecomment-404750974
@@ -1531,7 +1514,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-10 23:56:09</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-11 23:57:20</span> | Work in progress
 
       </div>
     </footer>
