@@ -339,7 +339,7 @@
                 <span data-feather="file-text"></span>
                 conan-relapack
                 
-                <span class="numberCircle numberCircle-error" title=""><span>2</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -449,7 +449,7 @@
                 <span data-feather="file-text"></span>
                 conan-fontconfig
                 
-                <span class="numberCircle numberCircle-error" title=""><span>8</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>11</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>2</span></span>
               </a>
@@ -634,7 +634,7 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,26 +1,122 @@
+@@ -1,13 +1,122 @@
  build: false
 +
  
@@ -652,113 +652,103 @@
 +
 +
      matrix:
--        - MINGW_CONFIGURATIONS: &#34;4.9@x86_64@seh@posix&#34;
--        - MINGW_CONFIGURATIONS: &#34;4.9@x86_64@sjlj@posix&#34;
--        - MINGW_CONFIGURATIONS: &#34;4.9@x86@sjlj@posix&#34;
--        - MINGW_CONFIGURATIONS: &#34;4.9@x86@dwarf2@posix&#34;
--        - MINGW_CONFIGURATIONS: &#34;5@x86@dwarf2@posix&#34;
--        - MINGW_CONFIGURATIONS: &#34;5@x86_64@seh@posix&#34;
--        - MINGW_CONFIGURATIONS: &#34;6@x86@dwarf2@posix&#34;
--        - MINGW_CONFIGURATIONS: &#34;6@x86_64@seh@posix&#34;
++      
++        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
++          CONAN_VISUAL_VERSIONS: 12
++          CONAN_ARCHS: x86
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MT
++          CONAN_CURRENT_PAGE: 1
++      
++        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
++          CONAN_VISUAL_VERSIONS: 12
++          CONAN_ARCHS: x86
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MD
++          CONAN_CURRENT_PAGE: 1
++      
++        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
++          CONAN_VISUAL_VERSIONS: 12
++          CONAN_ARCHS: x86_64
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MT
++          CONAN_CURRENT_PAGE: 1
++      
++        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
++          CONAN_VISUAL_VERSIONS: 12
++          CONAN_ARCHS: x86_64
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MD
++          CONAN_CURRENT_PAGE: 1
++      
++        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
++          CONAN_VISUAL_VERSIONS: 14
++          CONAN_ARCHS: x86
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MT
++          CONAN_CURRENT_PAGE: 1
++      
++        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
++          CONAN_VISUAL_VERSIONS: 14
++          CONAN_ARCHS: x86
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MD
++          CONAN_CURRENT_PAGE: 1
++      
++        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
++          CONAN_VISUAL_VERSIONS: 14
++          CONAN_ARCHS: x86_64
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MT
++          CONAN_CURRENT_PAGE: 1
++      
++        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
++          CONAN_VISUAL_VERSIONS: 14
++          CONAN_ARCHS: x86_64
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MD
++          CONAN_CURRENT_PAGE: 1
++      
++        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
++          CONAN_VISUAL_VERSIONS: 15
++          CONAN_ARCHS: x86
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MT
++          CONAN_CURRENT_PAGE: 1
++      
++        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
++          CONAN_VISUAL_VERSIONS: 15
++          CONAN_ARCHS: x86
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MD
++          CONAN_CURRENT_PAGE: 1
++      
++        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
++          CONAN_VISUAL_VERSIONS: 15
++          CONAN_ARCHS: x86_64
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MT
++          CONAN_CURRENT_PAGE: 1
++      
++        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
++          CONAN_VISUAL_VERSIONS: 15
++          CONAN_ARCHS: x86_64
++          CONAN_BUILD_TYPES: Release
++          CONAN_VISUAL_RUNTIMES: MD
++          CONAN_CURRENT_PAGE: 1
++      
++      
+         - MINGW_CONFIGURATIONS: &#34;4.9@x86_64@seh@posix&#34;
++          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
++          CONAN_CURRENT_PAGE: 1
++      
+         - MINGW_CONFIGURATIONS: &#34;5@x86_64@seh@posix&#34;
++          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
++          CONAN_CURRENT_PAGE: 1
++      
+         - MINGW_CONFIGURATIONS: &#34;6@x86_64@seh@posix&#34;
 -        - MINGW_CONFIGURATIONS: &#34;7@x86@dwarf2@posix&#34;
--        - MINGW_CONFIGURATIONS: &#34;7@x86_64@seh@posix&#34;
--        - MINGW_CONFIGURATIONS: &#34;8@x86@dwarf2@posix&#34;
 -        - MINGW_CONFIGURATIONS: &#34;8@x86_64@seh@posix&#34;
-+      
-         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-           CONAN_VISUAL_VERSIONS: 12
-+          CONAN_ARCHS: x86
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MT
-+          CONAN_CURRENT_PAGE: 1
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 12
-+          CONAN_ARCHS: x86
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MD
-+          CONAN_CURRENT_PAGE: 1
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 12
-+          CONAN_ARCHS: x86_64
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MT
-+          CONAN_CURRENT_PAGE: 1
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 12
-+          CONAN_ARCHS: x86_64
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MD
-+          CONAN_CURRENT_PAGE: 1
-+      
-         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-           CONAN_VISUAL_VERSIONS: 14
-+          CONAN_ARCHS: x86
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MT
-+          CONAN_CURRENT_PAGE: 1
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 14
-+          CONAN_ARCHS: x86
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MD
-+          CONAN_CURRENT_PAGE: 1
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 14
-+          CONAN_ARCHS: x86_64
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MT
-+          CONAN_CURRENT_PAGE: 1
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 14
-+          CONAN_ARCHS: x86_64
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MD
-+          CONAN_CURRENT_PAGE: 1
-+      
-         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-           CONAN_VISUAL_VERSIONS: 15
-+          CONAN_ARCHS: x86
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MT
-+          CONAN_CURRENT_PAGE: 1
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-+          CONAN_VISUAL_VERSIONS: 15
-+          CONAN_ARCHS: x86
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MD
-+          CONAN_CURRENT_PAGE: 1
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-+          CONAN_VISUAL_VERSIONS: 15
-+          CONAN_ARCHS: x86_64
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MT
-+          CONAN_CURRENT_PAGE: 1
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-+          CONAN_VISUAL_VERSIONS: 15
-+          CONAN_ARCHS: x86_64
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MD
-+          CONAN_CURRENT_PAGE: 1
-+      
-+      
-+        - MINGW_CONFIGURATIONS: &#34;4.9@x86_64@seh@posix&#34;
-+          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
-+          CONAN_CURRENT_PAGE: 1
-+      
-+        - MINGW_CONFIGURATIONS: &#34;5@x86_64@seh@posix&#34;
-+          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
-+          CONAN_CURRENT_PAGE: 1
-+      
-+        - MINGW_CONFIGURATIONS: &#34;6@x86_64@seh@posix&#34;
 +          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
 +          CONAN_CURRENT_PAGE: 1
 +      
@@ -769,7 +759,7 @@
  
  install:
    - set PATH=%PATH%;%PYTHON%/Scripts/
-@@ -30,4 +126,3 @@
+@@ -17,4 +126,3 @@
  
  test_script:
    - python build.py
@@ -793,7 +783,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-11 23:58:10</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-12 23:59:39</span> | Work in progress
 
       </div>
     </footer>
