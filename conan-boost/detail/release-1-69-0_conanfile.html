@@ -449,9 +449,9 @@
                 <span data-feather="file-text"></span>
                 conan-fontconfig
                 
-                <span class="numberCircle numberCircle-error" title=""><span>11</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>8</span></span>
                 
-                <span class="numberCircle numberCircle-warning" title=""><span>2</span></span>
+                <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
             </li>
         
@@ -529,6 +529,17 @@
                 <span class="numberCircle numberCircle-error" title=""><span>10</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
+              </a>
+            </li>
+        
+            <li class="nav-item">
+              <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-libimagequant/detail/index.html">
+                <span data-feather="file-text"></span>
+                conan-libimagequant
+                
+                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                
+                <span class="numberCircle numberCircle-warning" title=""><span>4</span></span>
               </a>
             </li>
         
@@ -730,6 +741,7 @@ class BoostConan(ConanFile):
         &#34;error_code_header_only&#34;: [True, False],
         &#34;system_no_deprecated&#34;: [True, False],
         &#34;asio_no_deprecated&#34;: [True, False],
+        &#34;filesystem_no_deprecated&#34;: [True, False],
         &#34;fPIC&#34;: [True, False],
         &#34;layout&#34;: [&#34;system&#34;, &#34;versioned&#34;, &#34;tagged&#34;],
         &#34;magic_autolink&#34;: [True, False],  # enables BOOST_ALL_NO_LIB
@@ -745,6 +757,7 @@ class BoostConan(ConanFile):
                        &#34;error_code_header_only=False&#34;,
                        &#34;system_no_deprecated=False&#34;,
                        &#34;asio_no_deprecated=False&#34;,
+                       &#34;filesystem_no_deprecated=False&#34;,
                        &#34;fPIC=True&#34;,
                        &#34;layout=system&#34;,
                        &#34;magic_autolink=False&#34;,
@@ -1228,6 +1241,8 @@ class BoostConan(ConanFile):
             flags.append(&#34;define=BOOST_SYSTEM_NO_DEPRECATED=1&#34;)
         if self.options.asio_no_deprecated:
             flags.append(&#34;define=BOOST_ASIO_NO_DEPRECATED=1&#34;)
+        if self.options.filesystem_no_deprecated:
+            flags.append(&#34;define=BOOST_FILESYSTEM_NO_DEPRECATED=1&#34;)
 
         if tools.is_apple_os(self.settings.os):
             if self.settings.get_safe(&#34;os.version&#34;):
@@ -1467,6 +1482,9 @@ class BoostConan(ConanFile):
         if self.options.asio_no_deprecated:
             self.cpp_info.defines.append(&#34;BOOST_ASIO_NO_DEPRECATED&#34;)
 
+        if self.options.filesystem_no_deprecated:
+            self.cpp_info.defines.append(&#34;BOOST_FILESYSTEM_NO_DEPRECATED&#34;)
+
         if not self.options.header_only:
             if self.options.error_code_header_only:
                 self.cpp_info.defines.append(&#34;BOOST_ERROR_CODE_HEADER_ONLY&#34;)
@@ -1514,7 +1532,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-12 23:58:27</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-13 23:58:15</span> | Work in progress
 
       </div>
     </footer>

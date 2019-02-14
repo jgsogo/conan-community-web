@@ -449,9 +449,9 @@
                 <span data-feather="file-text"></span>
                 conan-fontconfig
                 
-                <span class="numberCircle numberCircle-error" title=""><span>11</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>8</span></span>
                 
-                <span class="numberCircle numberCircle-warning" title=""><span>2</span></span>
+                <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
             </li>
         
@@ -529,6 +529,17 @@
                 <span class="numberCircle numberCircle-error" title=""><span>10</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
+              </a>
+            </li>
+        
+            <li class="nav-item">
+              <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-libimagequant/detail/index.html">
+                <span data-feather="file-text"></span>
+                conan-libimagequant
+                
+                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                
+                <span class="numberCircle numberCircle-warning" title=""><span>4</span></span>
               </a>
             </li>
         
@@ -658,19 +669,22 @@
     <h4>conanfile.py</h4>
     <div>
         <pre>
-            <code class="python">from conans import ConanFile, CMake, tools
+            <code class="python">#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from conans import ConanFile, CMake, tools
 from conans.model.version import Version
 from conans.errors import ConanInvalidConfiguration
 import os
-import shutil
 
 
 class OpenCVConan(ConanFile):
     name = &#34;opencv&#34;
     version = &#34;4.0.1&#34;
-    license = &#34;LGPL&#34;
+    license = &#34;BSD-3-Clause&#34;
     homepage = &#34;https://github.com/opencv/opencv&#34;
-    url = &#34;https://github.com/conan-community/conan-opencv.git&#34;
+    url = &#34;https://github.com/conan-community/conan-opencv&#34;
+    author = &#34;Conan Community&#34;
+    topics = (&#34;conan&#34;, &#34;opencv&#34;, &#34;computer-vision&#34;, &#34;image-processing&#34;, &#34;deep-learning&#34;)
     settings = &#34;os&#34;, &#34;compiler&#34;, &#34;build_type&#34;, &#34;arch&#34;
     options = {&#34;shared&#34;: [True, False],
                &#34;fPIC&#34;: [True, False],
@@ -695,12 +709,12 @@ class OpenCVConan(ConanFile):
                        &#34;gtk&#34;: 3,
                        &#34;nonfree&#34;: False}
     exports_sources = [&#34;CMakeLists.txt&#34;]
+    exports = &#34;LICENSE&#34;
     generators = &#34;cmake&#34;
-    description = &#34;OpenCV (Open Source Computer Vision Library) is an open source computer vision and machine &#34; \
-                  &#34;learning software library.&#34;
+    description = &#34;OpenCV is an open source computer vision and machine learning software library.&#34;
+    short_paths = True
     _source_subfolder = &#34;source_subfolder&#34;
     _build_subfolder = &#34;build_subfolder&#34;
-    short_paths = True
 
     def configure(self):
         compiler_version = Version(self.settings.compiler.version.value)
@@ -708,13 +722,15 @@ class OpenCVConan(ConanFile):
             raise ConanInvalidConfiguration(&#34;OpenCV 4.x requires Visual Studio 2015 and higher&#34;)
 
     def source(self):
-        tools.get(&#34;https://github.com/opencv/opencv/archive/%s.zip&#34; % self.version)
+        sha256 = &#34;7b86a0ee804244e0c407321f895b15e4a7162e9c5c0d2efc85f1cadec4011af4&#34;
+        tools.get(&#34;{}/archive/{}.tar.gz&#34;.format(self.homepage, self.version), sha256=sha256)
         os.rename(&#39;opencv-%s&#39; % self.version, self._source_subfolder)
 
-        tools.get(&#34;https://github.com/opencv/opencv_contrib/archive/%s.zip&#34; % self.version)
+        sha256 = &#34;0d8acbad4b7074cfaafd906a7419c23629179d5e98894714402090b192ef8237&#34;
+        tools.get(&#34;https://github.com/opencv/opencv_contrib/archive/{}.tar.gz&#34;.format(self.version), sha256=sha256)
         os.rename(&#39;opencv_contrib-%s&#39; % self.version, &#39;contrib&#39;)
 
-        shutil.rmtree(os.path.join(self._source_subfolder, &#39;3rdparty&#39;))
+        tools.rmdir(os.path.join(self._source_subfolder, &#39;3rdparty&#39;))
 
     def config_options(self):
         if self.settings.os == &#39;Windows&#39;:
@@ -873,22 +889,8 @@ class OpenCVConan(ConanFile):
         cmake = self._configure_cmake()
         cmake.build()
 
-    opencv_libs = [&#34;gapi&#34;,
-                   &#34;stitching&#34;,
-                   &#34;photo&#34;,
-                   &#34;video&#34;,
-                   &#34;ml&#34;,
-                   &#34;calib3d&#34;,
-                   &#34;features2d&#34;,
-                   &#34;highgui&#34;,
-                   &#34;videoio&#34;,
-                   &#34;flann&#34;,
-                   &#34;imgcodecs&#34;,
-                   &#34;objdetect&#34;,
-                   &#34;imgproc&#34;,
-                   &#34;core&#34;]
-
     def package(self):
+        self.copy(&#34;LICENSE&#34;, dst=&#34;licenses&#34;, src=self._source_subfolder)
         cmake = self._configure_cmake()
         cmake.install()
         cmake.patch_config_paths()
@@ -903,10 +905,57 @@ class OpenCVConan(ConanFile):
         self.cpp_info.exelinkflags.extend(pkg_config.libs_only_other)
 
     def package_info(self):
+        opencv_libs = [&#34;gapi&#34;,
+                    &#34;stitching&#34;,
+                    &#34;photo&#34;,
+                    &#34;video&#34;,
+                    &#34;ml&#34;,
+                    &#34;calib3d&#34;,
+                    &#34;features2d&#34;,
+                    &#34;highgui&#34;,
+                    &#34;videoio&#34;,
+                    &#34;flann&#34;,
+                    &#34;imgcodecs&#34;,
+                    &#34;objdetect&#34;,
+                    &#34;imgproc&#34;,
+                    &#34;core&#34;]
+
         suffix = &#39;d&#39; if self.settings.build_type == &#39;Debug&#39; and self.settings.compiler == &#39;Visual Studio&#39; else &#39;&#39;
         version = self.version.replace(&#34;.&#34;, &#34;&#34;) if self.settings.os == &#34;Windows&#34; else &#34;&#34;
-        for lib in self.opencv_libs:
+        for lib in opencv_libs:
             self.cpp_info.libs.append(&#34;opencv_%s%s%s&#34; % (lib, version, suffix))
+
+        if self.options.contrib:
+            self.cpp_info.libs.extend([
+                &#34;aruco&#34;,
+                &#34;bgsegm&#34;,
+                &#34;bioinspired&#34;,
+                &#34;ccalib&#34;,
+                &#34;datasets&#34;,
+                &#34;dpm&#34;,
+                &#34;face&#34;,
+                &#34;freetype&#34;,
+                &#34;fuzzy&#34;,
+                &#34;hfs&#34;,
+                &#34;img_hash&#34;,
+                &#34;line_descriptor&#34;,
+                &#34;optflow&#34;,
+                &#34;phase_unwrapping&#34;,
+                &#34;plot&#34;,
+                &#34;reg&#34;,
+                &#34;rgbd&#34;,
+                &#34;saliency&#34;,
+                &#34;shape&#34;,
+                &#34;stereo&#34;,
+                &#34;structured_light&#34;,
+                &#34;superres&#34;,
+                &#34;surface_matching&#34;,
+                &#34;tracking&#34;,
+                &#34;videostab&#34;,
+                &#34;xfeatures2d&#34;,
+                &#34;ximgproc&#34;,
+                &#34;xobjdetect&#34;,
+                &#34;xphoto&#34;])
 
         if self.settings.compiler == &#39;Visual Studio&#39;:
             arch = {&#39;x86&#39;: &#39;x86&#39;,
@@ -963,7 +1012,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-12 23:58:52</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-13 23:58:38</span> | Work in progress
 
       </div>
     </footer>
