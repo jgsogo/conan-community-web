@@ -75,7 +75,7 @@
                 <span data-feather="file-text"></span>
                 conan-boost
                 
-                <span class="numberCircle numberCircle-error" title=""><span>53</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>57</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -148,11 +148,11 @@
             </li>
         
             <li class="nav-item">
-              <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-pngquant/detail/index.html">
+              <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-pngquant_installer/detail/index.html">
                 <span data-feather="file-text"></span>
-                conan-pngquant
+                conan-pngquant_installer
                 
-                <span class="numberCircle numberCircle-error" title=""><span>6</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>10</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -449,7 +449,7 @@
                 <span data-feather="file-text"></span>
                 conan-fontconfig
                 
-                <span class="numberCircle numberCircle-error" title=""><span>8</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -537,9 +537,9 @@
                 <span data-feather="file-text"></span>
                 conan-libimagequant
                 
-                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
                 
-                <span class="numberCircle numberCircle-warning" title=""><span>4</span></span>
+                <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
             </li>
         
@@ -564,6 +564,8 @@
         <a class="btn btn-sm btn-outline-secondary" href="https://github.com/conan-community/conan-fontconfig/tree/release/2.13.1" role="button">Github <span data-feather="external-link"></span></a>
         
         
+            <a class="btn btn-sm btn-outline-secondary" href="https://bintray.com/conan-community/conan/fontconfig%3Aconan/2.13.1%3Astable" role="button">Bintray <span data-feather="external-link"></span></a>
+        
     </div>
     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" id="branchesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span data-feather="git-branch"></span>
@@ -576,7 +578,7 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/release-2-13-1.html">
                 release/2.13.1
                 
-                <span class="numberCircle numberCircle-error" title=""><span>4</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
                 
                 
             </a>
@@ -584,7 +586,7 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/testing-2-13-1.html">
                 testing/2.13.1
                 
-                <span class="numberCircle numberCircle-error" title=""><span>3</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>4</span></span>
                 
                 
             </a>
@@ -637,27 +639,31 @@
     <h4>conanfile.py</h4>
     <div>
         <pre>
-            <code class="python">
+            <code class="python">#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import os
 import shutil
 
-from conans import ConanFile, CMake, tools, AutoToolsBuildEnvironment
+from conans import ConanFile, tools, AutoToolsBuildEnvironment
 from conans.errors import ConanInvalidConfiguration
 
 
 class FontconfigConan(ConanFile):
     name = &#34;fontconfig&#34;
     version = &#34;2.13.1&#34;
-
-    license = &#34;https://gitlab.freedesktop.org/fontconfig/fontconfig/blob/master/COPYING&#34;
+    license = &#34;MIT&#34;
     url = &#34;https://github.com/conan-community/conan-fontconfig&#34;
     description = &#34;Fontconfig is a library for configuring and customizing font access&#34;
-    homepage = &#34;https://www.freedesktop.org/wiki/Software/fontconfig/&#34;
-
+    homepage = &#34;https://gitlab.freedesktop.org/fontconfig/fontconfig&#34;
+    author = &#34;Conan Community&#34;
+    topics = (&#34;conan&#34;, &#34;fontconfig&#34;, &#34;fonts&#34;, &#34;freedesktop&#34;)
     settings = &#34;os&#34;, &#34;compiler&#34;, &#34;build_type&#34;, &#34;arch&#34;
-    options = {&#34;shared&#34;: [True, False]}
-    default_options = &#34;shared=False&#34;
+    options = {&#34;shared&#34;: [True, False], &#34;fPIC&#34;: [True, False]}
+    default_options = {&#34;shared&#34;: False, &#34;fPIC&#34;: True}
     generators = &#34;pkg_config&#34;
+    exports = &#34;LICENSE&#34;
+    _source_subfolder = &#34;source_subfolder&#34;
+    _autotools = None
 
     def requirements(self):
         self.requires(&#34;freetype/2.9.0@bincrafters/stable&#34;)
@@ -671,39 +677,49 @@ class FontconfigConan(ConanFile):
     def configure(self):
         if self.settings.os == &#34;Windows&#34;:
             raise ConanInvalidConfiguration(&#34;Windows builds are not supported.&#34;)
+        del self.settings.compiler.libcxx
 
     def source(self):
-        url = &#34;https://www.freedesktop.org/software/fontconfig/release/fontconfig-{version}.tar.gz&#34;
-        tools.get(url.format(version=self.version))
+        source_url = &#34;https://www.freedesktop.org/software/fontconfig/release/fontconfig-{}.tar.gz&#34;
+        sha256 = &#34;9f0d852b39d75fc655f9f53850eb32555394f36104a044bb2b2fc9e66dbbfa7f&#34;
+        tools.get(source_url.format(self.version), sha256=sha256)
+        extrated_dir = self.name + &#34;-&#34; + self.version
+        os.rename(extrated_dir, self._source_subfolder)
 
-        # Patch files from project itself
+    def _configure_autotools(self):
+        if not self._autotools:
+            args = [&#34;--enable-static=%s&#34; % (&#34;no&#34; if self.options.shared else &#34;yes&#34;),
+                    &#34;--enable-shared=%s&#34; % (&#34;yes&#34; if self.options.shared else &#34;no&#34;),
+                    &#34;--disable-docs&#34;]
+            self._autotools = AutoToolsBuildEnvironment(self)
+            self._autotools.configure(configure_dir=self._source_subfolder, args=args)
+            tools.replace_in_file(&#34;Makefile&#34;, &#34;po-conf test&#34;, &#34;po-conf&#34;)
+        return self._autotools
+
+    def _patch_files(self):
         #  - fontconfig requires libtool version number, change it for the corresponding freetype one
-        tools.replace_in_file(
-            os.path.join(self.source_folder, &#39;{}-{}&#39;.format(self.name, self.version), &#39;configure&#39;),
-            &#39;21.0.15&#39;, &#39;2.8.1&#39;)
-
-    def _patch_pc_files(self):
+        tools.replace_in_file(os.path.join(self._source_subfolder, &#39;configure&#39;), &#39;21.0.15&#39;, &#39;2.8.1&#39;)
         # Patch freetype2
         freetype_path = self.deps_cpp_info[&#34;freetype&#34;].rootpath
-        shutil.copyfile(os.path.join(freetype_path, &#34;lib&#34;, &#34;pkgconfig&#34;, &#34;freetype2.pc&#34;),
-                        &#34;freetype2.pc&#34;)
+        shutil.copyfile(os.path.join(freetype_path, &#34;lib&#34;, &#34;pkgconfig&#34;, &#34;freetype2.pc&#34;), &#34;freetype2.pc&#34;)
         tools.replace_prefix_in_pc_file(&#34;freetype2.pc&#34;, freetype_path)
 
     def build(self):
         # Patch files from dependencies
-        self._patch_pc_files()
-
-        autotools = AutoToolsBuildEnvironment(self)
-        autotools.configure(
-            configure_dir=&#34;{name}-{version}&#34;.format(name=self.name, version=self.version))
+        self._patch_files()
+        autotools = self._configure_autotools()
         autotools.make()
 
     def package(self):
-        with tools.chdir(self.build_folder):
-            self.run(&#34;make install&#34;)
+        self.copy(&#34;COPYING&#34;, dst=&#34;licenses&#34;, src=self._source_subfolder)
+        autotools = self._configure_autotools()
+        autotools.install()
 
     def package_info(self):
-        self.cpp_info.libs = [&#34;fontconfig&#34;, ]
+        self.cpp_info.libs = tools.collect_libs(self)
+        if self.settings.os == &#34;Linux&#34;:
+            self.cpp_info.libs.extend([&#34;m&#34;, &#34;pthread&#34;])
+        self.env_info.PATH.append(os.path.join(self.package_folder, &#39;bin&#39;))
 
 </code>
         </pre>
@@ -725,7 +741,7 @@ class FontconfigConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-14 00:00:45</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-15 00:01:51</span> | Work in progress
 
       </div>
     </footer>

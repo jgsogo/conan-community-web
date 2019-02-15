@@ -75,7 +75,7 @@
                 <span data-feather="file-text"></span>
                 conan-boost
                 
-                <span class="numberCircle numberCircle-error" title=""><span>53</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>57</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -148,11 +148,11 @@
             </li>
         
             <li class="nav-item">
-              <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-pngquant/detail/index.html">
+              <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-pngquant_installer/detail/index.html">
                 <span data-feather="file-text"></span>
-                conan-pngquant
+                conan-pngquant_installer
                 
-                <span class="numberCircle numberCircle-error" title=""><span>6</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>10</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -449,7 +449,7 @@
                 <span data-feather="file-text"></span>
                 conan-fontconfig
                 
-                <span class="numberCircle numberCircle-error" title=""><span>8</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -537,9 +537,9 @@
                 <span data-feather="file-text"></span>
                 conan-libimagequant
                 
-                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
                 
-                <span class="numberCircle numberCircle-warning" title=""><span>4</span></span>
+                <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
             </li>
         
@@ -645,7 +645,7 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,81 +1,106 @@
+@@ -1,103 +1,106 @@
  env:
     global:
 +     - CONAN_USERNAME: &#34;conan&#34;
@@ -679,14 +679,18 @@
 +
 +jobs:
     include:
+-      - &lt;&lt;: *osx
+-        osx_image: xcode10.1
+-        env: CONAN_APPLE_CLANG_VERSIONS=10.0 CONAN_CURRENT_PAGE=1
+-      - &lt;&lt;: *osx
+-        osx_image: xcode10.1
+-        env: CONAN_APPLE_CLANG_VERSIONS=10.0 CONAN_CURRENT_PAGE=2
 +     
-       - &lt;&lt;: *linux
--        env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=lasote/conangcc49 CONAN_CURRENT_PAGE=1
++      - &lt;&lt;: *linux
 +        stage: conan-linux
 +        env: CONAN_GCC_VERSIONS=4.8 CONAN_DOCKER_IMAGE=conanio/gcc48 CONAN_CURRENT_PAGE=1
 +     
-       - &lt;&lt;: *linux
--        env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=lasote/conangcc49 CONAN_CURRENT_PAGE=2
++      - &lt;&lt;: *linux
 +        stage: conan-linux
 +        env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=conanio/gcc49 CONAN_CURRENT_PAGE=1
 +     
@@ -709,12 +713,12 @@
  
 +     
        - &lt;&lt;: *linux
--        env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=lasote/conangcc5 CONAN_CURRENT_PAGE=1
+-        env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=lasote/conangcc49 CONAN_CURRENT_PAGE=1
 +        stage: conan-linux
 +        env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=conanio/clang39 CONAN_CURRENT_PAGE=1
 +     
        - &lt;&lt;: *linux
--        env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=lasote/conangcc5 CONAN_CURRENT_PAGE=2
+-        env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=lasote/conangcc49 CONAN_CURRENT_PAGE=2
 +        stage: conan-linux
 +        env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=conanio/clang40 CONAN_CURRENT_PAGE=1
 +     
@@ -733,6 +737,11 @@
  
 +     
        - &lt;&lt;: *linux
+-        env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=lasote/conangcc5 CONAN_CURRENT_PAGE=1
+-      - &lt;&lt;: *linux
+-        env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=lasote/conangcc5 CONAN_CURRENT_PAGE=2
+-
+-      - &lt;&lt;: *linux
 -        env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=lasote/conangcc6 CONAN_CURRENT_PAGE=1
 -      - &lt;&lt;: *linux
 -        env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=lasote/conangcc6 CONAN_CURRENT_PAGE=2
@@ -756,6 +765,21 @@
 -        env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=lasote/conanclang40 CONAN_CURRENT_PAGE=1
 -      - &lt;&lt;: *linux
 -        env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=lasote/conanclang40 CONAN_CURRENT_PAGE=2
+-
+-      - &lt;&lt;: *linux
+-        env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=lasote/conanclang50 CONAN_CURRENT_PAGE=1
+-      - &lt;&lt;: *linux
+-        env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=lasote/conanclang50 CONAN_CURRENT_PAGE=2
+-
+-      - &lt;&lt;: *linux
+-        env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=lasote/conanclang60 CONAN_CURRENT_PAGE=1
+-      - &lt;&lt;: *linux
+-        env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=lasote/conanclang60 CONAN_CURRENT_PAGE=2
+-
+-      - &lt;&lt;: *linux
+-        env: CONAN_CLANG_VERSIONS=7.0 CONAN_DOCKER_IMAGE=lasote/conanclang7 CONAN_CURRENT_PAGE=1
+-      - &lt;&lt;: *linux
+-        env: CONAN_CLANG_VERSIONS=7.0 CONAN_DOCKER_IMAGE=lasote/conanclang7 CONAN_CURRENT_PAGE=2
 -
 -      - &lt;&lt;: *osx
 +        stage: conan-osx
@@ -788,14 +812,14 @@
 -        env: CONAN_APPLE_CLANG_VERSIONS=9.0 CONAN_CURRENT_PAGE=2
 -
 -      - &lt;&lt;: *osx
--        osx_image: xcode9.3
+-        osx_image: xcode9.4
 +     
 +      - &lt;&lt;: *linux
 +        stage: conan-osx
 +        osx_image: xcode9.1
          env: CONAN_APPLE_CLANG_VERSIONS=9.1 CONAN_CURRENT_PAGE=1
 -      - &lt;&lt;: *osx
--        osx_image: xcode9.3
+-        osx_image: xcode9.4
 -        env: CONAN_APPLE_CLANG_VERSIONS=9.1 CONAN_CURRENT_PAGE=2
 +     
 +      - &lt;&lt;: *linux
@@ -825,7 +849,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-14 00:00:04</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-15 00:01:15</span> | Work in progress
 
       </div>
     </footer>

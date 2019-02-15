@@ -75,7 +75,7 @@
                 <span data-feather="file-text"></span>
                 conan-boost
                 
-                <span class="numberCircle numberCircle-error" title=""><span>53</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>57</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -148,11 +148,11 @@
             </li>
         
             <li class="nav-item">
-              <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-pngquant/detail/index.html">
+              <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-pngquant_installer/detail/index.html">
                 <span data-feather="file-text"></span>
-                conan-pngquant
+                conan-pngquant_installer
                 
-                <span class="numberCircle numberCircle-error" title=""><span>6</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>10</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -449,7 +449,7 @@
                 <span data-feather="file-text"></span>
                 conan-fontconfig
                 
-                <span class="numberCircle numberCircle-error" title=""><span>8</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -537,9 +537,9 @@
                 <span data-feather="file-text"></span>
                 conan-libimagequant
                 
-                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
                 
-                <span class="numberCircle numberCircle-warning" title=""><span>4</span></span>
+                <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
             </li>
         
@@ -576,7 +576,7 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/release-2-13-1.html">
                 release/2.13.1
                 
-                <span class="numberCircle numberCircle-error" title=""><span>4</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
                 
                 
             </a>
@@ -584,7 +584,7 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/testing-2-13-1.html">
                 testing/2.13.1
                 
-                <span class="numberCircle numberCircle-error" title=""><span>3</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>4</span></span>
                 
                 
             </a>
@@ -606,6 +606,12 @@
                   <li class="nav-item">
                     <a class="nav-link active" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/testing-2-13-1_conanfile.html">
                         conanfile.py
+                    </a>
+                  </li>
+                
+                  <li class="nav-item">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/testing-2-13-1_appveyor.html">
+                        appveyor.yml <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
                 
@@ -673,9 +679,11 @@ class FontconfigConan(ConanFile):
         self.build_requires(&#34;gperf/3.1@conan/stable&#34;)
 
     def configure(self):
-        if self.settings.os == &#34;Windows&#34;:
-            raise ConanInvalidConfiguration(&#34;Windows builds are not supported.&#34;)
+        if self.settings.compiler == &#34;Visual Studio&#34;:
+            raise ConanInvalidConfiguration(&#34;Visual Studio builds are not supported.&#34;)
         del self.settings.compiler.libcxx
+        if self.settings.os == &#34;Windows&#34;:
+            del self.options.fPIC
 
     def source(self):
         source_url = &#34;https://www.freedesktop.org/software/fontconfig/release/fontconfig-{}.tar.gz&#34;
@@ -689,7 +697,7 @@ class FontconfigConan(ConanFile):
             args = [&#34;--enable-static=%s&#34; % (&#34;no&#34; if self.options.shared else &#34;yes&#34;),
                     &#34;--enable-shared=%s&#34; % (&#34;yes&#34; if self.options.shared else &#34;no&#34;),
                     &#34;--disable-docs&#34;]
-            self._autotools = AutoToolsBuildEnvironment(self)
+            self._autotools = AutoToolsBuildEnvironment(self, win_bash=tools.os_info.is_windows)
             self._autotools.configure(configure_dir=self._source_subfolder, args=args)
             tools.replace_in_file(&#34;Makefile&#34;, &#34;po-conf test&#34;, &#34;po-conf&#34;)
         return self._autotools
@@ -739,7 +747,7 @@ class FontconfigConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-14 00:00:45</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-15 00:01:51</span> | Work in progress
 
       </div>
     </footer>
