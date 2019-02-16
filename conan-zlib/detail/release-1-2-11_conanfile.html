@@ -704,7 +704,7 @@ class ZlibConan(ConanFile):
     settings = &#34;os&#34;, &#34;arch&#34;, &#34;compiler&#34;, &#34;build_type&#34;
     options = {&#34;shared&#34;: [True, False], &#34;fPIC&#34;: [True, False], &#34;minizip&#34;: [True, False]}
     default_options = &#34;shared=False&#34;, &#34;fPIC=True&#34;, &#34;minizip=False&#34;
-    exports = &#34;LICENSE&#34;
+    exports = [&#34;LICENSE&#34;, &#34;FindZLIB.cmake&#34;]
     exports_sources = [&#34;CMakeLists.txt&#34;, &#34;CMakeLists_minizip.txt&#34;, &#34;minizip.patch&#34;]
     generators = &#34;cmake&#34;
     _source_subfolder = &#34;source_subfolder&#34;
@@ -741,64 +741,27 @@ class ZlibConan(ConanFile):
                                       &#39;#if defined(HAVE_STDARG_H) &amp;&amp; (1-HAVE_STDARG_H-1 != 0)&#39;)
             tools.mkdir(&#34;_build&#34;)
             with tools.chdir(&#34;_build&#34;):
-                if not tools.os_info.is_windows:
+                if self.settings.os == &#34;Linux&#34;:
                     env_build = AutoToolsBuildEnvironment(self)
-
-                    if tools.is_apple_os(self.settings.os) and self.settings.get_safe(&#34;os.version&#34;):
-                        env_build.flags.append(tools.apple_deployment_target_flag(self.settings.os,
-                                                                                  self.settings.os.version))
-
-                    if self.settings.os == &#34;Macos&#34;:
-                        old_str = &#39;-install_name $libdir/$SHAREDLIBM&#39;
-                        new_str = &#39;-install_name $SHAREDLIBM&#39;
-                        tools.replace_in_file(&#34;../configure&#34;, old_str, new_str)
 
                     # https://github.com/madler/zlib/issues/268
                     tools.replace_in_file(&#39;../gzguts.h&#39;,
                                           &#39;#if defined(_WIN32) || defined(__CYGWIN__)&#39;,
                                           &#39;#if defined(_WIN32) || defined(__MINGW32__)&#39;)
 
-                    if self.settings.os == &#34;Windows&#34;:  # Cross building to Linux
-                        tools.replace_in_file(&#34;../configure&#34;, &#39;LDSHAREDLIBC=&#34;${LDSHAREDLIBC--lc}&#34;&#39;, &#39;LDSHAREDLIBC=&#34;&#34;&#39;)
-                    # Zlib configure doesnt allow this parameters
-
-                    if self.settings.os == &#34;iOS&#34;:
-                        tools.replace_in_file(&#34;../gzguts.h&#34;, &#39;#ifdef _LARGEFILE64_SOURCE&#39;, &#39;#include &lt;unistd.h&gt;\n\n#ifdef _LARGEFILE64_SOURCE&#39;)
-                    
                     # configure passes CFLAGS to linker, should be LDFLAGS
                     tools.replace_in_file(&#34;../configure&#34;, &#34;$LDSHARED $SFLAGS&#34;, &#34;$LDSHARED $LDFLAGS&#34;)
                     # same thing in Makefile.in, when building tests/example executables
                     tools.replace_in_file(&#34;../Makefile.in&#34;, &#34;$(CC) $(CFLAGS) -o&#34;, &#34;$(CC) $(LDFLAGS) -o&#34;)
 
                     env_build_vars = env_build.vars
-                    if tools.is_apple_os(self.settings.os):
-                        # force macOS ranlib because ranlib from binutils produced malformed ar archives
-                        env_build_vars[&#39;RANLIB&#39;] = tools.XCRun(self.settings).ranlib
-
-                    if self.settings.os == &#34;Windows&#34; and tools.os_info.is_linux:
-                        # we need to build only libraries without test example and minigzip
-                        if self.options.shared:
-                            make_target = &#34;zlib1.dll&#34;
-                        else:
-                            make_target = &#34;libz.a&#34;
-                        # Let our profile to declare what is needed.
-                        tools.replace_in_file(&#34;../win32/Makefile.gcc&#34;, &#39;LDFLAGS = $(LOC)&#39;, &#39;&#39;)
-                        tools.replace_in_file(&#34;../win32/Makefile.gcc&#34;, &#39;AS = $(CC)&#39;, &#39;&#39;)
-                        tools.replace_in_file(&#34;../win32/Makefile.gcc&#34;, &#39;AR = $(PREFIX)ar&#39;, &#39;&#39;)
-                        tools.replace_in_file(&#34;../win32/Makefile.gcc&#34;, &#39;CC = $(PREFIX)gcc&#39;, &#39;&#39;)
-                        tools.replace_in_file(&#34;../win32/Makefile.gcc&#34;, &#39;RC = $(PREFIX)windres&#39;, &#39;&#39;)
-                        self.run(&#34;cd .. &amp;&amp; make -f win32/Makefile.gcc %s&#34; % make_target)
+                    # we need to build only libraries without test example and minigzip
+                    if self.options.shared:
+                        make_target = &#34;libz.so.%s&#34; % self.version
                     else:
-                        # we need to build only libraries without test example and minigzip
-                        if self.options.shared:
-                            if self.settings.os == &#34;Macos&#34;:
-                                make_target = &#34;libz.%s.dylib&#34; % self.version
-                            else:
-                                make_target = &#34;libz.so.%s&#34; % self.version
-                        else:
-                            make_target = &#34;libz.a&#34;
-                        env_build.configure(&#34;../&#34;, build=False, host=False, target=False, vars=env_build_vars)
-                        env_build.make(target=make_target)
+                        make_target = &#34;libz.a&#34;
+                    env_build.configure(&#34;../&#34;, build=False, host=False, target=False, vars=env_build_vars)
+                    env_build.make(target=make_target)
                 else:
                     cmake = CMake(self)
                     cmake.configure(build_dir=&#34;.&#34;)
@@ -886,6 +849,9 @@ class ZlibConan(ConanFile):
             else:
                 self.copy(pattern=&#34;*.a&#34;, dst=&#34;lib&#34;, src=build_dir, keep_path=False)
 
+        # Provide a cmake finder
+        self.copy(&#39;FindZLIB.cmake&#39;, &#39;.&#39;, &#39;.&#39;)
+
     def package_info(self):
         if self.options.minizip:
             self.cpp_info.libs.append(&#39;minizip&#39;)
@@ -918,7 +884,7 @@ class ZlibConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-14 23:58:20</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-15 23:58:32</span> | Work in progress
 
       </div>
     </footer>
