@@ -777,8 +777,8 @@ class BoostConan(ConanFile):
                        &#34;namespace_alias=False&#34;,
                        &#34;zlib=True&#34;,
                        &#34;bzip2=True&#34;,
-                       &#34;lzma=True&#34;,
-                       &#34;zstd=True&#34;]
+                       &#34;lzma=False&#34;,
+                       &#34;zstd=False&#34;]
 
     default_options.extend([&#34;without_%s=False&#34; % libname for libname in lib_list if libname != &#34;python&#34;])
     default_options.append(&#34;without_python=True&#34;)
@@ -1580,7 +1580,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-15 23:59:32</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-16 23:59:14</span> | Work in progress
 
       </div>
     </footer>

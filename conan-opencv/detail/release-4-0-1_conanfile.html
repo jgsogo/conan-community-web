@@ -920,13 +920,8 @@ class OpenCVConan(ConanFile):
                     &#34;imgproc&#34;,
                     &#34;core&#34;]
 
-        suffix = &#39;d&#39; if self.settings.build_type == &#39;Debug&#39; and self.settings.compiler == &#39;Visual Studio&#39; else &#39;&#39;
-        version = self.version.replace(&#34;.&#34;, &#34;&#34;) if self.settings.os == &#34;Windows&#34; else &#34;&#34;
-        for lib in opencv_libs:
-            self.cpp_info.libs.append(&#34;opencv_%s%s%s&#34; % (lib, version, suffix))
-
         if self.options.contrib:
-            self.cpp_info.libs.extend([
+            opencv_libs = [
                 &#34;aruco&#34;,
                 &#34;bgsegm&#34;,
                 &#34;bioinspired&#34;,
@@ -955,7 +950,12 @@ class OpenCVConan(ConanFile):
                 &#34;xfeatures2d&#34;,
                 &#34;ximgproc&#34;,
                 &#34;xobjdetect&#34;,
-                &#34;xphoto&#34;])
+                &#34;xphoto&#34;] + opencv_libs
+
+        suffix = &#39;d&#39; if self.settings.build_type == &#39;Debug&#39; and self.settings.compiler == &#39;Visual Studio&#39; else &#39;&#39;
+        version = self.version.replace(&#34;.&#34;, &#34;&#34;) if self.settings.os == &#34;Windows&#34; else &#34;&#34;
+        for lib in opencv_libs:
+            self.cpp_info.libs.append(&#34;opencv_%s%s%s&#34; % (lib, version, suffix))
 
         if self.settings.compiler == &#39;Visual Studio&#39;:
             arch = {&#39;x86&#39;: &#39;x86&#39;,
@@ -1012,7 +1012,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-15 23:59:55</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-16 23:59:35</span> | Work in progress
 
       </div>
     </footer>
