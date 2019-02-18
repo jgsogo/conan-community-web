@@ -741,7 +741,7 @@ class ZlibConan(ConanFile):
                                       &#39;#if defined(HAVE_STDARG_H) &amp;&amp; (1-HAVE_STDARG_H-1 != 0)&#39;)
             tools.mkdir(&#34;_build&#34;)
             with tools.chdir(&#34;_build&#34;):
-                if self.settings.os == &#34;Linux&#34;:
+                if self.settings.os == &#34;Linux&#34; or tools.is_apple_os(self.settings.os):
                     env_build = AutoToolsBuildEnvironment(self)
 
                     # https://github.com/madler/zlib/issues/268
@@ -757,7 +757,10 @@ class ZlibConan(ConanFile):
                     env_build_vars = env_build.vars
                     # we need to build only libraries without test example and minigzip
                     if self.options.shared:
-                        make_target = &#34;libz.so.%s&#34; % self.version
+                        if tools.is_apple_os(self.settings.os):
+                            make_target = &#34;libz.%s.dylib&#34; % self.version
+                        else:
+                            make_target = &#34;libz.so.%s&#34; % self.version
                     else:
                         make_target = &#34;libz.a&#34;
                     env_build.configure(&#34;../&#34;, build=False, host=False, target=False, vars=env_build_vars)
@@ -842,7 +845,7 @@ class ZlibConan(ConanFile):
                         os.rename(current_lib, os.path.join(lib_path, &#34;libzlib.a&#34;))
         else:
             if self.options.shared:
-                if self.settings.os == &#34;Macos&#34;:
+                if tools.is_apple_os(self.settings.os):
                     self.copy(pattern=&#34;*.dylib&#34;, dst=&#34;lib&#34;, src=build_dir, keep_path=False, symlinks=True)
                 else:
                     self.copy(pattern=&#34;*.so*&#34;, dst=&#34;lib&#34;, src=build_dir, keep_path=False, symlinks=True)
@@ -884,7 +887,7 @@ class ZlibConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-16 23:58:24</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-17 23:59:15</span> | Work in progress
 
       </div>
     </footer>
