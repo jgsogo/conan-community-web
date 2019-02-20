@@ -1215,10 +1215,11 @@ class BoostConan(ConanFile):
                 for define in self.deps_cpp_info[library].defines:
                     flags.append(&#34;define=%s&#34; % define)
 
-        add_defines(self.options.zlib, &#34;zlib&#34;)
-        add_defines(self.options.bzip2, &#34;bzip2&#34;)
-        add_defines(self.options.lzma, &#34;lzma&#34;)
-        add_defines(self.options.zstd, &#34;zstd&#34;)
+        if self.zip_bzip2_requires_needed:
+            add_defines(self.options.zlib, &#34;zlib&#34;)
+            add_defines(self.options.bzip2, &#34;bzip2&#34;)
+            add_defines(self.options.lzma, &#34;lzma&#34;)
+            add_defines(self.options.zstd, &#34;zstd&#34;)
 
         if self._is_msvc and self.settings.compiler.runtime:
             flags.append(&#34;runtime-link=%s&#34; % (&#34;static&#34; if &#34;MT&#34; in str(self.settings.compiler.runtime) else &#34;shared&#34;))
@@ -1582,7 +1583,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-19 00:00:22</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-20 00:01:11</span> | Work in progress
 
       </div>
     </footer>

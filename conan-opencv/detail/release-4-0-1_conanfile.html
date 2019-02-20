@@ -730,7 +730,8 @@ class OpenCVConan(ConanFile):
         tools.get(&#34;https://github.com/opencv/opencv_contrib/archive/{}.tar.gz&#34;.format(self.version), sha256=sha256)
         os.rename(&#39;opencv_contrib-%s&#39; % self.version, &#39;contrib&#39;)
 
-        tools.rmdir(os.path.join(self._source_subfolder, &#39;3rdparty&#39;))
+        if self.settings.os != &#39;Android&#39;:
+            tools.rmdir(os.path.join(self._source_subfolder, &#39;3rdparty&#39;))
 
     def config_options(self):
         if self.settings.os == &#39;Windows&#39;:
@@ -841,6 +842,26 @@ class OpenCVConan(ConanFile):
 
         if self.options.nonfree:
             cmake.definitions[&#39;OPENCV_ENABLE_NONFREE&#39;] = True
+
+        if self.settings.os == &#39;Android&#39;:
+            cmake.definitions[&#39;ANDROID_STL&#39;] = self.settings.compiler.libcxx
+            cmake.definitions[&#39;ANDROID_NATIVE_API_LEVEL&#39;] = self.settings.os.api_level
+
+            cmake.definitions[&#39;BUILD_PERF_TESTS&#39;] = False
+            cmake.definitions[&#39;BUILD_ANDROID_EXAMPLES&#39;] = False
+
+            arch = str(self.settings.arch)
+            if arch.startswith((&#39;armv7&#39;, &#39;armv8&#39;)):
+                cmake.definitions[&#39;ANDROID_ABI&#39;] = &#39;NEON&#39;
+            else:
+                cmake.definitions[&#39;ANDROID_ABI&#39;] = {&#39;armv5&#39;: &#39;armeabi&#39;,
+                                                    &#39;armv6&#39;: &#39;armeabi-v6&#39;,
+                                                    &#39;armv7&#39;: &#39;armeabi-v7a&#39;,
+                                                    &#39;armv7hf&#39;: &#39;armeabi-v7a&#39;,
+                                                    &#39;armv8&#39;: &#39;arm64-v8a&#39;}.get(arch, arch)
+
+            if &#39;ANDROID_NDK_HOME&#39; in os.environ:
+                cmake.definitions[&#39;ANDROID_NDK&#39;] = os.environ.get(&#39;ANDROID_NDK_HOME&#39;)
 
         cmake.configure(build_folder=self._build_subfolder)
         return cmake
@@ -1012,7 +1033,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-19 00:00:51</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-20 00:01:36</span> | Work in progress
 
       </div>
     </footer>
