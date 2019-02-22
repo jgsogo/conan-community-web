@@ -653,13 +653,24 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,5 +1,6 @@
+@@ -1,15 +1,10 @@
  #!/usr/bin/env python
  # -*- coding: utf-8 -*-
 +
  from cpt.packager import ConanMultiPackager
+-import os
+-import platform
  
- </code>
+-def get_os():
+-    return platform.system().replace(&#34;Darwin&#34;, &#34;Macos&#34;)
+ 
+ if __name__ == &#34;__main__&#34;:
+-
+-    arch = os.environ[&#34;ARCH&#34;]
+     builder = ConanMultiPackager()
+-    builder.add({&#34;os&#34; : get_os(), &#34;arch_build&#34; : arch, &#34;arch&#34;: arch}, {}, {}, {})
++    builder.add_common_builds()
+     builder.run()</code>
         </pre>
     </div>
 
@@ -679,7 +690,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-21 00:02:23</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-22 00:03:32</span> | Work in progress
 
       </div>
     </footer>

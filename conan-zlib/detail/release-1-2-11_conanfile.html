@@ -747,13 +747,12 @@ class ZlibConan(ConanFile):
         # same thing in Makefile.in, when building tests/example executables
         tools.replace_in_file(&#34;../Makefile.in&#34;, &#34;$(CC) $(CFLAGS) -o&#34;, &#34;$(CC) $(LDFLAGS) -o&#34;)
 
-        env_build_vars = env_build.vars
         # we need to build only libraries without test example and minigzip
         if self.options.shared:
             make_target = &#34;libz.%s.dylib&#34; % self.version if tools.is_apple_os(self.settings.os) else &#34;libz.so.%s&#34; % self.version
         else:
             make_target = &#34;libz.a&#34;
-        env_build.configure(&#34;../&#34;, build=False, host=False, target=False, vars=env_build_vars)
+        env_build.configure(&#34;../&#34;, build=False, host=False, target=False)
         env_build.make(target=make_target)
 
     def _build_zlib_cmake(self):
@@ -806,8 +805,6 @@ class ZlibConan(ConanFile):
                     os.rename(current_lib, os.path.join(lib_path, &#34;libzlib.a&#34;))
 
     def package(self):
-        self.output.warn(&#34;local cache: %s&#34; % self.in_local_cache)
-        self.output.warn(&#34;develop: %s&#34; % self.develop)
         # Extract the License/s from the header to a file
         with tools.chdir(os.path.join(self.source_folder, self._source_subfolder)):
             tmp = tools.load(&#34;zlib.h&#34;)
@@ -868,7 +865,7 @@ class ZlibConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-21 00:00:29</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-22 00:01:39</span> | Work in progress
 
       </div>
     </footer>
