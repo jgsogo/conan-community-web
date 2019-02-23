@@ -657,10 +657,10 @@ from conans import ConanFile, CMake, tools
 import os
 
 
-class PNGQuantConan(ConanFile):
-    name = &#34;pngquant&#34;
+class PNGQuantInstallerConan(ConanFile):
+    name = &#34;pngquant_installer&#34;
     version = &#34;2.12.2&#34;
-    license = &#34;GPL-3.0&#34;, &#34;Commercial&#34;
+    license = &#34;GPL-3.0-or-later&#34;
     url = &#34;https://github.com/conan-community/conan-pngquant&#34;
     homepage = &#34;https://github.com/pornel/pngquant&#34;
     description = &#34;Lossy PNG compressor&#34;
@@ -672,27 +672,30 @@ class PNGQuantConan(ConanFile):
     generators = &#34;cmake&#34;
     exports_sources = &#34;CMakeLists.txt&#34;
     exports = &#34;LICENSE&#34;
-    requires = (
-        &#34;libimagequant/2.12.2@conan/stable&#34;,
-        &#34;zlib/1.2.11@conan/stable&#34;,
-        &#34;libpng/1.6.36@bincrafters/stable&#34;,
-        &#34;lcms/2.9@bincrafters/stable&#34;
-    )
     _source_subfolder = &#34;source_subfolder&#34;
+    _build_subfolder = &#34;build_subfolder&#34;
 
     def config_options(self):
         self.options[&#34;libimagequant&#34;].sse = self.options.sse
 
+    def requirements(self):
+        self.requires(&#34;libimagequant/2.12.2@conan/stable&#34;)
+        self.requires(&#34;zlib/1.2.11@conan/stable&#34;)
+        self.requires(&#34;libpng/1.6.36@bincrafters/stable&#34;)
+        self.requires(&#34;lcms/2.9@bincrafters/stable&#34;)
+        if self.settings.compiler == &#34;Visual Studio&#34;:
+            self.requires(&#34;getopt/1.0@bincrafters/stable&#34;)
+
     def source(self):
         sha256 = &#34;5edf7c5bffd07e5d28fcc6d4d94a187c30b532c52ac986b3e45aff3dce0567dc&#34;
         tools.get(&#34;{}/archive/{}.tar.gz&#34;.format(self.homepage, self.version), sha256=sha256)
-        extracted_dir = self.name + &#34;-&#34; + self.version
+        extracted_dir = &#34;pngquant&#34; + &#34;-&#34; + self.version
         os.rename(extracted_dir, self._source_subfolder)
 
     def _configure_cmake(self):
         cmake = CMake(self)
         cmake.definitions[&#34;USE_SSE&#34;] = self.options.sse
-        cmake.configure()
+        cmake.configure(build_dir=self._build_subfolder)
         return cmake
 
     def build(self):
@@ -728,7 +731,7 @@ class PNGQuantConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-22 00:03:32</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-23 00:04:24</span> | Work in progress
 
       </div>
     </footer>
