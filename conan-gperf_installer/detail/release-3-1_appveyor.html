@@ -152,7 +152,7 @@
                 <span data-feather="file-text"></span>
                 conan-pngquant_installer
                 
-                <span class="numberCircle numberCircle-error" title=""><span>10</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>15</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -438,7 +438,7 @@
                 <span data-feather="file-text"></span>
                 conan-gperf_installer
                 
-                <span class="numberCircle numberCircle-error" title=""><span>10</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -537,7 +537,7 @@
                 <span data-feather="file-text"></span>
                 conan-libimagequant
                 
-                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>10</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -564,6 +564,8 @@
         <a class="btn btn-sm btn-outline-secondary" href="https://github.com/conan-community/conan-gperf_installer/tree/release/3.1" role="button">Github <span data-feather="external-link"></span></a>
         
         
+            <a class="btn btn-sm btn-outline-secondary" href="https://bintray.com/conan-community/conan/gperf_installer%3Aconan/3.1%3Astable" role="button">Bintray <span data-feather="external-link"></span></a>
+        
     </div>
     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" id="branchesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span data-feather="git-branch"></span>
@@ -576,7 +578,7 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-gperf_installer/detail/release-3-1.html">
                 release/3.1
                 
-                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>6</span></span>
                 
                 
             </a>
@@ -645,23 +647,15 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,62 +1,122 @@
+@@ -1,21 +1,128 @@
  build: false
- 
 +
- environment:
--    PYTHON: &#34;C:\\Python27&#34;
--    PYTHON_VERSION: &#34;2.7.8&#34;
--    PYTHON_ARCH: &#34;32&#34;
-+    PYTHON: &#34;C:\\Python37&#34;
  
--    CONAN_REFERENCE: &#34;gperf/3.1&#34;
+ environment:
+     PYTHON: &#34;C:\\Python37&#34;
+ 
 +    CONAN_USERNAME: &#34;conan&#34;
-     CONAN_CHANNEL: &#34;testing&#34;
--    CONAN_STABLE_BRANCH_PATTERN: &#34;release/*&#34;
--    CONAN_TOTAL_PAGES: 2
--    CONAN_UPLOAD_ONLY_WHEN_STABLE: 1 # Will only upload when the branch matches &#34;release/*&#34;
--    CONAN_BUILD_POLICY: &#34;outdated&#34;
++    CONAN_CHANNEL: &#34;testing&#34;
 +    CONAN_LOGIN_USERNAME: &#34;conanbot&#34;
 +    VS150COMNTOOLS: &#34;C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\&#34;
 +    CONAN_UPLOAD: &#34;https://api.bintray.com/conan/conan-community/conan&#34;
@@ -669,7 +663,7 @@
 +    CONAN_UPLOAD_ONLY_WHEN_STABLE: 1 # Will only upload when the branch matches stable pattern
 +    CONAN_TOTAL_PAGES: 1
 +
- 
++
      matrix:
 +      
 +        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
@@ -730,38 +724,26 @@
 +      
          - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
            CONAN_VISUAL_VERSIONS: 15
+-          ARCH: x86
 +          CONAN_ARCHS: x86
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MT
-           CONAN_CURRENT_PAGE: 1
++          CONAN_CURRENT_PAGE: 1
 +      
          - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
            CONAN_VISUAL_VERSIONS: 15
--          CONAN_CURRENT_PAGE: 2
--
--        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
--          CONAN_VISUAL_VERSIONS: 14
+-          ARCH: x86_64
 +          CONAN_ARCHS: x86
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MD
-           CONAN_CURRENT_PAGE: 1
--        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
--          CONAN_VISUAL_VERSIONS: 14
--          CONAN_CURRENT_PAGE: 2
--
--        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
--          CONAN_VISUAL_VERSIONS: 12
++          CONAN_CURRENT_PAGE: 1
 +      
 +        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
 +          CONAN_VISUAL_VERSIONS: 15
 +          CONAN_ARCHS: x86_64
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MT
-           CONAN_CURRENT_PAGE: 1
--        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
--          CONAN_VISUAL_VERSIONS: 12
--          CONAN_CURRENT_PAGE: 2
--
++          CONAN_CURRENT_PAGE: 1
 +      
 +        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
 +          CONAN_VISUAL_VERSIONS: 15
@@ -771,40 +753,34 @@
 +          CONAN_CURRENT_PAGE: 1
 +      
 +      
-         - MINGW_CONFIGURATIONS: &#34;4.9@x86_64@seh@posix&#34;
++        - MINGW_CONFIGURATIONS: &#34;4.9@x86_64@seh@posix&#34;
 +          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
-           CONAN_CURRENT_PAGE: 1
--
--        - MINGW_CONFIGURATIONS: &#34;4.9@x86_64@seh@posix&#34;
--          CONAN_CURRENT_PAGE: 2
--
++          CONAN_CURRENT_PAGE: 1
 +      
-         - MINGW_CONFIGURATIONS: &#34;5@x86_64@seh@posix&#34;
++        - MINGW_CONFIGURATIONS: &#34;5@x86_64@seh@posix&#34;
 +          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
-           CONAN_CURRENT_PAGE: 1
--
--        - MINGW_CONFIGURATIONS: &#34;5@x86_64@seh@posix&#34;
--          CONAN_CURRENT_PAGE: 2
--
++          CONAN_CURRENT_PAGE: 1
 +      
-         - MINGW_CONFIGURATIONS: &#34;6@x86_64@seh@posix&#34;
++        - MINGW_CONFIGURATIONS: &#34;6@x86_64@seh@posix&#34;
 +          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
-           CONAN_CURRENT_PAGE: 1
--
--        - MINGW_CONFIGURATIONS: &#34;6@x86_64@seh@posix&#34;
--          CONAN_CURRENT_PAGE: 2
--
++          CONAN_CURRENT_PAGE: 1
 +      
-         - MINGW_CONFIGURATIONS: &#34;7@x86_64@seh@posix&#34;
++        - MINGW_CONFIGURATIONS: &#34;7@x86_64@seh@posix&#34;
 +          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
-           CONAN_CURRENT_PAGE: 1
--
--        - MINGW_CONFIGURATIONS: &#34;7@x86_64@seh@posix&#34;
--          CONAN_CURRENT_PAGE: 2
++          CONAN_CURRENT_PAGE: 1
 +      
  
  install:
-   - set PATH=%PATH%;%PYTHON%/Scripts/</code>
+-  - set PATH=%PYTHON%;%PYTHON%/Scripts/;%PATH%
++  - set PATH=%PATH%;%PYTHON%/Scripts/
+   - pip.exe install conan --upgrade
+-  - pip.exe install conan_package_tools bincrafters_package_tools
++  - pip.exe install conan_package_tools
+   - conan user # It creates the conan data directory
+ 
+ test_script:
+-    - python build.py
++  - python build.py</code>
         </pre>
     </div>
 
@@ -824,7 +800,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-24 00:05:56</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-25 00:06:45</span> | Work in progress
 
       </div>
     </footer>

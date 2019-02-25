@@ -152,7 +152,7 @@
                 <span data-feather="file-text"></span>
                 conan-pngquant_installer
                 
-                <span class="numberCircle numberCircle-error" title=""><span>10</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>15</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -438,7 +438,7 @@
                 <span data-feather="file-text"></span>
                 conan-gperf_installer
                 
-                <span class="numberCircle numberCircle-error" title=""><span>10</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -537,7 +537,7 @@
                 <span data-feather="file-text"></span>
                 conan-libimagequant
                 
-                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>10</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -581,10 +581,10 @@
                 
             </a>
         
-            <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-pngquant_installer/detail/testing-2-6-0.html">
-                testing/2.6.0
+            <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-pngquant_installer/detail/release-2-12-2.html">
+                release/2.12.2
                 
-                <span class="numberCircle numberCircle-error" title=""><span>4</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>6</span></span>
                 
                 
             </a>
@@ -684,7 +684,7 @@ class PNGQuantInstallerConan(ConanFile):
         self.requires(&#34;libpng/1.6.36@bincrafters/stable&#34;)
         self.requires(&#34;lcms/2.9@bincrafters/stable&#34;)
         if self.settings.compiler == &#34;Visual Studio&#34;:
-            self.requires(&#34;getopt/1.0@bincrafters/stable&#34;)
+            self.requires(&#34;getopt/2.0@bincrafters/stable&#34;)
 
     def source(self):
         sha256 = &#34;5edf7c5bffd07e5d28fcc6d4d94a187c30b532c52ac986b3e45aff3dce0567dc&#34;
@@ -711,7 +711,8 @@ class PNGQuantInstallerConan(ConanFile):
         del self.info.settings.compiler
 
     def package_info(self):
-        self.env_info.PATH.append(os.path.join(self.package_folder, &#34;bin&#34;))</code>
+        self.env_info.PATH.append(os.path.join(self.package_folder, &#34;bin&#34;))
+</code>
         </pre>
     </div>
 
@@ -731,7 +732,7 @@ class PNGQuantInstallerConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-24 00:04:29</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-25 00:05:17</span> | Work in progress
 
       </div>
     </footer>

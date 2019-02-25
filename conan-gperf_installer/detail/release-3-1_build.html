@@ -152,7 +152,7 @@
                 <span data-feather="file-text"></span>
                 conan-pngquant_installer
                 
-                <span class="numberCircle numberCircle-error" title=""><span>10</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>15</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -438,7 +438,7 @@
                 <span data-feather="file-text"></span>
                 conan-gperf_installer
                 
-                <span class="numberCircle numberCircle-error" title=""><span>10</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -537,7 +537,7 @@
                 <span data-feather="file-text"></span>
                 conan-libimagequant
                 
-                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>10</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -564,6 +564,8 @@
         <a class="btn btn-sm btn-outline-secondary" href="https://github.com/conan-community/conan-gperf_installer/tree/release/3.1" role="button">Github <span data-feather="external-link"></span></a>
         
         
+            <a class="btn btn-sm btn-outline-secondary" href="https://bintray.com/conan-community/conan/gperf_installer%3Aconan/3.1%3Astable" role="button">Bintray <span data-feather="external-link"></span></a>
+        
     </div>
     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" id="branchesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span data-feather="git-branch"></span>
@@ -576,7 +578,7 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-gperf_installer/detail/release-3-1.html">
                 release/3.1
                 
-                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>6</span></span>
                 
                 
             </a>
@@ -645,17 +647,20 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,8 +1,10 @@
-+#!/usr/bin/env python
-+# -*- coding: utf-8 -*-
- 
--from conan.packager import ConanMultiPackager
-+from cpt.packager import ConanMultiPackager
- 
+@@ -1,12 +1,10 @@
+ #!/usr/bin/env python
+ # -*- coding: utf-8 -*-
++
+ from cpt.packager import ConanMultiPackager
+-import os
+-import platform
++
  
  if __name__ == &#34;__main__&#34;:
+-
+-    arch = os.environ[&#34;ARCH&#34;]
      builder = ConanMultiPackager()
--    builder.add_common_builds(shared_option_name=&#34;gperf:shared&#34;, pure_c=True)
+-    builder.add({&#34;os&#34; : platform.system().replace(&#34;Darwin&#34;, &#34;Macos&#34;), &#34;arch_build&#34; : arch, &#34;arch&#34;: arch}, {}, {}, {})
 +    builder.add_common_builds()
      builder.run()</code>
         </pre>
@@ -677,7 +682,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-24 00:05:56</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-25 00:06:45</span> | Work in progress
 
       </div>
     </footer>
