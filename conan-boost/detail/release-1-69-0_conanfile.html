@@ -537,7 +537,7 @@
                 <span data-feather="file-text"></span>
                 conan-libimagequant
                 
-                <span class="numberCircle numberCircle-error" title=""><span>10</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -842,6 +842,8 @@ class BoostConan(ConanFile):
 
         tools.patch(base_path=os.path.join(self.source_folder, self.folder_name),
                     patch_file=&#39;patches/python_base_prefix.patch&#39;, strip=1)
+        tools.patch(base_path=os.path.join(self.source_folder, self.folder_name),
+                    patch_file=&#39;patches/boost_build_asmflags.patch&#39;, strip=1)
 
     ##################### BUILDING METHODS ###########################
 
@@ -1430,11 +1432,13 @@ class BoostConan(ConanFile):
             else:
                 executable = &#34;&#34;
             return compiler, compiler_version[0], executable
+        elif self.settings.compiler == &#34;apple-clang&#34;:
+            return &#34;clang-darwin&#34;, compiler_version, self._cxx
+        elif self.settings.os == &#34;Android&#34; and self.settings.compiler == &#34;clang&#34;:
+            return &#34;clang-linux&#34;, compiler_version, self._cxx
         elif str(self.settings.compiler) in [&#34;clang&#34;, &#34;gcc&#34;]:
             # For GCC &lt; v5 and Clang we need to provide the entire version string
             return compiler, compiler_version, &#34;&#34;
-        elif self.settings.compiler == &#34;apple-clang&#34;:
-            return &#34;clang-darwin&#34;, compiler_version, self._cxx
         elif self.settings.compiler == &#34;sun-cc&#34;:
             return &#34;sunpro&#34;, compiler_version, &#34;&#34;
         else:
@@ -1449,6 +1453,9 @@ class BoostConan(ConanFile):
         if tools.os_info.is_windows:
             return &#34;&#34;
 
+        if tools.os_info.is_macos:
+            return &#34;darwin&#34;
+
         with_toolset = {&#34;apple-clang&#34;: &#34;darwin&#34;}.get(str(self.settings.compiler),
                                                      str(self.settings.compiler))
 
@@ -1462,12 +1469,15 @@ class BoostConan(ConanFile):
         try:
             bootstrap = &#34;bootstrap.bat&#34; if tools.os_info.is_windows else &#34;./bootstrap.sh&#34;
             with tools.vcvars(self.settings) if self._is_msvc else tools.no_op():
-                self.output.info(&#34;Using %s %s&#34; % (self.settings.compiler, self.settings.compiler.version))
                 with tools.chdir(folder):
-                    option = &#34;&#34; if tools.os_info.is_windows else &#34;-with-toolset=&#34;
-                    cmd = &#34;%s %s%s&#34; % (bootstrap, option, self._get_boostrap_toolset())
+                    if tools.cross_building(self.settings):
+                        cmd = bootstrap
+                    else:
+                        option = &#34;&#34; if tools.os_info.is_windows else &#34;-with-toolset=&#34;
+                        cmd = &#34;%s %s%s&#34; % (bootstrap, option, self._get_boostrap_toolset())
                     self.output.info(cmd)
                     self.run(cmd)
+
         except Exception as exc:
             self.output.warn(str(exc))
             if os.path.exists(os.path.join(folder, &#34;bootstrap.log&#34;)):
@@ -1583,7 +1593,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-25 00:04:25</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-26 00:05:02</span> | Work in progress
 
       </div>
     </footer>

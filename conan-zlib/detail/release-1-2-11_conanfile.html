@@ -537,7 +537,7 @@
                 <span data-feather="file-text"></span>
                 conan-libimagequant
                 
-                <span class="numberCircle numberCircle-error" title=""><span>10</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -737,11 +737,6 @@ class ZlibConan(ConanFile):
     def _build_zlib_autotools(self):
         env_build = AutoToolsBuildEnvironment(self)
 
-        # https://github.com/madler/zlib/issues/268
-        tools.replace_in_file(&#39;../gzguts.h&#39;,
-                              &#39;#if defined(_WIN32) || defined(__CYGWIN__)&#39;,
-                              &#39;#if defined(_WIN32) || defined(__MINGW32__)&#39;)
-
         # configure passes CFLAGS to linker, should be LDFLAGS
         tools.replace_in_file(&#34;../configure&#34;, &#34;$LDSHARED $SFLAGS&#34;, &#34;$LDSHARED $LDFLAGS&#34;)
         # same thing in Makefile.in, when building tests/example executables
@@ -764,6 +759,12 @@ class ZlibConan(ConanFile):
 
     def _build_zlib(self):
         with tools.chdir(self._source_subfolder):
+            # https://github.com/madler/zlib/issues/268
+            tools.replace_in_file(&#39;gzguts.h&#39;,
+                                  &#39;#if defined(_WIN32) || defined(__CYGWIN__)&#39;,
+                                  &#39;#if defined(_WIN32) || defined(__MINGW32__)&#39;)
+            if self.settings.os == &#34;iOS&#34;:
+                tools.replace_in_file(&#34;gzguts.h&#34;, &#39;#ifdef _LARGEFILE64_SOURCE&#39;, &#39;#include &lt;unistd.h&gt;\n\n#ifdef _LARGEFILE64_SOURCE&#39;)
             for filename in [&#39;zconf.h&#39;, &#39;zconf.h.cmakein&#39;, &#39;zconf.h.in&#39;]:
                 tools.replace_in_file(filename,
                                       &#39;#ifdef HAVE_UNISTD_H    /* may be set to #if 1 by ./configure */&#39;,
@@ -865,7 +866,7 @@ class ZlibConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-25 00:03:27</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-26 00:04:02</span> | Work in progress
 
       </div>
     </footer>
