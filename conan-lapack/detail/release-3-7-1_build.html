@@ -152,7 +152,7 @@
                 <span data-feather="file-text"></span>
                 conan-pngquant_installer
                 
-                <span class="numberCircle numberCircle-error" title=""><span>15</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>14</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -561,7 +561,7 @@
         <a class="btn btn-sm btn-outline-secondary" href="https://jgsogo.es/conan-community-web/conan-lapack/detail/index.html" role="button">Index <span data-feather="home"></span></a>
     </div>
     <div class="btn-group mr-2">
-        <a class="btn btn-sm btn-outline-secondary" href="https://github.com/conan-community/conan-lapack/tree/stable/3.7.1" role="button">Github <span data-feather="external-link"></span></a>
+        <a class="btn btn-sm btn-outline-secondary" href="https://github.com/conan-community/conan-lapack/tree/release/3.7.1" role="button">Github <span data-feather="external-link"></span></a>
         
         
             <a class="btn btn-sm btn-outline-secondary" href="https://bintray.com/conan-community/conan/lapack%3Aconan/3.7.1%3Astable" role="button">Bintray <span data-feather="external-link"></span></a>
@@ -570,13 +570,13 @@
     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" id="branchesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span data-feather="git-branch"></span>
         
-            stable/3.7.1
+            release/3.7.1
         
     </button>
     <div class="dropdown-menu" aria-labelledby="branchesMenuButton">
         
-            <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-lapack/detail/stable-3-7-1.html">
-                stable/3.7.1
+            <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-lapack/detail/release-3-7-1.html">
+                release/3.7.1
                 
                 <span class="numberCircle numberCircle-error" title=""><span>6</span></span>
                 
@@ -602,35 +602,35 @@
         
             <ul class="nav nav-tabs">
               <li class="nav-item">
-                <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-lapack/detail/stable-3-7-1.html">Details</a>
+                <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-lapack/detail/release-3-7-1.html">Details</a>
               </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-lapack/detail/stable-3-7-1_conanfile.html">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-lapack/detail/release-3-7-1_conanfile.html">
                         conanfile.py
                     </a>
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-lapack/detail/stable-3-7-1_appveyor.html">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-lapack/detail/release-3-7-1_appveyor.html">
                         appveyor.yml <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-lapack/detail/stable-3-7-1_build.html">
+                    <a class="nav-link active" href="https://jgsogo.es/conan-community-web/conan-lapack/detail/release-3-7-1_build.html">
                         build.py <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link active" href="https://jgsogo.es/conan-community-web/conan-lapack/detail/stable-3-7-1_README.html">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-lapack/detail/release-3-7-1_README.html">
                         README.md <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-lapack/detail/stable-3-7-1_.travis.html">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-lapack/detail/release-3-7-1_.travis.html">
                         .travis.yml <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
@@ -642,99 +642,18 @@
 
 
     
-    <h4>README.md</h4>
+    <h4>build.py</h4>
     <div>
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,70 +1,37 @@
--[![Download](https://api.bintray.com/packages/conan-community/conan/lapack%3Aconan/images/download.svg) ](https://bintray.com/conan-community/conan/lapack%3Aconan/_latestVersion)
--[![Build Status Travis](https://travis-ci.org/conan-community/conan-lapack.svg)](https://travis-ci.org/conan-community/conan-lapack)
--[![Build Status AppVeyor](https://ci.appveyor.com/api/projects/status/github/conan-community/conan-lapack?svg=true)](https://ci.appveyor.com/project/ConanCIintegration/conan-lapack)
--
--## Conan package recipe for [*lapack*](https://github.com/Reference-LAPACK/lapack)
--
--LAPACK is a library of Fortran subroutines for solving the most commonly
--occurring problems in numerical linear algebra
--
--The packages generated with this **conanfile** can be found on [Bintray](https://bintray.com/conan-community/conan/lapack%3Aconan).
- 
- 
--## Issues
- 
--If you wish to report an issue or make a request for a package, please do so here:
--
--[Issues Tracker](https://github.com/conan-community/community/issues)
-+[![Build Status](https://travis-ci.org/conan-community/conan-lapack.svg?branch=stable/3.7.1)](https://travis-ci.org/conan-community/conan-lapack/builds/498026592)
-+[![Build Status](https://ci.appveyor.com/api/projects/status/github/conan-community%2Fconan-lapack?branch=stable/3.7.1&amp;svg=true)](https://ci.appveyor.com/project/ConanCIintegration/conan-lapack/builds/22619182)
- 
- 
--## For Users
-+# conan-lapack
- 
--### Basic setup
+@@ -1,5 +1,6 @@
+ #!/usr/bin/env python
+ # -*- coding: utf-8 -*-
 +
-+
-+[Conan](https://bintray.com/conan-community/conan/lapack%3Aconan/3.7.1%3Astable) package for conan-lapack library.
-+
-+
-+## Basic setup
+ from cpt.packager import ConanMultiPackager
  
-     $ conan install lapack/3.7.1@conan/stable
--
--### Project setup
-+    
-+## Project setup
- 
- If you handle multiple dependencies in your project is better to add a *conanfile.txt*
--
-+    
-     [requires]
-     lapack/3.7.1@conan/stable
- 
-+    [options]
-+    
-     [generators]
-     cmake
- 
- Complete the installation of requirements for your project running:
- 
--    $ mkdir build &amp;&amp; cd build &amp;&amp; conan install ..
-+    conan install . 
- 
--Note: It is recommended that you run conan install from a build directory and not the root of the project directory.  This is because conan generates *conanbuildinfo* files specific to a single build configuration which by default comes from an autodetected default profile located in ~/.conan/profiles/default .  If you pass different build configuration options to conan install, it will generate different *conanbuildinfo* files.  Thus, they should not be added to the root of the project, nor committed to git.
-+Project setup installs the library (and all his dependencies) and generates the files *conanbuildinfo.cmake* with all the 
-+paths and variables that you need to link with your dependencies.
- 
--
--## Build and package
--
--The following command both runs all the steps of the conan file, and publishes the package to the local system cache.  This includes downloading dependencies from &#34;build_requires&#34; and &#34;requires&#34; , and then running the build() method.
--
--    $ conan create . conan/stable
--
--
--### Available Options
--| Option        | Default | Possible Values  |
--| ------------- |:----------------- |:------------:|
--| shared      | False |  [True, False] |
--| fPIC      | True |  [True, False] |
--| visual_studio      | False |  [True, False] |
--
--
--## Add Remote
--
--Conan Community has its own Bintray repository, however, we are working to distribute all package in the Conan Center:
--
--    $ conan remote add conan-center &#34;https://conan.bintray.com&#34;
--
--
--## Conan Recipe License
--
--NOTE: The conan recipe license applies only to the files of this recipe, which can be used to build and package lapack.
--It does *not* in any way apply or is related to the actual software being packaged.
--
--[MIT](LICENSE)</code>
+ </code>
         </pre>
     </div>
 
@@ -754,7 +673,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-26 00:07:07</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-27 00:07:50</span> | Work in progress
 
       </div>
     </footer>

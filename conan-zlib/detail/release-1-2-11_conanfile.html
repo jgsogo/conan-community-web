@@ -152,7 +152,7 @@
                 <span data-feather="file-text"></span>
                 conan-pngquant_installer
                 
-                <span class="numberCircle numberCircle-error" title=""><span>15</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>14</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -690,6 +690,7 @@
 import os
 import stat
 from conans import ConanFile, tools, CMake, AutoToolsBuildEnvironment
+from conans.errors import ConanException
 
 
 class ZlibConan(ConanFile):
@@ -717,7 +718,13 @@ class ZlibConan(ConanFile):
         del self.settings.compiler.libcxx
 
     def source(self):
-        tools.get(&#34;{}/{}-{}.tar.gz&#34;.format(self.homepage, self.name, self.version))
+        sha256 = &#34;c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1&#34;
+        try:
+            tools.get(&#34;{}/{}-{}.tar.gz&#34;.format(self.homepage, self.name, self.version),
+                      sha256=sha256)
+        except ConanException:
+            mirror = &#34;https://downloads.sourceforge.net/project/libpng/zlib/{version}/zlib-{version}.tar.gz&#34;
+            tools.get(mirror.format(version=self.version), sha256=sha256)
         os.rename(&#34;{}-{}&#34;.format(self.name, self.version), self._source_subfolder)
         if not tools.os_info.is_windows:
             configure_file = os.path.join(self._source_subfolder, &#34;configure&#34;)
@@ -866,7 +873,7 @@ class ZlibConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-26 00:04:02</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-27 00:04:27</span> | Work in progress
 
       </div>
     </footer>
