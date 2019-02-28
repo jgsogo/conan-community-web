@@ -339,7 +339,7 @@
                 <span data-feather="file-text"></span>
                 conan-relapack
                 
-                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -658,7 +658,7 @@ class PNGQuantInstallerConan(ConanFile):
     description = &#34;Lossy PNG compressor&#34;
     topics = (&#34;conan&#34;, &#34;pngquant&#34;, &#34;png&#34;, &#34;compressor&#34;)
     author = &#34;Conan Community&#34;
-    settings = &#34;os_build&#34;, &#34;arch_build&#34;, &#34;compiler&#34;
+    settings = &#34;os_build&#34;, &#34;arch_build&#34;, &#34;compiler&#34;, &#34;arch&#34;
     options = {&#34;sse&#34;: [True, False]}
     default_options = {&#34;sse&#34;: True}
     generators = &#34;cmake&#34;
@@ -701,6 +701,7 @@ class PNGQuantInstallerConan(ConanFile):
 
     def package_id(self):
         del self.info.settings.compiler
+        del self.info.settings.arch
 
     def package_info(self):
         self.env_info.PATH.append(os.path.join(self.package_folder, &#34;bin&#34;))
@@ -724,7 +725,7 @@ class PNGQuantInstallerConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-27 00:06:39</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-28 00:06:03</span> | Work in progress
 
       </div>
     </footer>

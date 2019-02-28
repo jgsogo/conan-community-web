@@ -339,7 +339,7 @@
                 <span data-feather="file-text"></span>
                 conan-relapack
                 
-                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -573,6 +573,14 @@
     </button>
     <div class="dropdown-menu" aria-labelledby="branchesMenuButton">
         
+            <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-relapack/detail/release-1-0.html">
+                release/1.0
+                
+                <span class="numberCircle numberCircle-error" title=""><span>6</span></span>
+                
+                
+            </a>
+        
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-relapack/detail/testing-1-0.html">
                 testing/1.0
                 
@@ -638,7 +646,6 @@
             <code class="python">#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os
-import os
 from conans import ConanFile, tools, CMake
 
 
@@ -659,6 +666,7 @@ class relapackConan(ConanFile):
     generators = &#34;cmake&#34;
     requires = &#34;lapack/3.7.1@conan/stable&#34;
     _source_subfolder = &#34;source_subfolder&#34;
+    _build_subfolder = &#34;build_subfolder&#34;
 
     def config_options(self):
         if self.settings.os == &#34;Windows&#34;:
@@ -677,7 +685,7 @@ class relapackConan(ConanFile):
 
     def _configure_cmake(self):
         cmake = CMake(self)
-        cmake.configure()
+        cmake.configure(build_dir=self._build_subfolder)
         return cmake
 
     def build(self):
@@ -685,7 +693,7 @@ class relapackConan(ConanFile):
         cmake.build()
 
     def package(self):
-        self.copy(pattern=&#34;LICENSE&#34;, dst=&#34;licenses&#34;, src=self._source_subfolder, keep_path=False)
+        self.copy(pattern=&#34;LICENSE&#34;, dst=&#34;licenses&#34;, src=self._source_subfolder)
         cmake = self._configure_cmake()
         cmake.install()
 
@@ -713,7 +721,7 @@ class relapackConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-27 00:07:52</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-28 00:07:07</span> | Work in progress
 
       </div>
     </footer>

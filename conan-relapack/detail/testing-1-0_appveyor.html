@@ -339,7 +339,7 @@
                 <span data-feather="file-text"></span>
                 conan-relapack
                 
-                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -573,6 +573,14 @@
     </button>
     <div class="dropdown-menu" aria-labelledby="branchesMenuButton">
         
+            <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-relapack/detail/release-1-0.html">
+                release/1.0
+                
+                <span class="numberCircle numberCircle-error" title=""><span>6</span></span>
+                
+                
+            </a>
+        
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-relapack/detail/testing-1-0.html">
                 testing/1.0
                 
@@ -637,7 +645,7 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,28 +1,122 @@
+@@ -1,31 +1,125 @@
  build: false
 +
  
@@ -763,7 +771,11 @@
 +      
  
  install:
-   - set PATH=%PATH%;%PYTHON%/Scripts/</code>
+-  - set PATH=%PYTHON%;%PYTHON%/Scripts/;%PATH%
++  - set PATH=%PATH%;%PYTHON%/Scripts/
+   - pip.exe install conan --upgrade
+   - pip.exe install conan_package_tools
+   - conan user # It creates the conan data directory</code>
         </pre>
     </div>
 
@@ -783,7 +795,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-27 00:07:52</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-02-28 00:07:07</span> | Work in progress
 
       </div>
     </footer>
