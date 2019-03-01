@@ -64,7 +64,7 @@
                 <span data-feather="file-text"></span>
                 conan-openssl
                 
-                <span class="numberCircle numberCircle-error" title=""><span>100</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>110</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -152,7 +152,7 @@
                 <span data-feather="file-text"></span>
                 conan-pngquant_installer
                 
-                <span class="numberCircle numberCircle-error" title=""><span>14</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -647,7 +647,7 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,15 +1,10 @@
+@@ -1,20 +1,10 @@
  #!/usr/bin/env python
  # -*- coding: utf-8 -*-
 +
@@ -657,10 +657,15 @@
  
 -def get_os():
 -    return platform.system().replace(&#34;Darwin&#34;, &#34;Macos&#34;)
+-
+-def get_arch():
+-    if os.getenv(&#34;APPVEYOR&#34;, None):
+-        return &#34;x86_64&#34; if os.getenv(&#34;PLATFORM&#34;) == &#34;x64&#34; else &#34;x86&#34;
+-    return os.getenv(&#34;ARCH&#34;)
  
  if __name__ == &#34;__main__&#34;:
 -
--    arch = os.environ[&#34;ARCH&#34;]
+-    arch = get_arch()
      builder = ConanMultiPackager()
 -    builder.add({&#34;os&#34; : get_os(), &#34;arch_build&#34; : arch, &#34;arch&#34;: arch}, {}, {}, {})
 +    builder.add_common_builds()
@@ -684,7 +689,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-28 00:06:03</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-03-01 00:06:44</span> | Work in progress
 
       </div>
     </footer>

@@ -64,7 +64,7 @@
                 <span data-feather="file-text"></span>
                 conan-openssl
                 
-                <span class="numberCircle numberCircle-error" title=""><span>100</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>110</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -152,7 +152,7 @@
                 <span data-feather="file-text"></span>
                 conan-pngquant_installer
                 
-                <span class="numberCircle numberCircle-error" title=""><span>14</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -840,6 +840,8 @@ class BoostConan(ConanFile):
         url = &#34;https://dl.bintray.com/boostorg/release/%s/source/%s&#34; % (self.version, zip_name)
         tools.get(url, sha256=sha256)
 
+        tools.patch(base_path=os.path.join(self.source_folder, self.folder_name),
+                    patch_file=&#39;patches/static_object_init.patch&#39;, strip=1)
         tools.patch(base_path=os.path.join(self.source_folder, self.folder_name),
                     patch_file=&#39;patches/python_base_prefix.patch&#39;, strip=1)
         tools.patch(base_path=os.path.join(self.source_folder, self.folder_name),
@@ -1593,7 +1595,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-02-28 00:05:04</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-03-01 00:05:51</span> | Work in progress
 
       </div>
     </footer>
