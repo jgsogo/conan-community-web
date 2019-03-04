@@ -130,7 +130,7 @@
                 <span data-feather="file-text"></span>
                 conan-tbb
                 
-                <span class="numberCircle numberCircle-error" title=""><span>55</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>60</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -629,6 +629,14 @@
                 
             </a>
         
+            <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-tbb/detail/stable-2019-u4.html">
+                stable/2019_U4
+                
+                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                
+                
+            </a>
+        
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-tbb/detail/testing-2018-u5.html">
                 testing/2018_U5
                 
@@ -725,15 +733,12 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,35 +1,128 @@
+@@ -1,33 +1,128 @@
  build: false
- 
 +
+ 
  environment:
--    PYTHON: &#34;C:\\Python27&#34;
--    PYTHON_VERSION: &#34;2.7.8&#34;
--    PYTHON_ARCH: &#34;32&#34;
-+    PYTHON: &#34;C:\\Python37&#34;
+     PYTHON: &#34;C:\\Python37&#34;
  
 -    CONAN_REFERENCE: &#34;TBB/4.4.4&#34;
      CONAN_USERNAME: &#34;conan&#34;
@@ -856,8 +861,9 @@
 +      
  
  install:
-   - set PATH=%PATH%;%PYTHON%/Scripts/
--  - pip.exe install --upgrade
+-  - set PATH=%PYTHON%;%PYTHON%/Scripts/;%PATH%
+-  - pip.exe install --upgrade conan
++  - set PATH=%PATH%;%PYTHON%/Scripts/
 +  - pip.exe install conan --upgrade
    - pip.exe install conan_package_tools
    - conan user # It creates the conan data directory
@@ -885,7 +891,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-03-03 00:07:16</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-03-04 00:07:15</span> | Work in progress
 
       </div>
     </footer>
