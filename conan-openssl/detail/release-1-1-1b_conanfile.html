@@ -945,6 +945,10 @@ class OpenSSLConan(ConanFile):
             extra_flags = &#34;--debug&#34; if self.settings.build_type == &#34;Debug&#34; else &#34;--release&#34;
             extra_flags += &#34; no-shared&#34; if not self.options.shared else &#34; shared&#34;
 
+        if self.settings.os == &#34;Android&#34;:
+            # see NOTES.ANDROID
+            extra_flags += &#34; -D__ANDROID_API__=%s&#34; % str(self.settings.os.api_level)
+
         extra_flags += self._get_config_options_string()
         return extra_flags
 
@@ -1166,7 +1170,7 @@ class OpenSSLConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-03-04 00:06:14</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-03-05 00:07:18</span> | Work in progress
 
       </div>
     </footer>
