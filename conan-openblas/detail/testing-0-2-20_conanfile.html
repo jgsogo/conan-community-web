@@ -725,6 +725,24 @@ class openblasConan(ConanFile):
                         &#34;USE_MASS=%s&#34; % self._get_make_option_value(self.options.USE_MASS),
                         &#34;USE_OPENMP=%s&#34; % self._get_make_option_value(self.options.USE_OPENMP),
                         &#34;NOFORTRAN=%s&#34; % self._get_make_option_value(self.options.NOFORTRAN)]
+        # https://github.com/xianyi/OpenBLAS/wiki/How-to-build-OpenBLAS-for-Android
+        target = {&#34;armv6&#34;: &#34;ARMV6&#34;,
+                  &#34;armv7&#34;: &#34;ARMV7&#34;,
+                  &#34;armv7hf&#34;: &#34;ARMV7&#34;,
+                  &#34;armv8&#34;: &#34;ARMV8&#34;,
+                  &#34;sparc&#34;: &#34;SPARC&#34;}.get(str(self.settings.arch))
+        if tools.cross_building(self.settings):
+            if &#34;CC_FOR_BUILD&#34; in os.environ:
+                hostcc = os.environ[&#34;CC_FOR_BUILD&#34;]
+            else:
+                hostcc = tools.which(&#34;cc&#34;) or tools.which(&#34;gcc&#34;) or tools.which(&#34;clang&#34;)
+            make_options.append(&#34;HOSTCC=%s&#34; % hostcc)
+        if target:
+            make_options.append(&#34;TARGET=%s&#34; % target)
+        if &#34;CC&#34; in os.environ:
+            make_options.append(&#34;CC=%s&#34; % os.environ[&#34;CC&#34;])
+        if &#34;AR&#34; in os.environ:
+            make_options.append(&#34;AR=%s&#34; % os.environ[&#34;AR&#34;])
         if args:
             make_options.extend(args)
         self.run(&#34;cd sources &amp;&amp; make %s&#34; % &#39; &#39;.join(make_options), cwd=self.source_folder)
@@ -773,7 +791,7 @@ class openblasConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-03-05 00:08:59</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-03-06 00:08:41</span> | Work in progress
 
       </div>
     </footer>
