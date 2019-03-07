@@ -821,6 +821,7 @@ class BoostConan(ConanFile):
     def package_id(self):
         if self.options.header_only:
             self.info.header_only()
+            self.info.options.header_only = True
         else:
             del self.info.options.python_executable  # PATH to the interpreter is not important, only version matters
             if self.options.without_python:
@@ -1506,7 +1507,7 @@ class BoostConan(ConanFile):
             return
 
     def package_info(self):
-        gen_libs = tools.collect_libs(self)
+        gen_libs = [] if self.options.header_only else tools.collect_libs(self)
 
         # List of lists, so if more than one matches the lib like serialization and wserialization
         # both will be added to the list
@@ -1595,7 +1596,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-03-06 00:07:24</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-03-07 00:08:04</span> | Work in progress
 
       </div>
     </footer>
