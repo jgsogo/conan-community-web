@@ -900,7 +900,7 @@ class OpenSSLConan(ConanFile):
             command = &#39;bash -l -c -o pipefail &#34;%s&#34;&#39; % command.replace(&#39;&#34;&#39;, &#39;\\&#34;&#39;)
         with tools.chdir(self.subfolder):
             self.output.write(&#34;------RUNNING-------\n%s&#34; % command)
-            if self.settings.compiler == &#34;clang&#34;:  # Output ruin travis builds
+            if self.settings.compiler == &#34;clang&#34; and &#34;TRAVIS&#34; in os.environ:  # Output ruin travis builds
                 from six import StringIO
                 buf = StringIO()
             else:
@@ -1170,7 +1170,7 @@ class OpenSSLConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-03-08 00:08:04</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-03-09 00:10:48</span> | Work in progress
 
       </div>
     </footer>

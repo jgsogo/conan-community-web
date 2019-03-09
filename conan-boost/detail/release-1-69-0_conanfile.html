@@ -791,7 +791,7 @@ class BoostConan(ConanFile):
     short_paths = True
     no_copy_source = True
 
-    exports = [&#39;patches/*&#39;]
+    exports_sources = [&#39;patches/*&#39;]
 
     _bcp_dir = &#34;custom-boost&#34;
 
@@ -841,12 +841,10 @@ class BoostConan(ConanFile):
         url = &#34;https://dl.bintray.com/boostorg/release/%s/source/%s&#34; % (self.version, zip_name)
         tools.get(url, sha256=sha256)
 
-        tools.patch(base_path=os.path.join(self.source_folder, self.folder_name),
-                    patch_file=&#39;patches/static_object_init.patch&#39;, strip=1)
-        tools.patch(base_path=os.path.join(self.source_folder, self.folder_name),
-                    patch_file=&#39;patches/python_base_prefix.patch&#39;, strip=1)
-        tools.patch(base_path=os.path.join(self.source_folder, self.folder_name),
-                    patch_file=&#39;patches/boost_build_asmflags.patch&#39;, strip=1)
+        for patch in [&#34;static_object_init.patch&#34;, &#34;python_base_prefix.patch&#34;, &#34;boost_build_asmflags.patch&#34;]:
+            tools.patch(patch_file=os.path.join(&#34;patches&#34;, patch),
+                        base_path=os.path.join(self.source_folder, self.folder_name))
+
 
     ##################### BUILDING METHODS ###########################
 
@@ -1596,7 +1594,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-03-08 00:08:22</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-03-09 00:11:07</span> | Work in progress
 
       </div>
     </footer>
