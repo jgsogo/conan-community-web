@@ -229,7 +229,7 @@
                 <span data-feather="file-text"></span>
                 conan-openblas
                 
-                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>22</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -769,9 +769,12 @@ that have future-proof scalability&#34;&#34;&#34;
             raise ConanInvalidConfiguration(&#34;%s %s couldn&#39;t be built by apple-clang &lt; 8.0&#34; % (self.name, self.version))
         if self.settings.os != &#34;Windows&#34; and self.options.shared:
             self.output.warn(&#34;Intel-TBB strongly discourages usage of static linkage&#34;)
-        if self.options.tbbproxy and \
+        if self.settings.os != &#34;Windows&#34; and self.options.tbbproxy and \
            (not self.options.shared or \
             not self.options.tbbmalloc):
+            raise ConanInvalidConfiguration(&#34;tbbproxy needs tbbmaloc and shared options&#34;)
+        if self.settings.os == &#34;Windows&#34; and self.options.tbbproxy and \
+           not self.options.tbbmalloc:
             raise ConanInvalidConfiguration(&#34;tbbproxy needs tbbmaloc and shared options&#34;)
 
     @property
@@ -884,7 +887,7 @@ that have future-proof scalability&#34;&#34;&#34;
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-03-10 00:08:55</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-03-11 00:09:25</span> | Work in progress
 
       </div>
     </footer>

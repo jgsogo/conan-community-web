@@ -229,7 +229,7 @@
                 <span data-feather="file-text"></span>
                 conan-openblas
                 
-                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>22</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -657,10 +657,16 @@ class JasperConan(ConanFile):
     description = &#34;JasPer Image Processing/Coding Tool Kit&#34;
     settings = &#34;os&#34;, &#34;compiler&#34;, &#34;build_type&#34;, &#34;arch&#34;
     options = {&#34;shared&#34;: [True, False],
-               &#34;fPIC&#34;: [True, False]}
-    default_options = &#34;shared=False&#34;, &#34;fPIC=True&#34;
-    requires = &#34;libjpeg/9c@bincrafters/stable&#34;
+               &#34;fPIC&#34;: [True, False],
+               &#34;jpegturbo&#34;: [True, False]}
+    default_options = &#34;shared=False&#34;, &#34;fPIC=True&#34;, &#34;jpegturbo=False&#34;
     generators = &#34;cmake&#34;
+
+    def requirements(self):
+        if self.options.jpegturbo:
+            self.requires.add(&#39;libjpeg-turbo/1.5.2@bincrafters/stable&#39;)
+        else:
+            self.requires.add(&#39;libjpeg/9c@bincrafters/stable&#39;)
 
     def config_options(self):
         if self.settings.os == &#34;Windows&#34;:
@@ -720,7 +726,7 @@ conan_basic_setup()
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-03-10 00:09:47</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-03-11 00:10:21</span> | Work in progress
 
       </div>
     </footer>
