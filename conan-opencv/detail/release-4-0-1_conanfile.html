@@ -690,6 +690,7 @@ class OpenCVConan(ConanFile):
                &#34;fPIC&#34;: [True, False],
                &#34;contrib&#34;: [True, False],
                &#34;jpeg&#34;: [True, False],
+               &#34;jpegturbo&#34;: [True, False],
                &#34;tiff&#34;: [True, False],
                &#34;webp&#34;: [True, False],
                &#34;png&#34;: [True, False],
@@ -701,6 +702,7 @@ class OpenCVConan(ConanFile):
                        &#34;fPIC&#34;: True,
                        &#34;contrib&#34;: False,
                        &#34;jpeg&#34;: True,
+                       &#34;jpegturbo&#34;: False,
                        &#34;tiff&#34;: True,
                        &#34;webp&#34;: True,
                        &#34;png&#34;: True,
@@ -775,8 +777,10 @@ class OpenCVConan(ConanFile):
         if self.options.jpeg:
             # NOTE : use the same libjpeg implementation as jasper uses
             # otherwise, jpeg_create_decompress will fail on version check
-            # self.requires.add(&#39;libjpeg-turbo/1.5.2@bincrafters/stable&#39;)
-            self.requires.add(&#39;libjpeg/9c@bincrafters/stable&#39;)
+            if self.options.jpegturbo:
+                self.requires.add(&#39;libjpeg-turbo/1.5.2@bincrafters/stable&#39;)
+            else:
+                self.requires.add(&#39;libjpeg/9c@bincrafters/stable&#39;)
         if self.options.tiff:
             self.requires.add(&#39;libtiff/4.0.9@bincrafters/stable&#39;)
         if self.options.webp:
@@ -1041,7 +1045,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-03-11 00:09:05</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-03-12 00:10:27</span> | Work in progress
 
       </div>
     </footer>
