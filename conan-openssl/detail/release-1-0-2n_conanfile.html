@@ -229,7 +229,7 @@
                 <span data-feather="file-text"></span>
                 conan-openblas
                 
-                <span class="numberCircle numberCircle-error" title=""><span>22</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>23</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -902,9 +902,10 @@ class OpenSSLConan(ConanFile):
             tools.replace_in_file(&#34;./%s/Configure&#34; % self.subfolder, &#34;::-lefence &#34;, &#34;::&#34;)
             self.output.info(&#34;=====&gt; Options: %s&#34; % config_options_string)
         if self.settings.os == &#34;Android&#34; and self.settings.compiler == &#34;clang&#34;:
-            tools.replace_in_file(&#34;./openssl-%s/Configure&#34; % self.version, 
-                                &#39;&#39;&#39;&#34;android-armv7&#34;,&#34;gcc:-march=armv7-a -mandroid -I\$(ANDROID_DEV)/include -B\$(ANDROID_DEV)/lib -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR:${armv4_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)&#34;,&#39;&#39;&#39;, 
-                                &#39;&#39;&#39;&#34;android-armv7&#34;,&#34;clang:$ENV{&#39;CFLAGS&#39;} -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl $ENV{&#39;LDFLAGS&#39;}:BN_LLONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR:${armv4_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)&#34;,&#39;&#39;&#39;)
+            tools.replace_in_file(&#34;./openssl-%s/Configure&#34; % self.version,
+                                &#39;&#39;&#39;&#34;android-armv7&#34;,&#34;gcc:-march=armv7-a -mandroid -I\$(ANDROID_DEV)/include -B\$(ANDROID_DEV)/lib -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR:${armv4_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)&#34;,&#39;&#39;&#39;,
+                                &#39;&#39;&#39;&#34;android-armv7&#34;,&#34;clang:$ENV{&#39;CFLAGS&#39;} -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl $ENV{&#39;LDFLAGS&#39;}:BN_LLONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR:${armv4_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)&#34;,
+&#34;android-aarch64&#34;,&#34;clang:-I\$(ANDROID_DEV)/include -B\$(ANDROID_DEV)/lib -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR:${aarch64_asm}:linux64:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)&#34;,&#39;&#39;&#39;)
 
         for option_name in self.options.values.fields:
             activated = getattr(self.options, option_name)
@@ -1219,7 +1220,7 @@ class OpenSSLConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-03-12 00:09:33</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-03-13 00:09:47</span> | Work in progress
 
       </div>
     </footer>

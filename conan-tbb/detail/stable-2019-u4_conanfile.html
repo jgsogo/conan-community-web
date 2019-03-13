@@ -229,7 +229,7 @@
                 <span data-feather="file-text"></span>
                 conan-openblas
                 
-                <span class="numberCircle numberCircle-error" title=""><span>22</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>23</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -731,8 +731,7 @@
     <h4>conanfile.py</h4>
     <div>
         <pre>
-            <code class="python">#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+            <code class="python"># -*- coding: utf-8 -*-
 
 from conans.errors import ConanInvalidConfiguration
 import os
@@ -794,6 +793,11 @@ that have future-proof scalability&#34;&#34;&#34;
         tools.get(&#34;{}/archive/{}.tar.gz&#34;.format(self.homepage, self.version), sha256=sha256)
         os.rename(&#34;{}-{}&#34;.format(self.name.lower(), self.version), self._source_subfolder)
 
+        # Get the version of the current compiler instead of gcc
+        linux_include = os.path.join(self._source_subfolder, &#34;build&#34;, &#34;linux.inc&#34;)
+        tools.replace_in_file(linux_include, &#34;shell gcc&#34;, &#34;shell $(CC)&#34;)
+        tools.replace_in_file(linux_include, &#34;= gcc&#34;, &#34;= $(CC)&#34;)
+
     def build(self):
         def add_flag(name, value):
             if name in os.environ:
@@ -816,6 +820,7 @@ that have future-proof scalability&#34;&#34;&#34;
                 extra += &#34; stdlib=libc++&#34;
             extra += &#34; compiler=gcc&#34; if self.settings.compiler == &#39;gcc&#39; else &#34; compiler=clang&#34;
 
+            extra += &#34; gcc_version={}&#34;.format(str(self.settings.compiler.version))
         make = tools.get_env(&#34;CONAN_MAKE_PROGRAM&#34;, tools.which(&#34;make&#34;) or tools.which(&#39;mingw32-make&#39;))
         if not make:
             raise ConanInvalidConfiguration(&#34;This package needs &#39;make&#39; in the path to build&#34;)
@@ -887,7 +892,7 @@ that have future-proof scalability&#34;&#34;&#34;
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-03-12 00:10:55</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-03-13 00:10:56</span> | Work in progress
 
       </div>
     </footer>
