@@ -819,6 +819,7 @@ class OpenSSLConan(ConanFile):
     license = &#34;The current OpenSSL licence is an &#39;Apache style&#39; license: https://www.openssl.org/source/license.html&#34;
     description = &#34;OpenSSL is an open source project that provides a robust, commercial-grade, and full-featured &#34; \
                   &#34;toolkit for the Transport Layer Security (TLS) and Secure Sockets Layer (SSL) protocols&#34;
+    exports_sources = [&#39;android.patch&#39;]
     # https://github.com/openssl/openssl/blob/OpenSSL_1_0_2l/INSTALL
     options = {&#34;no_threads&#34;: [True, False],
                &#34;no_zlib&#34;: [True, False],
@@ -901,10 +902,7 @@ class OpenSSLConan(ConanFile):
             tools.replace_in_file(&#34;./%s/Configure&#34; % self.subfolder, &#34;::-lefence &#34;, &#34;::&#34;)
             self.output.info(&#34;=====&gt; Options: %s&#34; % config_options_string)
         if self.settings.os == &#34;Android&#34; and self.settings.compiler == &#34;clang&#34;:
-            tools.replace_in_file(&#34;./openssl-%s/Configure&#34; % self.version, 
-                                &#39;&#39;&#39;&#34;android-armv7&#34;,&#34;gcc:-march=armv7-a -mandroid -I\$(ANDROID_DEV)/include -B\$(ANDROID_DEV)/lib -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR:${armv4_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)&#34;,&#39;&#39;&#39;,
-                                &#39;&#39;&#39;&#34;android-armv7&#34;,&#34;clang:$ENV{&#39;CFLAGS&#39;} -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl $ENV{&#39;LDFLAGS&#39;}:BN_LLONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR:${armv4_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)&#34;,
-&#34;android-aarch64&#34;,&#34;clang:-I\$(ANDROID_DEV)/include -B\$(ANDROID_DEV)/lib -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR:${aarch64_asm}:linux64:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)&#34;,&#39;&#39;&#39;)
+            tools.patch(base_path=self.subfolder, patch_file=&#34;android.patch&#34;)
 
         for option_name in self.options.values.fields:
             activated = getattr(self.options, option_name)
@@ -966,12 +964,15 @@ class OpenSSLConan(ConanFile):
                 raise Exception(&#34;Unsupported arch for Linux&#34;)
 
         elif self.settings.os == &#34;Android&#34;:
+            config_options_string = &#34; no-asm&#34; + config_options_string
             if &#34;armv7&#34; in self.settings.arch:
                 target = &#34;android-armv7&#34;
             elif self.settings.arch == &#34;armv8&#34;:
                 target = &#34;android-aarch64&#34;
             elif self.settings.arch == &#34;x86&#34;:
                 target = &#34;android-x86&#34;
+            elif self.settings.arch == &#34;x86_64&#34;:
+                target = &#34;android-x86_64&#34;
             elif self.settings.arch == &#34;mips&#34;:
                 target = &#34;android-mips&#34;
             else:
@@ -1201,7 +1202,7 @@ class OpenSSLConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-03-14 00:11:27</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-03-15 00:11:17</span> | Work in progress
 
       </div>
     </footer>
