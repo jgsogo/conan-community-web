@@ -1143,13 +1143,14 @@ class OpenSSLConan(ConanFile):
         if self.compiler == &#34;Visual Studio&#34;:
             self.cpp_info.libs = [&#39;libssld&#39;, &#39;libcryptod&#39;] if self.settings.build_type == &#39;Debug&#39; else \
                 [&#39;libssl&#39;, &#39;libcrypto&#39;]
-            self.cpp_info.libs.extend([&#34;crypt32&#34;, &#34;msi&#34;, &#34;ws2_32&#34;])
         elif self.compiler == &#34;gcc&#34; and self.settings.os == &#34;Windows&#34;:
-            self.cpp_info.libs = [&#34;ssl&#34;, &#34;crypto&#34;,  &#34;crypt32&#34;, &#34;ws2_32&#34;]
+            self.cpp_info.libs = [&#34;ssl&#34;, &#34;crypto&#34;]
         elif self.settings.os == &#34;Linux&#34;:
             self.cpp_info.libs = [&#34;ssl&#34;, &#34;crypto&#34;, &#34;dl&#34;, &#34;pthread&#34;]
         else:
             self.cpp_info.libs = [&#34;ssl&#34;, &#34;crypto&#34;]
+        if self.settings.os == &#34;Windows&#34;:
+            self.cpp_info.libs.extend([&#34;crypt32&#34;, &#34;msi&#34;, &#34;ws2_32&#34;, &#34;advapi32&#34;, &#34;user32&#34;])
 </code>
         </pre>
     </div>
@@ -1170,7 +1171,7 @@ class OpenSSLConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-03-17 00:11:59</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-03-18 00:12:31</span> | Work in progress
 
       </div>
     </footer>

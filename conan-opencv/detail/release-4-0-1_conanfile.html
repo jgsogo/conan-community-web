@@ -697,7 +697,8 @@ class OpenCVConan(ConanFile):
                &#34;jasper&#34;: [True, False],
                &#34;openexr&#34;: [True, False],
                &#34;gtk&#34;: [None, 2, 3],
-               &#34;nonfree&#34;: [True, False]}
+               &#34;nonfree&#34;: [True, False],
+               &#34;dc1394&#34;: [True, False]}
     default_options = {&#34;shared&#34;: False,
                        &#34;fPIC&#34;: True,
                        &#34;contrib&#34;: False,
@@ -709,7 +710,8 @@ class OpenCVConan(ConanFile):
                        &#34;jasper&#34;: True,
                        &#34;openexr&#34;: True,
                        &#34;gtk&#34;: 3,
-                       &#34;nonfree&#34;: False}
+                       &#34;nonfree&#34;: False,
+                       &#34;dc1394&#34;: True}
     exports_sources = [&#34;CMakeLists.txt&#34;]
     exports = &#34;LICENSE&#34;
     generators = &#34;cmake&#34;
@@ -828,6 +830,7 @@ class OpenCVConan(ConanFile):
         cmake.definitions[&#39;WITH_PNG&#39;] = self.options.png
         cmake.definitions[&#39;WITH_JASPER&#39;] = self.options.jasper
         cmake.definitions[&#39;WITH_OPENEXR&#39;] = self.options.openexr
+        cmake.definitions[&#34;WITH_1394&#34;] = self.options.dc1394
         cmake.definitions[&#39;WITH_PROTOBUF&#39;] = False
         cmake.definitions[&#39;WITH_FFMPEG&#39;] = False
         cmake.definitions[&#39;WITH_QUIRC&#39;] = False
@@ -1045,7 +1048,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-03-17 00:12:44</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-03-18 00:13:14</span> | Work in progress
 
       </div>
     </footer>
