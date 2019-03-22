@@ -722,18 +722,24 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,12 +1,10 @@
+@@ -1,18 +1,10 @@
  #!/usr/bin/env python
  # -*- coding: utf-8 -*-
  
--import platform
+-import copy
  from cpt.packager import ConanMultiPackager
  
  
  if __name__ == &#34;__main__&#34;:
--    shared_option_name = False if platform.system() == &#34;Windows&#34; else &#34;TBB:shared&#34;
      builder = ConanMultiPackager()
--    builder.add_common_builds(shared_option_name=shared_option_name, pure_c=False)
+-    builder.add_common_builds(pure_c=False)
+-    filtered_builds = []
+-    for settings, options, env_vars, build_requires, reference in builder.items:
+-        options[&#34;TBB:tbbmalloc&#34;] = False
+-        filtered_builds.append([settings, copy.copy(options), env_vars, build_requires])
+-        options[&#34;TBB:tbbmalloc&#34;] = True
+-        filtered_builds.append([settings, options, env_vars, build_requires])
+-    builder.builds = filtered_builds
 +    builder.add_common_builds()
      builder.run()</code>
         </pre>
@@ -755,7 +761,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-03-21 00:15:17</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-03-22 00:15:37</span> | Work in progress
 
       </div>
     </footer>

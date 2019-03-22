@@ -746,10 +746,6 @@ that have future-proof scalability&#34;&#34;&#34;
     _source_subfolder = &#34;source_subfolder&#34;
     _targets = [&#34;tbb&#34;]
 
-    def config_options(self):
-        if self.settings.os == &#34;Windows&#34;:
-            del self.options.shared
-
     def configure(self):
         if self.settings.os == &#34;Macos&#34; and \
            self.settings.compiler == &#34;apple-clang&#34; and \
@@ -764,6 +760,8 @@ that have future-proof scalability&#34;&#34;&#34;
         if self.settings.os == &#34;Windows&#34; and self.options.tbbproxy and \
            not self.options.tbbmalloc:
             raise ConanInvalidConfiguration(&#34;tbbproxy needs tbbmaloc and shared options&#34;)
+        if self.settings.os == &#34;Windows&#34; and not self.options.shared:
+            raise ConanInvalidConfiguration(&#34;TBB could not be built as static lib on Windows&#34;)
 
     @property
     def is_msvc(self):
@@ -881,7 +879,7 @@ that have future-proof scalability&#34;&#34;&#34;
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-03-21 00:15:17</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-03-22 00:15:37</span> | Work in progress
 
       </div>
     </footer>
