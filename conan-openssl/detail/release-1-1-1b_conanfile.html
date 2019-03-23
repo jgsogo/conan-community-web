@@ -1118,8 +1118,8 @@ class OpenSSLConan(ConanFile):
             if self.options.shared:
                 self.copy(pattern=&#34;*libcrypto*.dylib&#34;, dst=&#34;lib&#34;, keep_path=False)
                 self.copy(pattern=&#34;*libssl*.dylib&#34;, dst=&#34;lib&#34;, keep_path=False)
-                self.copy(pattern=&#34;*libcrypto.so*&#34;, dst=&#34;lib&#34;, keep_path=False)
-                self.copy(pattern=&#34;*libssl.so*&#34;, dst=&#34;lib&#34;, keep_path=False)
+                self.copy(pattern=&#34;*libcrypto.so*&#34;, dst=&#34;lib&#34;, keep_path=False, symlinks=True)
+                self.copy(pattern=&#34;*libssl.so*&#34;, dst=&#34;lib&#34;, keep_path=False, symlinks=True)
             else:
                 self.copy(&#34;*.a&#34;, &#34;lib&#34;, keep_path=False)
 
@@ -1160,7 +1160,7 @@ class OpenSSLConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-03-22 00:14:31</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-03-23 00:16:03</span> | Work in progress
 
       </div>
     </footer>
