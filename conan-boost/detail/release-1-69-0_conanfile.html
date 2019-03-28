@@ -1311,7 +1311,7 @@ class BoostConan(ConanFile):
     def _ar(self):
         if &#34;AR&#34; in os.environ:
             return os.environ[&#34;AR&#34;]
-        if tools.is_apple_os(self.settings.os):
+        if tools.is_apple_os(self.settings.os) and self.settings.compiler == &#34;apple-clang&#34;:
             return tools.XCRun(self.settings).ar
         return None
 
@@ -1319,7 +1319,7 @@ class BoostConan(ConanFile):
     def _ranlib(self):
         if &#34;RANLIB&#34; in os.environ:
             return os.environ[&#34;RANLIB&#34;]
-        if tools.is_apple_os(self.settings.os):
+        if tools.is_apple_os(self.settings.os) and self.settings.compiler == &#34;apple-clang&#34;:
             return tools.XCRun(self.settings).ranlib
         return None
 
@@ -1327,7 +1327,7 @@ class BoostConan(ConanFile):
     def _cxx(self):
         if &#34;CXX&#34; in os.environ:
             return os.environ[&#34;CXX&#34;]
-        if tools.is_apple_os(self.settings.os):
+        if tools.is_apple_os(self.settings.os) and self.settings.compiler == &#34;apple-clang&#34;:
             return tools.XCRun(self.settings).cxx
         return None
 
@@ -1412,6 +1412,8 @@ class BoostConan(ConanFile):
             cversion = self.settings.compiler.version
             _msvc_version = &#34;14.1&#34; if Version(str(cversion)) &gt;= &#34;15&#34; else &#34;%s.0&#34; % cversion
             return &#34;msvc&#34;, _msvc_version, &#34;&#34;
+        elif self.settings.compiler == &#34;gcc&#34; and tools.is_apple_os(self.settings.os):
+            return &#34;darwin&#34;, compiler_version, self._cxx
         elif compiler == &#34;gcc&#34; and compiler_version[0] &gt;= &#34;5&#34;:
             # For GCC &gt;= v5 we only need the major otherwise Boost doesn&#39;t find the compiler
             # The NOT windows check is necessary to exclude MinGW:
@@ -1583,7 +1585,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-03-27 00:16:22</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-03-28 00:25:47</span> | Work in progress
 
       </div>
     </footer>
