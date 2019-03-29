@@ -636,13 +636,22 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,5 +1,6 @@
+@@ -1,14 +1,10 @@
  #!/usr/bin/env python
  # -*- coding: utf-8 -*-
+-import os
+-import copy
 +
  from cpt.packager import ConanMultiPackager
  
- </code>
+ 
+ if __name__ == &#34;__main__&#34;:
+     builder = ConanMultiPackager()
+     builder.add_common_builds()
+-    if os.getenv(&#34;BUILD_VISUAL_STUDIO&#34;):
+-        builder.remove_build_if(lambda build: not build.options[&#34;lapack:shared&#34;])
+-        builder.update_build_if(lambda build: True, new_options={&#34;lapack:visual_studio&#34;: True})
+     builder.run()</code>
         </pre>
     </div>
 
@@ -662,7 +671,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-03-28 00:27:38</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-03-29 00:18:43</span> | Work in progress
 
       </div>
     </footer>
