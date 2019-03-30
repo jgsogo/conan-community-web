@@ -687,7 +687,8 @@ class OpenCVConan(ConanFile):
                &#34;openexr&#34;: [True, False],
                &#34;gtk&#34;: [None, 2, 3],
                &#34;nonfree&#34;: [True, False],
-               &#34;dc1394&#34;: [True, False]}
+               &#34;dc1394&#34;: [True, False],
+               &#34;carotene&#34;: [True, False]}
     default_options = {&#34;shared&#34;: False,
                        &#34;fPIC&#34;: True,
                        &#34;contrib&#34;: False,
@@ -700,7 +701,8 @@ class OpenCVConan(ConanFile):
                        &#34;openexr&#34;: True,
                        &#34;gtk&#34;: 3,
                        &#34;nonfree&#34;: False,
-                       &#34;dc1394&#34;: True}
+                       &#34;dc1394&#34;: True,
+                       &#34;carotene&#34;: False}
     exports_sources = [&#34;CMakeLists.txt&#34;]
     exports = &#34;LICENSE&#34;
     generators = &#34;cmake&#34;
@@ -723,7 +725,7 @@ class OpenCVConan(ConanFile):
         tools.get(&#34;https://github.com/opencv/opencv_contrib/archive/{}.tar.gz&#34;.format(self.version), sha256=sha256)
         os.rename(&#39;opencv_contrib-%s&#39; % self.version, &#39;contrib&#39;)
 
-        if self.settings.os != &#39;Android&#39;:
+        if self.settings.os != &#39;Android&#39; and not self.options.carotene:
             tools.rmdir(os.path.join(self._source_subfolder, &#39;3rdparty&#39;))
 
     def config_options(self):
@@ -823,7 +825,7 @@ class OpenCVConan(ConanFile):
         cmake.definitions[&#39;WITH_PROTOBUF&#39;] = False
         cmake.definitions[&#39;WITH_FFMPEG&#39;] = False
         cmake.definitions[&#39;WITH_QUIRC&#39;] = False
-        cmake.definitions[&#34;WITH_CAROTENE&#34;] = False
+        cmake.definitions[&#34;WITH_CAROTENE&#34;] = self.options.carotene
 
         if self.options.openexr:
             cmake.definitions[&#39;OPENEXR_ROOT&#39;] = self.deps_cpp_info[&#39;openexr&#39;].rootpath
@@ -1037,7 +1039,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-03-29 00:17:21</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-03-30 00:18:21</span> | Work in progress
 
       </div>
     </footer>
