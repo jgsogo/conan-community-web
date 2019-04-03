@@ -1025,6 +1025,10 @@ class OpenSSLConan(ConanFile):
 
         command = &#39;CC=&#34;%s&#34; %s&#39; % (cc, command)
 
+        if self.settings.get_safe(&#34;os.version&#34;):
+            command += &#34; &#34; + tools.apple_deployment_target_flag(self.settings.os,
+                                                                self.settings.os.version)
+
         self.run_in_src(command)
         # REPLACE -install_name FOR FOLLOW THE CONAN RULES,
         # DYNLIBS IDS AND OTHER DYNLIB DEPS WITHOUT PATH, JUST THE LIBRARY NAME
@@ -1040,6 +1044,10 @@ class OpenSSLConan(ConanFile):
             command = &#34;./Configure darwin64-x86_64-cc %s&#34; % config_options_string
         else:
             command = &#34;./config %s %s&#34; % (config_options_string, m32_suff)
+
+        if self.settings.get_safe(&#34;os.version&#34;):
+            command += &#34; &#34; + tools.apple_deployment_target_flag(self.settings.os,
+                                                                self.settings.os.version)
 
         self.run_in_src(command)
         # REPLACE -install_name FOR FOLLOW THE CONAN RULES,
@@ -1191,7 +1199,7 @@ class OpenSSLConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-04-02 01:14:36</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-04-03 00:19:33</span> | Work in progress
 
       </div>
     </footer>
