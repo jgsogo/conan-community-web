@@ -405,7 +405,7 @@
                 <span data-feather="file-text"></span>
                 conan-paho-cpp
                 
-                <span class="numberCircle numberCircle-error" title=""><span>18</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>22</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -636,31 +636,23 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,75 +1,106 @@
--
- env:
-    global:
--     - CONAN_REFERENCE: &#34;jasper/2.0.14&#34;
-      - CONAN_USERNAME: &#34;conan&#34;
-      - CONAN_LOGIN_USERNAME: &#34;conanbot&#34;
--     - CONAN_STABLE_BRANCH_PATTERN: &#34;stable/*&#34;
-      - CONAN_CHANNEL: &#34;testing&#34;
-      - CONAN_UPLOAD: &#34;https://api.bintray.com/conan/conan-community/conan&#34;
+@@ -1,3 +1,15 @@
++env:
++   global:
++     - CONAN_USERNAME: &#34;conan&#34;
++     - CONAN_LOGIN_USERNAME: &#34;conanbot&#34;
++     - CONAN_CHANNEL: &#34;testing&#34;
++     - CONAN_UPLOAD: &#34;https://api.bintray.com/conan/conan-community/conan&#34;
 +     - CONAN_STABLE_BRANCH_PATTERN: &#34;(release|stable)/[a-zA-Z0-9_][a-zA-Z0-9_+.-]+&#34;
 +     - CONAN_UPLOAD_ONLY_WHEN_STABLE: 1 # Will only upload when the branch matches the stable pattern
 +     - CONAN_DOCKER_32_IMAGES: 1
 +     - CONAN_TOTAL_PAGES: 1
 +
- 
++
  linux: &amp;linux
     os: linux
--   sudo: required
-+   dist: xenial
-    language: python
--   python: &#34;3.6&#34;
-+   python: &#34;3.7&#34;
-    services:
-      - docker
+    dist: xenial
+@@ -8,63 +20,92 @@
  osx: &amp;osx
     os: osx
     language: generic
@@ -761,7 +753,7 @@
 -
 -      - &lt;&lt;: *linux
 -        env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60
--        
+-
 -      - &lt;&lt;: *linux
 -        env: CONAN_CLANG_VERSIONS=7.0 CONAN_DOCKER_IMAGE=conanio/clang7
 -
@@ -790,7 +782,16 @@
 +     
  
  install:
-   - chmod +x .travis/install.sh</code>
+-  - chmod +x .ci/install.sh
+-  - ./.ci/install.sh
++  - chmod +x .travis/install.sh
++  - ./.travis/install.sh
+ 
+ script:
+-  - chmod +x .ci/run.sh
+-  - ./.ci/run.sh
++  - chmod +x .travis/run.sh
++  - ./.travis/run.sh</code>
         </pre>
     </div>
 
@@ -810,7 +811,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-04-03 00:21:46</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-04-04 00:23:05</span> | Work in progress
 
       </div>
     </footer>

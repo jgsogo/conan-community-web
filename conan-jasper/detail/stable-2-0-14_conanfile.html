@@ -405,7 +405,7 @@
                 <span data-feather="file-text"></span>
                 conan-paho-cpp
                 
-                <span class="numberCircle numberCircle-error" title=""><span>18</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>22</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -634,22 +634,28 @@
     <h4>conanfile.py</h4>
     <div>
         <pre>
-            <code class="python">from conans import ConanFile, CMake, tools
+            <code class="python"># -*- coding: utf-8 -*-
+import os
+from conans import ConanFile, CMake, tools
 
 
 class JasperConan(ConanFile):
     name = &#34;jasper&#34;
     version = &#34;2.0.14&#34;
     license = &#34;JasPer License Version 2.0&#34;
-    homepage = &#34;http://www.ece.uvic.ca/~frodo/jasper/&#34;
+    homepage = &#34;https://github.com/mdadams/jasper&#34;
     url = &#34;https://github.com/conan-community/conan-jasper&#34;
+    author = &#34;Conan Community&#34;
+    topics = (&#34;conan&#34;, &#34;jasper&#34;, &#34;tool-kit&#34;, &#34;coding&#34;)
     description = &#34;JasPer Image Processing/Coding Tool Kit&#34;
     settings = &#34;os&#34;, &#34;compiler&#34;, &#34;build_type&#34;, &#34;arch&#34;
     options = {&#34;shared&#34;: [True, False],
                &#34;fPIC&#34;: [True, False],
                &#34;jpegturbo&#34;: [True, False]}
-    default_options = &#34;shared=False&#34;, &#34;fPIC=True&#34;, &#34;jpegturbo=False&#34;
+    default_options = {&#39;shared&#39;: False, &#39;fPIC&#39;: True, &#39;jpegturbo&#39;: False}
     generators = &#34;cmake&#34;
+    exports = &#34;LICENSE&#34;
+    _source_subfolder = &#34;source_subfolder&#34;
 
     def requirements(self):
         if self.options.jpegturbo:
@@ -665,36 +671,43 @@ class JasperConan(ConanFile):
         del self.settings.compiler.libcxx
 
     def source(self):
-        tools.get(&#34;https://github.com/mdadams/jasper/archive/version-%s.zip&#34; % self.version)
-        tools.replace_in_file(&#34;jasper-version-%s/CMakeLists.txt&#34; % self.version,
+        sha256 = &#34;05de26be16cf7356f73e8202c0bf4e05597e2c2698a7100d8603253d65f8a790&#34;
+        tools.get(&#34;{}/archive/version-{}.zip&#34;.format(self.homepage, self.version), sha256=sha256)
+        extracted_dir = &#34;{}-version-{}&#34;.format(self.name, self.version)
+        os.rename(extracted_dir, self._source_subfolder)
+
+    def _configure_cmake(self):
+        cmake = CMake(self)
+        cmake.definitions[&#34;JAS_ENABLE_DOC&#34;] = False
+        cmake.definitions[&#34;JAS_ENABLE_PROGRAMS&#34;] = False
+        cmake.definitions[&#34;JAS_ENABLE_SHARED&#34;] = self.options.shared
+        cmake.definitions[&#34;JAS_LIBJPEG_REQUIRED&#34;] = &#34;REQUIRED&#34;
+        cmake.definitions[&#34;JAS_ENABLE_OPENGL&#34;] = False
+        cmake.configure(source_folder=self._source_subfolder)
+        return cmake
+
+    def _patch_cmake(self):
+        cmake_file = os.path.join(self._source_subfolder, &#34;CMakeLists.txt&#34;)
+        tools.replace_in_file(cmake_file,
                               &#34;project(JasPer LANGUAGES C)&#34;,
                               &#34;&#34;&#34;project(JasPer LANGUAGES C)
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
-&#34;&#34;&#34;)
+                                 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+                                 conan_basic_setup()&#34;&#34;&#34;)
 
     def build(self):
-        cmake = CMake(self)
-        cmake.definitions[&#34;JAS_ENABLE_DOC&#34;] = &#34;False&#34;
-        cmake.definitions[&#34;JAS_ENABLE_PROGRAMS&#34;] = &#34;False&#34;
-        cmake.definitions[&#34;JAS_ENABLE_SHARED&#34;] = &#34;True&#34; if self.options.shared else &#34;False&#34;
-        cmake.definitions[&#34;JAS_LIBJPEG_REQUIRED&#34;] = &#34;REQUIRED&#34;
-        cmake.definitions[&#34;JAS_ENABLE_OPENGL&#34;] = &#34;False&#34;
-        cmake.configure(source_folder=&#34;jasper-version-%s&#34; % self.version)
+        self._patch_cmake()
+        cmake = self._configure_cmake()
         cmake.build()
 
     def package(self):
-        self.copy(&#34;*.h&#34;, dst=&#34;include&#34;, src=&#34;jasper-version-%s/src/libjasper/include&#34; % self.version)
-        self.copy(&#34;*.h&#34;, dst=&#34;include&#34;, src=&#34;src/libjasper/include&#34;)
-        self.copy(&#34;*.lib&#34;, dst=&#34;lib&#34;, keep_path=False)
-        self.copy(&#34;*.dll&#34;, dst=&#34;bin&#34;, keep_path=False)
-        self.copy(&#34;*.so*&#34;, dst=&#34;lib&#34;, keep_path=False, symlinks=True)
-        self.copy(&#34;*.dylib&#34;, dst=&#34;lib&#34;, keep_path=False)
-        self.copy(&#34;*.a&#34;, dst=&#34;lib&#34;, keep_path=False)
-        self.copy(&#34;LICENSE&#34;, src=&#34;jasper-version-%s&#34; % self.version)
+        self.copy(&#34;LICENSE&#34;, src=self._source_subfolder, dst=&#34;licenses&#34;)
+        cmake = self._configure_cmake()
+        cmake.install()
 
     def package_info(self):
         self.cpp_info.libs = [&#34;jasper&#34;]
+        if self.settings.os == &#34;Linux&#34;:
+            self.cpp_info.libs.append(&#34;m&#34;)
 </code>
         </pre>
     </div>
@@ -715,7 +728,7 @@ conan_basic_setup()
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-04-03 00:21:46</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-04-04 00:23:05</span> | Work in progress
 
       </div>
     </footer>
