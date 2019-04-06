@@ -650,57 +650,16 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,47 +1,10 @@
--from conan.packager import ConanMultiPackager
--import os, re
+@@ -1,8 +1,10 @@
 +#!/usr/bin/env python
-+# -*- coding: utf-8 -*-
- 
--
--def get_value_from_recipe(search_string):
--    with open(&#34;conanfile.py&#34;, &#34;r&#34;) as conanfile:
--        contents = conanfile.read()
--        result = re.search(search_string, contents)
--    return result
--
--def get_name_from_recipe():
--    return get_value_from_recipe(r&#39;&#39;&#39;name\s*=\s*[&#34;&#39;](\S*)[&#34;&#39;]&#39;&#39;&#39;).groups()[0]
--
--def get_version_from_recipe():
--    return get_value_from_recipe(r&#39;&#39;&#39;version\s*=\s*[&#34;&#39;](\S*)[&#34;&#39;]&#39;&#39;&#39;).groups()[0]
-+from cpt.packager import ConanMultiPackager
+ # -*- coding: utf-8 -*-
++
+ from cpt.packager import ConanMultiPackager
  
  
  if __name__ == &#34;__main__&#34;:
--    header_only = False
--    name = get_name_from_recipe()
--    version = get_version_from_recipe()
--    reference = &#34;{0}/{1}&#34;.format(name, version)
--    username = &#34;conan&#34;
--    login_username = &#34;conanbot&#34;
--    upload_remote = &#34;https://api.bintray.com/conan/conan-community/{0}&#34;.format(username)
--
--    builder = ConanMultiPackager(
--        stable_branch_pattern=&#34;stable/*&#34;,
--        upload_only_when_stable=True,
--        username=username,
--        login_username=login_username,
--        reference=reference,
--        upload=upload_remote,
--        remotes=upload_remote)
--
--    if header_only:
--        filtered_builds = []
--        for settings, options, env_vars, build_requires, reference in builder.items:
--            if settings[&#34;compiler&#34;] == &#34;gcc&#34;:
--                filtered_builds.append([settings, options, env_vars, build_requires])
--                break
--        builder.builds = filtered_builds
--
--    builder.add_common_builds(pure_c=True,
--                              shared_option_name=&#34;paho-c:shared&#34;,
--                              dll_with_static_runtime=True)
-+    builder = ConanMultiPackager()
+     builder = ConanMultiPackager()
+-    builder.add_common_builds(pure_c=True)
 +    builder.add_common_builds()
      builder.run()</code>
         </pre>
@@ -722,7 +681,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-04-05 00:23:01</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-04-06 00:23:19</span> | Work in progress
 
       </div>
     </footer>
