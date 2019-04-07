@@ -658,17 +658,16 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,7 +1,10 @@
--from conan.packager import ConanMultiPackager
-+#!/usr/bin/env python
-+# -*- coding: utf-8 -*-
+@@ -1,9 +1,10 @@
+ #!/usr/bin/env python
+ # -*- coding: utf-8 -*-
 +
-+from cpt.packager import ConanMultiPackager
+ from cpt.packager import ConanMultiPackager
  
  
  if __name__ == &#34;__main__&#34;:
      builder = ConanMultiPackager()
--    builder.add_common_builds(shared_option_name=&#34;OpenCV:shared&#34;)
+-    builder.add_common_builds(pure_c=False)
 +    builder.add_common_builds()
      builder.run()</code>
         </pre>
@@ -690,7 +689,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-04-06 00:21:46</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-04-07 00:23:31</span> | Work in progress
 
       </div>
     </footer>

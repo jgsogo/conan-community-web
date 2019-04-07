@@ -636,7 +636,7 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,25 +1,122 @@
+@@ -1,32 +1,122 @@
  build: false
 +
  
@@ -657,9 +657,16 @@
 +
  
      matrix:
--
--        - MINGW_CONFIGURATIONS: &#34;8@x86@dwarf2@posix, 7@x86@dwarf2@posix, 6@x86@dwarf2@posix, 5@x86@dwarf2@posix, 4.9@x86@dwarf2@posix&#34;
--        - MINGW_CONFIGURATIONS: &#34;8@x86_64@seh@posix, 7@x86_64@seh@posix, 6@x86_64@seh@posix, 5@x86_64@seh@posix, 4.9@x86_64@seh@posix&#34;
+-        - MINGW_CONFIGURATIONS: &#34;8@x86@dwarf2@posix&#34;
+-        - MINGW_CONFIGURATIONS: &#34;7@x86@dwarf2@posix&#34;
+-        - MINGW_CONFIGURATIONS: &#34;6@x86@dwarf2@posix&#34;
+-        - MINGW_CONFIGURATIONS: &#34;5@x86@dwarf2@posix&#34;
+-        - MINGW_CONFIGURATIONS: &#34;4.9@x86@dwarf2@posix&#34;
+-        - MINGW_CONFIGURATIONS: &#34;8@x86_64@seh@posix&#34;
+-        - MINGW_CONFIGURATIONS: &#34;7@x86_64@seh@posix&#34;
+-        - MINGW_CONFIGURATIONS: &#34;6@x86_64@seh@posix&#34;
+-        - MINGW_CONFIGURATIONS: &#34;5@x86_64@seh@posix&#34;
+-        - MINGW_CONFIGURATIONS: &#34;4.9@x86_64@seh@posix&#34;
 +      
          - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
            CONAN_VISUAL_VERSIONS: 12
@@ -784,7 +791,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-04-06 00:21:25</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-04-07 00:23:15</span> | Work in progress
 
       </div>
     </footer>
