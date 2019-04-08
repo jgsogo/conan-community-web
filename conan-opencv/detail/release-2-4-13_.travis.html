@@ -658,16 +658,13 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,13 +1,14 @@
+@@ -1,6 +1,14 @@
  env:
     global:
--     - CONAN_REFERENCE: &#34;opencv/2.4.13.5&#34;
-      - CONAN_USERNAME: &#34;conan&#34;
-      - CONAN_LOGIN_USERNAME: &#34;conanbot&#34;
--     - CONAN_STABLE_BRANCH_PATTERN: &#34;stable/*&#34;
-      - CONAN_CHANNEL: &#34;testing&#34;
-      - CONAN_UPLOAD: &#34;https://api.bintray.com/conan/conan-community/conan&#34;
--     - CONAN_REMOTES: &#34;https://api.bintray.com/conan/bincrafters/public-conan&#34;
++     - CONAN_USERNAME: &#34;conan&#34;
++     - CONAN_LOGIN_USERNAME: &#34;conanbot&#34;
++     - CONAN_CHANNEL: &#34;testing&#34;
++     - CONAN_UPLOAD: &#34;https://api.bintray.com/conan/conan-community/conan&#34;
 +     - CONAN_STABLE_BRANCH_PATTERN: &#34;(release|stable)/[a-zA-Z0-9_][a-zA-Z0-9_+.-]+&#34;
 +     - CONAN_UPLOAD_ONLY_WHEN_STABLE: 1 # Will only upload when the branch matches the stable pattern
       - CONAN_DOCKER_32_IMAGES: 1
@@ -676,7 +673,7 @@
  
  linux: &amp;linux
     os: linux
-@@ -19,228 +20,92 @@
+@@ -12,228 +20,92 @@
  osx: &amp;osx
     os: osx
     language: generic
@@ -761,7 +758,7 @@
 +     
        - &lt;&lt;: *linux
 -        env: CONAN_GCC_VERSIONS=4.9 CONAN_TOTAL_PAGES=2 CONAN_CURRENT_PAGE=2 CONAN_DOCKER_IMAGE=conanio/gcc49 CONAN_ARCHS=x86_64 CONAN_BUILD_TYPES=Release
--        
+-
 +        stage: conan-osx
 +        osx_image: xcode9.1
 +        env: CONAN_APPLE_CLANG_VERSIONS=9.1 CONAN_CURRENT_PAGE=1
@@ -997,7 +994,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-04-07 00:23:31</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-04-08 00:22:45</span> | Work in progress
 
       </div>
     </footer>
