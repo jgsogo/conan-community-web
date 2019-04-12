@@ -339,9 +339,9 @@
                 <span data-feather="file-text"></span>
                 conan-paho-c
                 
-                <span class="numberCircle numberCircle-error" title=""><span>24</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>23</span></span>
                 
-                <span class="numberCircle numberCircle-warning" title=""><span>3</span></span>
+                <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
             </li>
         
@@ -405,7 +405,7 @@
                 <span data-feather="file-text"></span>
                 conan-paho-cpp
                 
-                <span class="numberCircle numberCircle-error" title=""><span>22</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>27</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -648,7 +648,8 @@
     <h4>conanfile.py</h4>
     <div>
         <pre>
-            <code class="python">import os
+            <code class="python"># -*- coding: utf-8 -*-
+import os
 from conans import ConanFile, CMake, tools
 
 
@@ -660,17 +661,25 @@ class PahocConan(ConanFile):
     description = &#34;&#34;&#34;The Eclipse Paho project provides open-source client implementations of MQTT
 and MQTT-SN messaging protocols aimed at new, existing, and emerging applications for the Internet
 of Things (IoT)&#34;&#34;&#34;
+    topics = (&#34;MQTT&#34;, &#34;IoT&#34;, &#34;eclipse&#34;, &#34;SSL&#34;, &#34;paho&#34;, &#34;C&#34;)
     url = &#34;https://github.com/conan-community/conan-paho-c&#34;
+    author = &#34;Conan Community&#34;
     settings = &#34;os&#34;, &#34;compiler&#34;, &#34;build_type&#34;, &#34;arch&#34;
     options = {&#34;shared&#34;: [True, False],
                &#34;fPIC&#34;: [True, False],
                &#34;SSL&#34;: [True, False],
-               &#34;async&#34;: [True, False]}
-    default_options = {&#34;shared&#34;: False, &#34;fPIC&#34;: True, &#34;SSL&#34;: False, &#34;async&#34;: True}
+               &#34;asynchronous&#34;: [True, False]}
+    default_options = {&#34;shared&#34;: False,
+                       &#34;fPIC&#34;: True,
+                       &#34;SSL&#34;: False,
+                       &#34;asynchronous&#34;: True}
     generators = &#34;cmake&#34;
     exports = &#34;LICENSE&#34;
-    exports_sources = [&#34;0001-fix-MinGW-and-OSX-builds.patch&#34;]
-    _source_subfolder = &#34;sources&#34;
+    exports_sources = [&#34;CMakeLists.txt&#34;, &#34;0001-fix-MinGW-and-OSX-builds.patch&#34;, &#34;0002-fix-cmake-install.patch&#34;]
+
+    @property
+    def _source_subfolder(self):
+        return &#34;sources&#34;
 
     def config_options(self):
         if self.settings.os == &#34;Windows&#34;:
@@ -680,39 +689,35 @@ of Things (IoT)&#34;&#34;&#34;
         del self.settings.compiler.libcxx
 
     def source(self):
-        tools.get(&#34;%s/archive/v%s.zip&#34; % (self.homepage, self.version))
+        sha256 = &#34;44f2a04549bc12781cfb92fea7b9b6155f9d16d4deca8f70795bc5981440f0ac&#34;
+        tools.get(&#34;%s/archive/v%s.zip&#34; % (self.homepage, self.version), sha256=sha256)
         os.rename(&#34;paho.mqtt.c-%s&#34; % self.version, self._source_subfolder)
-        cmakelists_path = &#34;%s/CMakeLists.txt&#34; % self._source_subfolder
-        tools.patch(base_path=self._source_subfolder, patch_file=&#34;0001-fix-MinGW-and-OSX-builds.patch&#34;)
-        tools.replace_in_file(cmakelists_path,
-                              &#34;PROJECT(\&#34;Eclipse Paho C\&#34; C)&#34;,
-                              &#34;&#34;&#34;PROJECT(\&#34;Eclipse Paho C\&#34; C)
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()&#34;&#34;&#34;)
 
     def requirements(self):
         if self.options.SSL:
-            self.requires(&#34;OpenSSL/1.1.0i@conan/stable&#34;)
+            self.requires(&#34;OpenSSL/1.0.2r@conan/stable&#34;)
 
     def _configure_cmake(self):
         cmake = CMake(self)
         cmake.definitions[&#34;PAHO_ENABLE_TESTING&#34;] = False
         cmake.definitions[&#34;PAHO_BUILD_DOCUMENTATION&#34;] = False
         cmake.definitions[&#34;PAHO_BUILD_SAMPLES&#34;] = False
-        cmake.definitions[&#34;PAHO_BUILD_DEB_PACKAGE&#34;] = False
         cmake.definitions[&#34;PAHO_BUILD_STATIC&#34;] = not self.options.shared
         cmake.definitions[&#34;PAHO_WITH_SSL&#34;] = self.options.SSL
-        cmake.configure(source_folder=self._source_subfolder)
+        cmake.definitions[&#34;PAHO_BUILD_ASYNC&#34;] = self.options.asynchronous
+        cmake.configure()
         return cmake
 
     def build(self):
+        tools.patch(base_path=self._source_subfolder, patch_file=&#34;0001-fix-MinGW-and-OSX-builds.patch&#34;)
+        tools.patch(base_path=self._source_subfolder, patch_file=&#34;0002-fix-cmake-install.patch&#34;)
         cmake = self._configure_cmake()
         cmake.build()
 
     def package(self):
-        self.copy(&#34;edl-v10&#34;, src=self._source_subfolder, dst=&#34;licenses&#34;, keep_path=False)
-        self.copy(&#34;epl-v10&#34;, src=self._source_subfolder, dst=&#34;licenses&#34;, keep_path=False)
-        self.copy(&#34;notice.html&#34;, src=self._source_subfolder, dst=&#34;licenses&#34;, keep_path=False)
+        self.copy(&#34;edl-v10&#34;, src=self._source_subfolder, dst=&#34;licenses&#34;)
+        self.copy(&#34;epl-v10&#34;, src=self._source_subfolder, dst=&#34;licenses&#34;)
+        self.copy(&#34;notice.html&#34;, src=self._source_subfolder, dst=&#34;licenses&#34;)
         cmake = self._configure_cmake()
         cmake.install()
 
@@ -725,15 +730,11 @@ conan_basic_setup()&#34;&#34;&#34;)
                     self.cpp_info.libs.extend([&#34;wsock32&#34;, &#34;uuid&#34;, &#34;crypt32&#34;, &#34;rpcrt4&#34;])
         else:
             if self.settings.os == &#34;Linux&#34;:
-                self.cpp_info.libs.append(&#34;c&#34;)
-                self.cpp_info.libs.append(&#34;dl&#34;)
-                self.cpp_info.libs.append(&#34;pthread&#34;)
+                self.cpp_info.libs.extend([&#34;c&#34;, &#34;dl&#34;, &#34;pthread&#34;])
             elif self.settings.os == &#34;FreeBSD&#34;:
-                self.cpp_info.libs.append(&#34;compat&#34;)
-                self.cpp_info.libs.append(&#34;pthread&#34;)
+                self.cpp_info.libs.extend([&#34;compat&#34;, &#34;pthread&#34;])
             else:
-                self.cpp_info.libs.append(&#34;c&#34;)
-                self.cpp_info.libs.append(&#34;pthread&#34;)
+                self.cpp_info.libs.extend([&#34;c&#34;, &#34;pthread&#34;])
 </code>
         </pre>
     </div>
@@ -754,7 +755,7 @@ conan_basic_setup()&#34;&#34;&#34;)
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-04-11 00:25:42</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-04-12 00:26:41</span> | Work in progress
 
       </div>
     </footer>
