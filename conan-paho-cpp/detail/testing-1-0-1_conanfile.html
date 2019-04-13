@@ -75,7 +75,7 @@
                 <span data-feather="file-text"></span>
                 conan-boost
                 
-                <span class="numberCircle numberCircle-error" title=""><span>57</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>63</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -678,8 +678,8 @@ class PahocppConan(ConanFile):
     default_options = {&#34;shared&#34;: False, &#34;SSL&#34;: False, &#34;fPIC&#34;: True}
     generators = &#34;cmake&#34;
     exports = &#34;LICENSE&#34;
-    exports_sources = [&#34;CMakeLists.txt&#34;, &#34;PahoMqttCConfig.cmake&#34;]
-    requires = &#34;paho-c/1.2.0@conan/stable&#34;
+    exports_sources = [&#34;CMakeLists.txt&#34;, &#34;0001-find-paho-c.patch&#34;]
+    requires = &#34;paho-c/1.3.0@conan/stable&#34;
 
     def config_options(self):
         if self.settings.os == &#34;Windows&#34;:
@@ -706,11 +706,11 @@ class PahocppConan(ConanFile):
         cmake.definitions[&#34;PAHO_BUILD_STATIC&#34;] = not self.options.shared
         cmake.definitions[&#34;PAHO_BUILD_SHARED&#34;] = self.options.shared
         cmake.definitions[&#34;PAHO_WITH_SSL&#34;] = self.options.SSL
-        cmake.definitions[&#34;CMAKE_PREFIX_PATH&#34;] = self.build_folder
         cmake.configure()
         return cmake
 
     def build(self):
+        tools.patch(base_path=self._source_subfolder, patch_file=&#34;0001-find-paho-c.patch&#34;)
         cmake = self._configure_cmake()
         cmake.build()
 
@@ -742,7 +742,7 @@ class PahocppConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-04-12 00:27:01</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-04-13 00:27:17</span> | Work in progress
 
       </div>
     </footer>
