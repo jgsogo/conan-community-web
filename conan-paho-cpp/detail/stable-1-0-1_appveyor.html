@@ -658,14 +658,12 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,16 +1,122 @@
+@@ -1,17 +1,125 @@
  build: false
  
 +
  environment:
--    PYTHON: &#34;C:\\Python27&#34;
--    PYTHON_VERSION: &#34;2.7.8&#34;
--    PYTHON_ARCH: &#34;32&#34;
+-    PYTHON_HOME: &#34;C:\\Python37&#34;
 +    PYTHON: &#34;C:\\Python37&#34;
 +
 +    CONAN_USERNAME: &#34;conan&#34;
@@ -784,7 +782,11 @@
 +      
  
  install:
-   - set PATH=%PATH%;%PYTHON%/Scripts/</code>
+-  - set PATH=%PYTHON_HOME%;%PYTHON_HOME%/Scripts/;%PATH%
++  - set PATH=%PATH%;%PYTHON%/Scripts/
+   - pip.exe install conan --upgrade
+   - pip.exe install conan_package_tools
+   - conan user # It creates the conan data directory</code>
         </pre>
     </div>
 
@@ -804,7 +806,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-04-13 00:27:17</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-04-14 00:26:57</span> | Work in progress
 
       </div>
     </footer>
