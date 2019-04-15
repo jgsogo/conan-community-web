@@ -405,7 +405,7 @@
                 <span data-feather="file-text"></span>
                 conan-paho-cpp
                 
-                <span class="numberCircle numberCircle-error" title=""><span>27</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>28</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -553,6 +553,8 @@
         <a class="btn btn-sm btn-outline-secondary" href="https://github.com/conan-community/conan-paho-cpp/tree/stable/1.0.1" role="button">Github <span data-feather="external-link"></span></a>
         
         
+            <a class="btn btn-sm btn-outline-secondary" href="https://bintray.com/conan-community/conan/paho-cpp%3Aconan/1.0.1%3Astable" role="button">Bintray <span data-feather="external-link"></span></a>
+        
     </div>
     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" id="branchesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span data-feather="git-branch"></span>
@@ -581,7 +583,7 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-paho-cpp/detail/stable-1-0-1.html">
                 stable/1.0.1
                 
-                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>6</span></span>
                 
                 
             </a>
@@ -658,7 +660,7 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,71 +1,10 @@
+@@ -1,71 +1,37 @@
 -[![Download](https://api.bintray.com/packages/conan-community/conan/paho-cpp%3Aconan/images/download.svg) ](https://bintray.com/conan-community/conan/paho-cpp%3Aconan/_latestVersion)
 -[![Build Status Travis](https://travis-ci.org/conan-community/conan-paho-cpp.svg)](https://travis-ci.org/conan-community/conan-paho-cpp)
 -[![Build Status AppVeyor](https://ci.appveyor.com/api/projects/status/github/conan-community/conan-paho-cpp?svg=true)](https://ci.appveyor.com/project/ConanCIintegration/conan-paho-cpp)
@@ -678,33 +680,47 @@
 -
 -[Issues Tracker](https://github.com/conan-community/community/issues)
 +[![Build Status](https://travis-ci.org/conan-community/conan-paho-cpp.svg?branch=stable/1.0.1)](https://travis-ci.org/conan-community/conan-paho-cpp/builds/519598476)
-+[![Build Status](https://ci.appveyor.com/api/projects/status/github/conan-community%2Fconan-paho-cpp?branch=stable/1.0.1&amp;svg=true)](https://ci.appveyor.com/project/ConanCIintegration/conan-paho-cpp/builds/23821456)
++[![Build Status](https://ci.appveyor.com/api/projects/status/github/conan-community%2Fconan-paho-cpp?branch=stable/1.0.1&amp;svg=true)](https://ci.appveyor.com/project/ConanCIintegration/conan-paho-cpp/builds/23844736)
  
  
 -## For Users
--
--### Basic setup
--
--    $ conan install paho-cpp/1.0.1@conan/stable
--
--### Project setup
--
--If you handle multiple dependencies in your project is better to add a *conanfile.txt*
--
--    [requires]
--    paho-cpp/1.0.1@conan/stable
--
--    [generators]
--    cmake
--
--Complete the installation of requirements for your project running:
--
--    $ mkdir build &amp;&amp; cd build &amp;&amp; conan install ..
--
--Note: It is recommended that you run conan install from a build directory and not the root of the project directory.  This is because conan generates *conanbuildinfo* files specific to a single build configuration which by default comes from an autodetected default profile located in ~/.conan/profiles/default .  If you pass different build configuration options to conan install, it will generate different *conanbuildinfo* files.  Thus, they should not be added to the root of the project, nor committed to git.
 +# conan-paho-cpp
  
+-### Basic setup
++
++
++[Conan](https://bintray.com/conan-community/conan/paho-cpp%3Aconan/1.0.1%3Astable) package for conan-paho-cpp library.
++
++
++## Basic setup
  
+     $ conan install paho-cpp/1.0.1@conan/stable
+-
+-### Project setup
++    
++## Project setup
+ 
+ If you handle multiple dependencies in your project is better to add a *conanfile.txt*
+-
++    
+     [requires]
+     paho-cpp/1.0.1@conan/stable
+ 
++    [options]
++    
+     [generators]
+     cmake
+ 
+ Complete the installation of requirements for your project running:
+ 
+-    $ mkdir build &amp;&amp; cd build &amp;&amp; conan install ..
++    conan install . 
+ 
+-Note: It is recommended that you run conan install from a build directory and not the root of the project directory.  This is because conan generates *conanbuildinfo* files specific to a single build configuration which by default comes from an autodetected default profile located in ~/.conan/profiles/default .  If you pass different build configuration options to conan install, it will generate different *conanbuildinfo* files.  Thus, they should not be added to the root of the project, nor committed to git.
++Project setup installs the library (and all his dependencies) and generates the files *conanbuildinfo.cmake* with all the 
++paths and variables that you need to link with your dependencies.
+ 
+-
 -## Build and package
 -
 -The following command both runs all the steps of the conan file, and publishes the package to the local system cache.  This includes downloading dependencies from &#34;build_requires&#34; and &#34;requires&#34; , and then running the build() method.
@@ -752,7 +768,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-04-14 00:26:57</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-04-15 00:28:14</span> | Work in progress
 
       </div>
     </footer>
