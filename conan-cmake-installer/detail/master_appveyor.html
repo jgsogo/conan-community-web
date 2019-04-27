@@ -176,7 +176,7 @@
                 
                 <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
                 
-                <span class="numberCircle numberCircle-warning" title=""><span>3</span></span>
+                <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
             </li>
         
@@ -626,25 +626,20 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,27 +1,126 @@
+@@ -1,19 +1,126 @@
  build: false
- 
 +
- environment:
--    PYTHON: &#34;C:\\Python27&#34;
--    PYTHON_VERSION: &#34;2.7.8&#34;
--    PYTHON_ARCH: &#34;32&#34;
-+    PYTHON: &#34;C:\\Python37&#34;
  
-     CONAN_USERNAME: &#34;conan&#34;
-+    CONAN_CHANNEL: &#34;testing&#34;
-     CONAN_LOGIN_USERNAME: &#34;conanbot&#34;
--    CONAN_CHANNEL: &#34;testing&#34;
-+    VS150COMNTOOLS: &#34;C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\&#34;
-     CONAN_UPLOAD: &#34;https://api.bintray.com/conan/conan-community/conan&#34;
--    CONAN_STABLE_BRANCH_PATTERN: &#34;master&#34;
+ environment:
+     PYTHON: &#34;C:\\Python37&#34;
 -    CONAN_UPLOAD_ONLY_WHEN_STABLE: 1
 -    CONAN_TOTAL_PAGES: 2
++
++    CONAN_USERNAME: &#34;conan&#34;
++    CONAN_CHANNEL: &#34;testing&#34;
++    CONAN_LOGIN_USERNAME: &#34;conanbot&#34;
++    VS150COMNTOOLS: &#34;C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\&#34;
++    CONAN_UPLOAD: &#34;https://api.bintray.com/conan/conan-community/conan&#34;
 +    CONAN_STABLE_BRANCH_PATTERN: &#34;(release|stable)/[a-zA-Z0-9_][a-zA-Z0-9_+.-]+&#34;
 +    CONAN_UPLOAD_ONLY_WHEN_STABLE: 1 # Will only upload when the branch matches stable pattern
 +    CONAN_TOTAL_PAGES: 1
@@ -781,7 +776,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-04-26 00:32:36</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-04-27 00:35:20</span> | Work in progress
 
       </div>
     </footer>
