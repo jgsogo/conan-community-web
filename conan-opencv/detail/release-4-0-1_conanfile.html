@@ -690,7 +690,8 @@ class OpenCVConan(ConanFile):
                &#34;nonfree&#34;: [True, False],
                &#34;dc1394&#34;: [True, False],
                &#34;carotene&#34;: [True, False],
-               &#34;cuda&#34;: [True, False]}
+               &#34;cuda&#34;: [True, False],
+               &#34;protobuf&#34;: [True, False]}
     default_options = {&#34;shared&#34;: False,
                        &#34;fPIC&#34;: True,
                        &#34;contrib&#34;: False,
@@ -705,7 +706,8 @@ class OpenCVConan(ConanFile):
                        &#34;nonfree&#34;: False,
                        &#34;dc1394&#34;: True,
                        &#34;carotene&#34;: False,
-                       &#34;cuda&#34;: False}
+                       &#34;cuda&#34;: False,
+                       &#34;protobuf&#34;: True}
     exports_sources = [&#34;CMakeLists.txt&#34;]
     exports = &#34;LICENSE&#34;
     generators = &#34;cmake&#34;
@@ -793,6 +795,10 @@ class OpenCVConan(ConanFile):
             self.requires.add(&#39;jasper/2.0.14@conan/stable&#39;)
         if self.options.openexr:
             self.requires.add(&#39;openexr/2.3.0@conan/stable&#39;)
+        if self.options.protobuf:
+            # NOTE : version should be the same as used in OpenCV release,
+            # otherwise, PROTOBUF_UPDATE_FILES should be set to re-generate files
+            self.requires.add(&#39;protobuf/3.5.2@bincrafters/stable&#39;)
 
     def _configure_cmake(self):
         cmake = CMake(self)
@@ -833,6 +839,8 @@ class OpenCVConan(ConanFile):
         cmake.definitions[&#39;BUILD_IPP_IW&#39;] = False
         cmake.definitions[&#39;BUILD_ITT&#39;] = False
         cmake.definitions[&#39;BUILD_JPEG_TURBO_DISABLE&#39;] = True
+        cmake.definitions[&#39;BUILD_PROTOBUF&#39;] = False
+        cmake.definitions[&#39;PROTOBUF_UPDATE_FILES&#39;] = False
 
         cmake.definitions[&#39;WITH_JPEG&#39;] = self.options.jpeg
         cmake.definitions[&#39;WITH_TIFF&#39;] = self.options.tiff
@@ -841,7 +849,7 @@ class OpenCVConan(ConanFile):
         cmake.definitions[&#39;WITH_JASPER&#39;] = self.options.jasper
         cmake.definitions[&#39;WITH_OPENEXR&#39;] = self.options.openexr
         cmake.definitions[&#34;WITH_1394&#34;] = self.options.dc1394
-        cmake.definitions[&#39;WITH_PROTOBUF&#39;] = False
+        cmake.definitions[&#39;WITH_PROTOBUF&#39;] = self.options.protobuf
         cmake.definitions[&#39;WITH_FFMPEG&#39;] = False
         cmake.definitions[&#39;WITH_QUIRC&#39;] = False
         cmake.definitions[&#39;WITH_CAROTENE&#39;] = self.options.carotene
@@ -1097,7 +1105,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-01 00:35:30</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-02 00:35:04</span> | Work in progress
 
       </div>
     </footer>
