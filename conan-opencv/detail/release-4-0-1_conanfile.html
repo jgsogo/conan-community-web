@@ -691,7 +691,9 @@ class OpenCVConan(ConanFile):
                &#34;dc1394&#34;: [True, False],
                &#34;carotene&#34;: [True, False],
                &#34;cuda&#34;: [True, False],
-               &#34;protobuf&#34;: [True, False]}
+               &#34;protobuf&#34;: [True, False],
+               &#34;freetype&#34;: [True, False],
+               &#34;harfbuzz&#34;: [True, False]}
     default_options = {&#34;shared&#34;: False,
                        &#34;fPIC&#34;: True,
                        &#34;contrib&#34;: False,
@@ -707,7 +709,9 @@ class OpenCVConan(ConanFile):
                        &#34;dc1394&#34;: True,
                        &#34;carotene&#34;: False,
                        &#34;cuda&#34;: False,
-                       &#34;protobuf&#34;: True}
+                       &#34;protobuf&#34;: True,
+                       &#34;freetype&#34;: True,
+                       &#34;harfbuzz&#34;: True}
     exports_sources = [&#34;CMakeLists.txt&#34;]
     exports = &#34;LICENSE&#34;
     generators = &#34;cmake&#34;
@@ -799,6 +803,10 @@ class OpenCVConan(ConanFile):
             # NOTE : version should be the same as used in OpenCV release,
             # otherwise, PROTOBUF_UPDATE_FILES should be set to re-generate files
             self.requires.add(&#39;protobuf/3.5.2@bincrafters/stable&#39;)
+        if self.options.freetype:
+            self.requires.add(&#39;freetype/2.9.1@bincrafters/stable&#39;)
+        if self.options.harfbuzz:
+            self.requires.add(&#39;harfbuzz/2.4.0@bincrafters/stable&#39;)
 
     def _configure_cmake(self):
         cmake = CMake(self)
@@ -857,6 +865,15 @@ class OpenCVConan(ConanFile):
         # This allows compilation on older GCC/NVCC, otherwise build errors.
         cmake.definitions[&#39;CUDA_NVCC_FLAGS&#39;] = &#39;--expt-relaxed-constexpr&#39;
 
+        # OpenCV doesn&#39;t use find_package for freetype &amp; harfbuzz, so let&#39;s specify them
+        if self.options.freetype:
+            cmake.definitions[&#39;FREETYPE_FOUND&#39;] = True
+            cmake.definitions[&#39;FREETYPE_LIBRARIES&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;freetype&#39;].libs)
+            cmake.definitions[&#39;FREETYPE_INCLUDE_DIRS&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;freetype&#39;].includedirs)
+        if self.options.harfbuzz:
+            cmake.definitions[&#39;HARFBUZZ_FOUND&#39;] = True
+            cmake.definitions[&#39;HARFBUZZ_LIBRARIES&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;harfbuzz&#39;].libs)
+            cmake.definitions[&#39;HARFBUZZ_INCLUDE_DIRS&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;harfbuzz&#39;].includedirs)
         if self.options.openexr:
             cmake.definitions[&#39;OPENEXR_ROOT&#39;] = self.deps_cpp_info[&#39;openexr&#39;].rootpath
 
@@ -1011,6 +1028,9 @@ class OpenCVConan(ConanFile):
                 &#34;xobjdetect&#34;,
                 &#34;xphoto&#34;] + opencv_libs
         
+            if not self.options.freetype or not self.options.harfbuzz:
+                opencv_libs.remove(&#34;freetype&#34;)
+
         if self.options.cuda:
             opencv_libs = [&#34;cudaarithm&#34;,
                             &#34;cudabgsegm&#34;,
@@ -1105,7 +1125,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-03 00:35:43</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-04 00:36:20</span> | Work in progress
 
       </div>
     </footer>
