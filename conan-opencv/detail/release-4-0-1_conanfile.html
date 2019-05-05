@@ -864,6 +864,9 @@ class OpenCVConan(ConanFile):
         cmake.definitions[&#39;WITH_CUDA&#39;] = self.options.cuda
         # This allows compilation on older GCC/NVCC, otherwise build errors.
         cmake.definitions[&#39;CUDA_NVCC_FLAGS&#39;] = &#39;--expt-relaxed-constexpr&#39;
+        
+        # MinGW doesn&#39;t build wih Media Foundation
+        cmake.definitions[&#39;WITH_MSMF&#39;] = self.settings.compiler == &#39;Visual Studio&#39;
 
         # OpenCV doesn&#39;t use find_package for freetype &amp; harfbuzz, so let&#39;s specify them
         if self.options.freetype:
@@ -1125,7 +1128,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-04 00:36:20</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-05 00:36:13</span> | Work in progress
 
       </div>
     </footer>

@@ -705,6 +705,8 @@ class EigenConan(ConanFile):
 
         if self.options.EIGEN_USE_LAPACKE_STRICT:
             self.cpp_info.defines.append(&#34;EIGEN_USE_LAPACKE_STRICT&#34;)
+
+        self.env_info.Eigen3_DIR = os.path.join(self.package_folder, &#34;share&#34;, &#34;eigen3&#34;, &#34;cmake&#34;)
 </code>
         </pre>
     </div>
@@ -725,7 +727,7 @@ class EigenConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-04 00:37:07</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-05 00:37:01</span> | Work in progress
 
       </div>
     </footer>
