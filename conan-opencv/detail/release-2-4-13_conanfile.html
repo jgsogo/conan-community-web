@@ -743,16 +743,19 @@ class OpenCVConan(ConanFile):
 
             def openexr_library_names(name):
                 # OpenEXR library may have different names, depends on namespace versioning, static, debug, etc.
-                version = self.requires[&#34;openexr&#34;].ref.version
+                reference = str(self.requires[&#34;openexr&#34;])
+                version_name = reference.split(&#34;@&#34;)[0]
+                version = version_name.split(&#34;/&#34;)[1]
                 version_tokens = version.split(&#39;.&#39;)
                 major, minor = version_tokens[0], version_tokens[1]
                 suffix = &#39;%s_%s&#39; % (major, minor)
-                names = [name,
-                         &#39;%s-%s&#39; % (name, suffix),
+                names = [&#39;%s-%s&#39; % (name, suffix),
                          &#39;%s-%s_s&#39; % (name, suffix),
                          &#39;%s-%s_d&#39; % (name, suffix),
                          &#39;%s-%s_s_d&#39; % (name, suffix),
+                         &#39;%s&#39; % name,
                          &#39;%s_s&#39; % name,
+                         &#39;%s_d&#39; % name,
                          &#39;%s_s_d&#39; % name]
                 return &#39; &#39;.join(names)
 
@@ -882,7 +885,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-05 00:36:13</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-06 00:38:06</span> | Work in progress
 
       </div>
     </footer>
