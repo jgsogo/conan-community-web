@@ -626,14 +626,14 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,47 +1,10 @@
+@@ -1,42 +1,10 @@
 +#!/usr/bin/env python
  # -*- coding: utf-8 -*-
 -import os
 -import platform
- 
--from conan.packager import ConanMultiPackager
-+from cpt.packager import ConanMultiPackager
+-from conans.tools import OSInfo
++
+ from cpt.packager import ConanMultiPackager
  
 -available_versions = [&#34;3.14.3&#34;, &#34;3.14.2&#34;, &#34;3.14.1&#34;, &#34;3.14.0&#34;,
 -                      &#34;3.13.4&#34;, &#34;3.13.3&#34;, &#34;3.13.2&#34;, &#34;3.13.1&#34;, &#34;3.13.0&#34;,
@@ -651,29 +651,24 @@
 -                      &#34;3.1.3&#34;,
 -                      &#34;3.0.2&#34;,
 -                      &#34;2.8.12&#34;]
+-
+-def detected_os():
+-    if OSInfo().is_macos:
+-        return &#34;Macos&#34;
+-    if OSInfo().is_windows:
+-        return &#34;Windows&#34;
+-    return platform.system()
  
  if __name__ == &#34;__main__&#34;:
--
+-    arch = os.environ[&#34;CONAN_ARCHS&#34;]
      builder = ConanMultiPackager()
+-    os = detected_os()
 -
--    i386 = &#34;CONAN_DOCKER_IMAGE&#34; in os.environ and \
--        os.environ[&#34;CONAN_DOCKER_IMAGE&#34;].endswith(&#34;i386&#34;)
--
--    # New mode, with version field
 -    for version in available_versions:
--        # Unknown problem with 3.0.2 on travis
--        # Building from sources takes much time so build the very recent 32bit version only
--        if (version &gt; &#34;3.0.2&#34; and not i386) or platform.system() == &#34;Windows&#34; or \
--                version == available_versions[0]:
--            builder.add({}, {}, {}, {}, reference=&#34;cmake_installer/%s&#34; % version)
--
--    # Old mode, with options
--    for version in available_versions:
--        # Unknown problem with 3.0.2 on travis
--        # Building from sources takes much time so build the very recent 32bit version only
--        if (version &gt; &#34;3.0.2&#34; and not i386) or platform.system() == &#34;Windows&#34; or \
--                version == available_versions[0]:
--            builder.add({}, {&#34;cmake_installer:version&#34;: version}, {}, {}, &#34;cmake_installer/1.0&#34;)
+-        # New mode, with version field
+-        builder.add({&#34;os&#34; : os, &#34;arch_build&#34; : arch, &#34;arch&#34;: arch}, {}, {}, {}, reference=&#34;cmake_installer/%s&#34; % version)
+-        # Old mode, version as an option
+-        builder.add({&#34;os&#34; : os, &#34;arch_build&#34; : arch, &#34;arch&#34;: arch}, {&#34;cmake_installer:version&#34;: version}, {}, {}, reference=&#34;cmake_installer/1.0&#34;)
 -
 +    builder.add_common_builds()
      builder.run()</code>
@@ -696,7 +691,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-08 00:40:43</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-09 00:39:45</span> | Work in progress
 
       </div>
     </footer>

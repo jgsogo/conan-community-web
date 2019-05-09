@@ -626,7 +626,7 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,21 +1,126 @@
+@@ -1,25 +1,126 @@
  build: false
 +
  
@@ -657,8 +657,7 @@
 +          CONAN_VISUAL_RUNTIMES: MT
            CONAN_CURRENT_PAGE: 1
 +      
-         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
--          CONAN_CURRENT_PAGE: 2
++        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
 +          CONAN_VISUAL_VERSIONS: 12
 +          CONAN_ARCHS: x86
 +          CONAN_BUILD_TYPES: Release
@@ -667,14 +666,17 @@
 +      
 +        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
 +          CONAN_VISUAL_VERSIONS: 12
-+          CONAN_ARCHS: x86_64
+           CONAN_ARCHS: x86_64
+-          CONAN_TOTAL_PAGES: 2
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MT
 +          CONAN_CURRENT_PAGE: 1
 +      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+-          CONAN_CURRENT_PAGE: 2
 +          CONAN_VISUAL_VERSIONS: 12
-+          CONAN_ARCHS: x86_64
+           CONAN_ARCHS: x86_64
+-          CONAN_TOTAL_PAGES: 2
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MD
 +          CONAN_CURRENT_PAGE: 1
@@ -778,7 +780,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-08 00:40:43</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-09 00:39:45</span> | Work in progress
 
       </div>
     </footer>
