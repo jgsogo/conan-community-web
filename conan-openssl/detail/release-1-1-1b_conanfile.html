@@ -949,6 +949,7 @@ class OpenSSLConan(ConanFile):
         elif self.settings.os == &#34;Linux&#34;:
             target = {&#34;x86&#34;: &#34;linux-x86&#34;,
                       &#34;x86_64&#34;: &#34;linux-x86_64&#34;,
+                      &#34;armv6&#34;: &#34;linux-armv4&#34;,
                       &#34;armv7&#34;: &#34;linux-armv4&#34;,
                       &#34;armv7hf&#34;: &#34;linux-armv4&#34;,
                       &#34;armv8&#34;: &#34;linux-aarch64&#34;,
@@ -1017,7 +1018,7 @@ class OpenSSLConan(ConanFile):
         self._patch_makefile()
 
         self.output.warn(&#34;----------MAKE OPENSSL %s-------------&#34; % self.version)
-        self.run_in_src(&#34;make&#34;, show_output=True, win_bash=win_bash)
+        self.run_in_src(&#34;make -j%s&#34; % tools.cpu_count(), show_output=True, win_bash=win_bash)
 
     def ios_build(self):
         config_options_string = self._get_flags()
@@ -1046,7 +1047,7 @@ class OpenSSLConan(ConanFile):
         self.run_in_src(command)
         self._patch_install_name()
         self.output.warn(&#34;----------MAKE OPENSSL %s-------------&#34; % self.version)
-        self.run_in_src(&#34;make&#34;)
+        self.run_in_src(&#34;make -j%s&#34; % tools.cpu_count())
 
     def _patch_install_name(self):
         old_str = &#39;-install_name $(INSTALLTOP)/$(LIBDIR)/&#39;
@@ -1160,7 +1161,7 @@ class OpenSSLConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-10 00:38:52</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-11 00:39:11</span> | Work in progress
 
       </div>
     </footer>
