@@ -295,7 +295,7 @@
                 <span data-feather="file-text"></span>
                 conan-stb
                 
-                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>23</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -735,7 +735,7 @@ lib_list = [&#39;math&#39;, &#39;wave&#39;, &#39;container&#39;, &#39;contract&#
 class BoostConan(ConanFile):
     name = &#34;boost&#34;
     version = &#34;1.70.0&#34;
-    settings = &#34;os&#34;, &#34;arch&#34;, &#34;compiler&#34;, &#34;build_type&#34;, &#34;cppstd&#34;
+    settings = &#34;os&#34;, &#34;arch&#34;, &#34;compiler&#34;, &#34;build_type&#34;
     folder_name = &#34;boost_%s&#34; % version.replace(&#34;.&#34;, &#34;_&#34;)
     description = &#34;Boost provides free peer-reviewed portable C++ source libraries&#34;
     # The current python option requires the package to be built locally, to find default Python
@@ -1239,11 +1239,11 @@ class BoostConan(ConanFile):
         toolset, _, _ = self.get_toolset_version_and_exe()
         flags.append(&#34;toolset=%s&#34; % toolset)
 
-        if self.settings.cppstd:
+        if self.settings.get_safe(&#34;compiler.cppstd&#34;):
             flags.append(&#34;cxxflags=%s&#34; % cppstd_flag(
                     self.settings.get_safe(&#34;compiler&#34;),
                     self.settings.get_safe(&#34;compiler.version&#34;),
-                    self.settings.get_safe(&#34;cppstd&#34;)
+                    self.settings.get_safe(&#34;compiler.cppstd&#34;)
                 )
             )
 
@@ -1428,9 +1428,9 @@ class BoostConan(ConanFile):
             if not tools.which(&#34;g++-%s&#34; % compiler_version[0]):
                 # In fedora 24, 25 the gcc is 6, but there is no g++-6 and the detection is 6.3.1
                 # so b2 fails because 6 != 6.3.1. Specify the exe to avoid the smart detection
-                executable = tools.which(&#34;g++&#34;)
+                executable = tools.which(&#34;g++&#34;), compiler_version, &#34;&#34;
             else:
-                executable = &#34;&#34;
+                executable = tools.which(&#34;g++-%s&#34; % compiler_version[0]), compiler_version, &#34;&#34;
             return compiler, compiler_version[0], executable
         elif self.settings.compiler == &#34;apple-clang&#34;:
             return &#34;clang-darwin&#34;, compiler_version, self._cxx
@@ -1593,7 +1593,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-12 00:39:49</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-13 00:40:19</span> | Work in progress
 
       </div>
     </footer>
