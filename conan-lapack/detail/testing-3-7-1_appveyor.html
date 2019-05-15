@@ -634,7 +634,7 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,15 +1,122 @@
+@@ -1,20 +1,122 @@
  build: false
  
 +
@@ -655,6 +655,8 @@
 +
  
      matrix:
+-        - MINGW_CONFIGURATIONS: &#34;7@x86@dwarf2@posix&#34;
+-          BUILD_VISUAL_STUDIO: 1
 +      
 +        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
 +          CONAN_VISUAL_VERSIONS: 12
@@ -741,19 +743,25 @@
 +          CONAN_CURRENT_PAGE: 1
 +      
 +      
-         - MINGW_CONFIGURATIONS: &#34;4.9@x86_64@seh@posix&#34;
++        - MINGW_CONFIGURATIONS: &#34;4.9@x86_64@seh@posix&#34;
 +          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
 +          CONAN_CURRENT_PAGE: 1
 +      
-         - MINGW_CONFIGURATIONS: &#34;5@x86_64@seh@posix&#34;
++        - MINGW_CONFIGURATIONS: &#34;5@x86_64@seh@posix&#34;
 +          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
 +          CONAN_CURRENT_PAGE: 1
 +      
-         - MINGW_CONFIGURATIONS: &#34;6@x86_64@seh@posix&#34;
++        - MINGW_CONFIGURATIONS: &#34;6@x86_64@seh@posix&#34;
 +          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
 +          CONAN_CURRENT_PAGE: 1
 +      
          - MINGW_CONFIGURATIONS: &#34;7@x86_64@seh@posix&#34;
+-          BUILD_VISUAL_STUDIO: 1
+-        - MINGW_CONFIGURATIONS: &#34;4.9@x86_64@seh@posix&#34;
+-        - MINGW_CONFIGURATIONS: &#34;5@x86_64@seh@posix&#34;
+-        - MINGW_CONFIGURATIONS: &#34;6@x86_64@seh@posix&#34;
+-        - MINGW_CONFIGURATIONS: &#34;7@x86_64@seh@posix&#34;
+-
 +          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
 +          CONAN_CURRENT_PAGE: 1
 +      
@@ -779,7 +787,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-14 00:43:11</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-15 00:44:13</span> | Work in progress
 
       </div>
     </footer>

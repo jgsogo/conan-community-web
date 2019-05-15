@@ -634,63 +634,21 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,51 +1,10 @@
--import platform
--import re
--from conan.packager import ConanMultiPackager
-+#!/usr/bin/env python
-+# -*- coding: utf-8 -*-
+@@ -1,14 +1,10 @@
+ #!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+-import os
+-import copy
 +
-+from cpt.packager import ConanMultiPackager
+ from cpt.packager import ConanMultiPackager
  
  
--def get_value_from_recipe(search_string):
--    with open(&#34;conanfile.py&#34;, &#34;r&#34;) as conanfile:
--        contents = conanfile.read()
--        result = re.search(search_string, contents)
--    return result
--
--def get_name_from_recipe():
--    return get_value_from_recipe(r&#39;&#39;&#39;name\s*=\s*[&#34;&#39;](\S*)[&#34;&#39;]&#39;&#39;&#39;).groups()[0]
--
--def get_version_from_recipe():
--    return get_value_from_recipe(r&#39;&#39;&#39;version\s*=\s*[&#34;&#39;](\S*)[&#34;&#39;]&#39;&#39;&#39;).groups()[0]
--
  if __name__ == &#34;__main__&#34;:
--    name = get_name_from_recipe()
--    username = &#34;conan&#34;
--    channel = &#34;stable&#34;
--    version = get_version_from_recipe()
--    login_username = &#34;conanbot&#34;
--    reference = &#34;{0}/{1}&#34;.format(name, version)
--    upload_remote = &#34;https://api.bintray.com/conan/conan-community/{0}&#34;.format(username)
--
--    builder = ConanMultiPackager(
--        stable_branch_pattern=&#34;stable/*&#34;,
--        upload_only_when_stable=True,
--        username=username,
--        channel=channel,
--        login_username=login_username,
--        reference=reference,
--        upload=upload_remote,
--        remotes=upload_remote)
--
--    builder.add_common_builds(pure_c=True)
--    if platform.system() == &#34;Windows&#34;:
--        settings = {&#34;arch&#34;: &#34;x86_64&#34;,
--                    &#34;build_type&#34;: &#34;Debug&#34;,
--                    &#34;compiler&#34;: &#34;gcc&#34;,
--                    &#34;compiler.version&#34;: &#34;7&#34;,
--                    &#34;compiler.threads&#34;: &#34;posix&#34;,
--                    &#34;compiler.exception&#34;: &#34;seh&#34;,
--                    &#34;compiler.libcxx&#34;: &#34;libstdc++&#34;}
--        builder.add(settings=settings.copy(), options={&#34;lapack:visual_studio&#34;: True, &#34;lapack:shared&#34;: True},
--                    env_vars={}, build_requires={&#34;*&#34;: [&#34;mingw_installer/1.0@conan/stable&#34;]})
--        settings[&#34;build_type&#34;] = &#34;Release&#34;
--        builder.add(settings=settings.copy(), options={&#34;lapack:visual_studio&#34;: True, &#34;lapack:shared&#34;: True},
--                    env_vars={}, build_requires={&#34;*&#34;: [&#34;mingw_installer/1.0@conan/stable&#34;]})
-+    builder = ConanMultiPackager()
-+    builder.add_common_builds()
+     builder = ConanMultiPackager()
+     builder.add_common_builds()
+-    if os.getenv(&#34;BUILD_VISUAL_STUDIO&#34;):
+-        builder.remove_build_if(lambda build: not build.options[&#34;lapack:shared&#34;])
+-        builder.update_build_if(lambda build: True, new_options={&#34;lapack:visual_studio&#34;: True})
      builder.run()</code>
         </pre>
     </div>
@@ -711,7 +669,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-14 00:43:11</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-15 00:44:13</span> | Work in progress
 
       </div>
     </footer>

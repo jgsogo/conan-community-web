@@ -629,16 +629,15 @@
             <code class="diff">--- actual
 +++ expected
 @@ -1,6 +1,10 @@
--from conan.packager import ConanMultiPackager
 +#!/usr/bin/env python
 +# -*- coding: utf-8 -*-
 +
-+from cpt.packager import ConanMultiPackager
+ from cpt.packager import ConanMultiPackager
 +
  
  if __name__ == &#34;__main__&#34;:
      builder = ConanMultiPackager()
--    builder.add_common_builds(shared_option_name=&#34;libalsa:shared&#34;, pure_c=True)
+-    builder.add_common_builds(pure_c=True)
 +    builder.add_common_builds()
      builder.run()</code>
         </pre>
@@ -660,7 +659,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-14 00:42:55</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-15 00:43:58</span> | Work in progress
 
       </div>
     </footer>
