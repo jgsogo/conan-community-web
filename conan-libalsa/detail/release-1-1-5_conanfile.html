@@ -119,7 +119,7 @@
                 <span data-feather="file-text"></span>
                 conan-opencv
                 
-                <span class="numberCircle numberCircle-error" title=""><span>33</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>38</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -628,40 +628,45 @@
     <h4>conanfile.py</h4>
     <div>
         <pre>
-            <code class="python">from conans import ConanFile, tools, AutoToolsBuildEnvironment
+            <code class="python"># -*- coding: utf-8 -*-
+from conans import ConanFile, tools, AutoToolsBuildEnvironment
+from conans.errors import ConanInvalidConfiguration
 import os
 
 
 class LibalsaConan(ConanFile):
     name = &#34;libalsa&#34;
     version = &#34;1.1.5&#34;
-    license = &#34;LGPL&#34;
+    license = &#34;LGPL-2.1&#34;
     url = &#34;https://github.com/conan-community/conan-libalsa&#34;
+    homepage = &#34;https://github.com/alsa-project/alsa-lib&#34;
+    author = &#34;Conan Community&#34;
+    topics = (&#34;conan&#34;, &#34;libalsa&#34;, &#34;alsa&#34;, &#34;sound&#34;, &#34;audio&#34;, &#34;midi&#34;)
     description = &#34;Library of ALSA: The Advanced Linux Sound Architecture, that provides audio &#34; \
                   &#34;and MIDI functionality to the Linux operating system&#34;
-    options = {&#34;shared&#34;: [True, False], &#34;disable_python&#34;: [True, False]}
-    default_options = &#34;shared=False&#34;, &#34;disable_python=False&#34;
+    options = {&#34;shared&#34;: [True, False], &#34;fPIC&#34;: [True, False], &#34;disable_python&#34;: [True, False]}
+    default_options = {&#39;shared&#39;: False, &#39;fPIC&#39;: True, &#39;disable_python&#39;: True}
     settings = &#34;os&#34;, &#34;compiler&#34;, &#34;build_type&#34;, &#34;arch&#34;
-    build_policy = &#34;missing&#34;
+    _autotools = None
+
+    @property
+    def _source_subfolder(self):
+        return &#34;source_subfolder&#34;
 
     def configure(self):
         if self.settings.os != &#34;Linux&#34;:
-            raise Exception(&#34;Only Linux supported&#34;)
+            raise ConanInvalidConfiguration(&#34;Only Linux supported&#34;)
+        del self.settings.compiler.libcxx
 
     def source(self):
-        self.run(&#34;git clone git://git.alsa-project.org/alsa-lib.git&#34;)
-        self.run(&#34;cd alsa-lib &amp;&amp; git checkout v%s&#34; % self.version)
+        sha256 = &#34;418d472c6cc31d657b2f874dfbb314f26e6394d2989492a250dd71b1b6635b66&#34;
+        tools.get(&#34;{}/archive/v{}.tar.gz&#34;.format(self.homepage, self.version), sha256=sha256)
+        os.rename(&#34;alsa-lib-{}&#34;.format(self.version), self._source_subfolder)
 
-        tools.replace_in_file(os.path.join(&#39;alsa-lib&#39;, &#39;modules&#39;, &#39;mixer&#39;, &#39;simple&#39;, &#39;python.c&#39;),
-                              &#39;self-&gt;ob_type&#39;, &#39;Py_TYPE(self)&#39;)
-
-    def build(self):
-        ab = AutoToolsBuildEnvironment(self)
-        with tools.environment_append(ab.vars):
-            with tools.chdir(os.path.join(self.source_folder, &#34;alsa-lib&#34;)):
-                args = [&#34;--enable-static=yes&#34;, &#34;--enable-shared=no&#34;] \
-                    if not self.options.shared else [&#34;--enable-static=no&#34;, &#34;--enable-shared=yes&#34;]
-                python = &#34;--disable-python&#34; if self.options.disable_python else &#34;&#34;
+    def _configure_autotools(self):
+        if not self._autotools:
+            self._autotools = AutoToolsBuildEnvironment(self)
+            with tools.environment_append(self._autotools.vars):
                 self.run(&#34;touch ltconfig&#34;)
                 self.run(&#34;libtoolize --force --copy --automake&#34;)
                 self.run(&#34;aclocal $ACLOCAL_FLAGS&#34;)
@@ -669,17 +674,32 @@ class LibalsaConan(ConanFile):
                 self.run(&#34;automake --foreign --copy --add-missing&#34;)
                 self.run(&#34;touch depcomp&#34;)
                 self.run(&#34;autoconf&#34;)
-                if python:
-                    args.append(python)
-                args.append(&#39;--prefix=%s&#39; % self.package_folder)
-                ab.configure(args=args)
-                self.run(&#34;make install&#34;)
+
+            args = [&#34;--enable-static=yes&#34;, &#34;--enable-shared=no&#34;] \
+                    if not self.options.shared else [&#34;--enable-static=no&#34;, &#34;--enable-shared=yes&#34;]
+            if self.options.disable_python:
+                args.append(&#34;--disable-python&#34;)
+            self._autotools.configure(args=args)
+        return self._autotools
+
+    def _patch(self):
+        python_file = os.path.join(self._source_subfolder, &#39;modules&#39;, &#39;mixer&#39;, &#39;simple&#39;, &#39;python.c&#39;)
+        tools.replace_in_file(python_file, &#39;self-&gt;ob_type&#39;, &#39;Py_TYPE(self)&#39;)
+
+    def build(self):
+        self._patch()
+        with tools.chdir(self._source_subfolder):
+            autotools = self._configure_autotools()
+            autotools.make()
 
     def package(self):
-        self.copy(&#34;*LICENSE*&#34;, dst=&#34;licenses&#34;)
+        self.copy(&#34;COPYING&#34;, dst=&#34;licenses&#34;, src=self._source_subfolder)
+        with tools.chdir(self._source_subfolder):
+            autotools = self._configure_autotools()
+            autotools.install()
 
     def package_info(self):
-        self.cpp_info.libs = [&#34;asound&#34;, &#34;dl&#34;, &#34;pthread&#34;]
+        self.cpp_info.libs = [&#34;asound&#34;, &#34;dl&#34;, &#34;m&#34;, &#34;rt&#34;, &#34;pthread&#34;]
         self.env_info.ALSA_CONFIG_DIR = os.path.join(self.package_folder, &#34;share&#34;, &#34;alsa&#34;)
 </code>
         </pre>
@@ -701,7 +721,7 @@ class LibalsaConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-15 00:43:58</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-16 00:44:44</span> | Work in progress
 
       </div>
     </footer>

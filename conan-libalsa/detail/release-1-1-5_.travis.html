@@ -119,7 +119,7 @@
                 <span data-feather="file-text"></span>
                 conan-opencv
                 
-                <span class="numberCircle numberCircle-error" title=""><span>33</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>38</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -630,30 +630,23 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,42 +1,106 @@
+@@ -1,6 +1,14 @@
  env:
     global:
--     - CONAN_REFERENCE: &#34;libalsa/1.1.5&#34;
-      - CONAN_USERNAME: &#34;conan&#34;
-      - CONAN_LOGIN_USERNAME: &#34;conanbot&#34;
-      - CONAN_CHANNEL: &#34;testing&#34;
-      - CONAN_UPLOAD: &#34;https://api.bintray.com/conan/conan-community/conan&#34;
--     - CONAN_STABLE_BRANCH_PATTERN: &#34;release/*&#34;
--     - CONAN_UPLOAD_ONLY_WHEN_STABLE: 1 # Will only upload when the branch matches &#34;release/*&#34;
--     - CONAN_DOCKER_32_IMAGES: 1 # Enable docker 32 bits images for the builds with arch=x86
++     - CONAN_USERNAME: &#34;conan&#34;
++     - CONAN_LOGIN_USERNAME: &#34;conanbot&#34;
++     - CONAN_CHANNEL: &#34;testing&#34;
++     - CONAN_UPLOAD: &#34;https://api.bintray.com/conan/conan-community/conan&#34;
 +     - CONAN_STABLE_BRANCH_PATTERN: &#34;(release|stable)/[a-zA-Z0-9_][a-zA-Z0-9_+.-]+&#34;
 +     - CONAN_UPLOAD_ONLY_WHEN_STABLE: 1 # Will only upload when the branch matches the stable pattern
-+     - CONAN_DOCKER_32_IMAGES: 1
+      - CONAN_DOCKER_32_IMAGES: 1
 +     - CONAN_TOTAL_PAGES: 1
 +
  
  linux: &amp;linux
     os: linux
--   sudo: required
-+   dist: xenial
-    language: python
--   python: &#34;3.6&#34;
-+   python: &#34;3.7&#34;
+@@ -9,33 +17,95 @@
+    python: &#34;3.7&#34;
     services:
       - docker
 -matrix:
@@ -669,53 +662,54 @@
     include:
 +     
        - &lt;&lt;: *linux
--        env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=lasote/conangcc49
+-        env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=conanio/gcc49
 +        stage: conan-linux
 +        env: CONAN_GCC_VERSIONS=4.8 CONAN_DOCKER_IMAGE=conanio/gcc48 CONAN_CURRENT_PAGE=1
 +     
        - &lt;&lt;: *linux
--        env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=lasote/conangcc5
+-        env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=conanio/gcc5
 +        stage: conan-linux
 +        env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=conanio/gcc49 CONAN_CURRENT_PAGE=1
 +     
        - &lt;&lt;: *linux
--        env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=lasote/conangcc6
+-        env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=conanio/gcc6
 +        stage: conan-linux
 +        env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=conanio/gcc5 CONAN_CURRENT_PAGE=1
 +     
        - &lt;&lt;: *linux
--        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=lasote/conangcc7
+-        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7
 +        stage: conan-linux
 +        env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=conanio/gcc6 CONAN_CURRENT_PAGE=1
 +     
        - &lt;&lt;: *linux
--        env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=lasote/conangcc8
+-        env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8
 +        stage: conan-linux
 +        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7 CONAN_CURRENT_PAGE=1
 +     
        - &lt;&lt;: *linux
--        env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=lasote/conanclang39
+-        env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=conanio/clang39
 +        stage: conan-linux
 +        env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8 CONAN_CURRENT_PAGE=1
 +     
 +
 +     
        - &lt;&lt;: *linux
--        env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=lasote/conanclang40
+-        env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=conanio/clang40
 +        stage: conan-linux
 +        env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=conanio/clang39 CONAN_CURRENT_PAGE=1
 +     
        - &lt;&lt;: *linux
--        env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=lasote/conanclang50
+-        env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=conanio/clang50
 +        stage: conan-linux
 +        env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=conanio/clang40 CONAN_CURRENT_PAGE=1
 +     
        - &lt;&lt;: *linux
--        env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=lasote/conanclang60
+-        env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60
 +        stage: conan-linux
 +        env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=conanio/clang50 CONAN_CURRENT_PAGE=1
 +     
-+      - &lt;&lt;: *linux
+       - &lt;&lt;: *linux
+-        env: CONAN_CLANG_VERSIONS=7.0 CONAN_DOCKER_IMAGE=conanio/clang7
 +        stage: conan-linux
 +        env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60 CONAN_CURRENT_PAGE=1
 +     
@@ -723,7 +717,7 @@
 +        stage: conan-linux
 +        env: CONAN_CLANG_VERSIONS=7.0 CONAN_DOCKER_IMAGE=conanio/clang7 CONAN_CURRENT_PAGE=1
 +     
- 
++
 +     
 +      - &lt;&lt;: *linux
 +        stage: conan-osx
@@ -752,7 +746,16 @@
 +     
  
  install:
-   - chmod +x .travis/install.sh</code>
+-  - chmod +x .ci/install.sh
+-  - ./.ci/install.sh
++  - chmod +x .travis/install.sh
++  - ./.travis/install.sh
+ 
+ script:
+-  - chmod +x .ci/run.sh
+-  - ./.ci/run.sh
++  - chmod +x .travis/run.sh
++  - ./.travis/run.sh</code>
         </pre>
     </div>
 
@@ -772,7 +775,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-15 00:43:58</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-16 00:44:44</span> | Work in progress
 
       </div>
     </footer>
