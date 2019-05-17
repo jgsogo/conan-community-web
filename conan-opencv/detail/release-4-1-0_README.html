@@ -119,7 +119,7 @@
                 <span data-feather="file-text"></span>
                 conan-opencv
                 
-                <span class="numberCircle numberCircle-error" title=""><span>38</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>39</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -553,6 +553,8 @@
         <a class="btn btn-sm btn-outline-secondary" href="https://github.com/conan-community/conan-opencv/tree/release/4.1.0" role="button">Github <span data-feather="external-link"></span></a>
         
         
+            <a class="btn btn-sm btn-outline-secondary" href="https://bintray.com/conan-community/conan/opencv%3Aconan/4.1.0%3Astable" role="button">Bintray <span data-feather="external-link"></span></a>
+        
     </div>
     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" id="branchesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span data-feather="git-branch"></span>
@@ -605,7 +607,7 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-opencv/detail/release-4-1-0.html">
                 release/4.1.0
                 
-                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>6</span></span>
                 
                 
             </a>
@@ -666,7 +668,7 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,77 +1,10 @@
+@@ -1,77 +1,37 @@
 -[![Download](https://api.bintray.com/packages/conan-community/conan/opencv%3Aconan/images/download.svg) ](https://bintray.com/conan-community/conan/opencv%3Aconan/_latestVersion)
 -[![Build Status Travis](https://travis-ci.org/conan-community/conan-opencv.svg)](https://travis-ci.org/conan-community/conan-opencv)
 -[![Build Status AppVeyor](https://ci.appveyor.com/api/projects/status/github/conan-community/conan-opencv?svg=true)](https://ci.appveyor.com/project/ConanCIintegration/conan-opencv)
@@ -683,34 +685,50 @@
 -If you wish to report an issue or make a request for a package, please do so here:
 -
 -[Issues Tracker](https://github.com/conan-community/community/issues)
-+[![Build Status](https://travis-ci.org/conan-community/conan-opencv.svg?branch=release/4.1.0)](https://travis-ci.org/conan-community/conan-opencv/builds/532689994)
-+[![Build Status](https://ci.appveyor.com/api/projects/status/github/conan-community%2Fconan-opencv?branch=release/4.1.0&amp;svg=true)](https://ci.appveyor.com/project/ConanCIintegration/conan-opencv/builds/24555653)
++[![Build Status](https://travis-ci.org/conan-community/conan-opencv.svg?branch=release/4.1.0)](https://travis-ci.org/conan-community/conan-opencv/builds/533147397)
++[![Build Status](https://ci.appveyor.com/api/projects/status/github/conan-community%2Fconan-opencv?branch=release/4.1.0&amp;svg=true)](https://ci.appveyor.com/project/ConanCIintegration/conan-opencv/builds/24581938)
  
  
 -## For Users
--
++# conan-opencv
+ 
 -### Basic setup
--
+ 
 -    $ conan install opencv/4.0.1@conan/stable
--
+ 
 -### Project setup
--
--If you handle multiple dependencies in your project is better to add a *conanfile.txt*
--
++[Conan](https://bintray.com/conan-community/conan/opencv%3Aconan/4.1.0%3Astable) package for conan-opencv library.
++
++
++## Basic setup
++
++    $ conan install opencv/4.1.0@conan/stable
++    
++## Project setup
+ 
+ If you handle multiple dependencies in your project is better to add a *conanfile.txt*
++    
++    [requires]
++    opencv/4.1.0@conan/stable
+ 
 -    [requires]
 -    opencv/4.0.1@conan/stable
 -
--    [generators]
--    cmake
--
--Complete the installation of requirements for your project running:
--
++    [options]
++    
+     [generators]
+     cmake
+ 
+ Complete the installation of requirements for your project running:
+ 
 -    $ mkdir build &amp;&amp; cd build &amp;&amp; conan install ..
--
++    conan install . 
+ 
 -Note: It is recommended that you run conan install from a build directory and not the root of the project directory.  This is because conan generates *conanbuildinfo* files specific to a single build configuration which by default comes from an autodetected default profile located in ~/.conan/profiles/default .  If you pass different build configuration options to conan install, it will generate different *conanbuildinfo* files.  Thus, they should not be added to the root of the project, nor committed to git.
-+# conan-opencv
++Project setup installs the library (and all his dependencies) and generates the files *conanbuildinfo.cmake* with all the 
++paths and variables that you need to link with your dependencies.
  
- 
+-
 -## Build and package
 -
 -The following command both runs all the steps of the conan file, and publishes the package to the local system cache.  This includes downloading dependencies from &#34;build_requires&#34; and &#34;requires&#34; , and then running the build() method.
@@ -766,7 +784,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-16 00:43:27</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-17 00:44:53</span> | Work in progress
 
       </div>
     </footer>

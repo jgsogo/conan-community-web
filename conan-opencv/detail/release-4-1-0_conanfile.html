@@ -119,7 +119,7 @@
                 <span data-feather="file-text"></span>
                 conan-opencv
                 
-                <span class="numberCircle numberCircle-error" title=""><span>38</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>39</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -553,6 +553,8 @@
         <a class="btn btn-sm btn-outline-secondary" href="https://github.com/conan-community/conan-opencv/tree/release/4.1.0" role="button">Github <span data-feather="external-link"></span></a>
         
         
+            <a class="btn btn-sm btn-outline-secondary" href="https://bintray.com/conan-community/conan/opencv%3Aconan/4.1.0%3Astable" role="button">Bintray <span data-feather="external-link"></span></a>
+        
     </div>
     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" id="branchesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span data-feather="git-branch"></span>
@@ -605,7 +607,7 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-opencv/detail/release-4-1-0.html">
                 release/4.1.0
                 
-                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>6</span></span>
                 
                 
             </a>
@@ -737,17 +739,16 @@ class OpenCVConan(ConanFile):
 
     def source(self):
         sha256 = &#34;8f6e4ab393d81d72caae6e78bd0fd6956117ec9f006fba55fcdb88caf62989b7&#34;
-        tools.get(&#34;{}/archive/{}.tar.gz&#34;.format(self.homepage,
-                                                self.version))
+        tools.get(&#34;{}/archive/{}.tar.gz&#34;.format(self.homepage, self.version), sha256=sha256)
         os.rename(&#39;opencv-%s&#39; % self.version, self._source_subfolder)
 
         sha256 = &#34;e7d775cc0b87b04308823ca518b11b34cc12907a59af4ccdaf64419c1ba5e682&#34;
-        tools.get(
-            &#34;https://github.com/opencv/opencv_contrib/archive/{}.tar.gz&#34;.format(self.version))
+        tools.get(&#34;https://github.com/opencv/opencv_contrib/archive/{}.tar.gz&#34;.format(self.version), sha256=sha256)
         os.rename(&#39;opencv_contrib-%s&#39; % self.version, &#39;contrib&#39;)
 
-        if self.settings.os != &#39;Android&#39; and not self.options.carotene:
-            tools.rmdir(os.path.join(self._source_subfolder, &#39;3rdparty&#39;))
+        for dir in [&#39;libjasper&#39;, &#39;libjpeg-turbo&#39;, &#39;libjpeg&#39;, &#39;libpng&#39;, &#39;libtiff&#39;,
+                    &#39;libwebp&#39;, &#39;openexr&#39;, &#39;protobuf&#39;, &#39;zlib&#39;]:
+            tools.rmdir(os.path.join(self._source_subfolder, &#39;3rdparty&#39;, dir))
 
     def config_options(self):
         if self.settings.os == &#39;Windows&#39;:
@@ -1109,7 +1110,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-16 00:43:27</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-17 00:44:53</span> | Work in progress
 
       </div>
     </footer>
