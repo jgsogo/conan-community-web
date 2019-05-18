@@ -649,8 +649,8 @@ class Bzip2Conan(ConanFile):
     description = &#34;bzip2 is a free and open-source file compression program that uses the Burrows–Wheeler algorithm.&#34;
     topics = (&#34;conan&#34;, &#34;bzip2&#34;, &#34;data-compressor&#34;, &#34;file-compression&#34;)
     settings = &#34;os&#34;, &#34;compiler&#34;, &#34;arch&#34;, &#34;build_type&#34;
-    options = {&#34;shared&#34;: [True, False], &#34;fPIC&#34;: [True, False]}
-    default_options = &#34;shared=False&#34;, &#34;fPIC=True&#34;
+    options = {&#34;shared&#34;: [True, False], &#34;fPIC&#34;: [True, False], &#34;build_executable&#34;: [True, False]}
+    default_options = &#34;shared=False&#34;, &#34;fPIC=True&#34;, &#34;build_executable=True&#34;
     exports = &#34;LICENSE&#34;
     exports_sources = &#34;CMakeLists.txt&#34;
     generators = &#34;cmake&#34;
@@ -676,6 +676,7 @@ class Bzip2Conan(ConanFile):
         cmake = CMake(self)
         cmake.definitions[&#34;BZ2_VERSION_STRING&#34;] = self.version
         cmake.definitions[&#34;BZ2_VERSION_MAJOR&#34;] = major
+        cmake.definitions[&#34;BZ2_BUILD_EXE&#34;] = &#34;ON&#34; if self.options.build_executable else &#34;OFF&#34;
         cmake.configure()
         return cmake
 
@@ -711,7 +712,7 @@ class Bzip2Conan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-17 00:44:34</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-18 00:44:31</span> | Work in progress
 
       </div>
     </footer>

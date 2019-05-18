@@ -645,7 +645,7 @@
  
  linux: &amp;linux
     os: linux
-@@ -9,33 +17,95 @@
+@@ -9,35 +17,95 @@
     python: &#34;3.7&#34;
     services:
       - docker
@@ -713,7 +713,8 @@
 +        stage: conan-linux
 +        env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60 CONAN_CURRENT_PAGE=1
 +     
-+      - &lt;&lt;: *linux
+       - &lt;&lt;: *linux
+-        env: CONAN_CLANG_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/clang8
 +        stage: conan-linux
 +        env: CONAN_CLANG_VERSIONS=7.0 CONAN_DOCKER_IMAGE=conanio/clang7 CONAN_CURRENT_PAGE=1
 +     
@@ -775,7 +776,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-17 00:46:18</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-18 00:46:05</span> | Work in progress
 
       </div>
     </footer>
