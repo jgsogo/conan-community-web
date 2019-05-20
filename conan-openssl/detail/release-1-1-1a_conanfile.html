@@ -929,6 +929,8 @@ class OpenSSLConan(ConanFile):
                     env_build.flags.remove(&#34;armv7&#34;)
                 if &#34;armv8&#34; in env_build.flags:
                     env_build.flags.remove(&#34;armv8&#34;)
+                if &#34;arm64&#34; in env_build.flags:
+                    env_build.flags.remove(&#34;arm64&#34;)
                     
             extra_flags = &#39; &#39;.join(env_build.flags)
             extra_flags += &#34; -fPIC&#34; if not self.options.no_fpic else &#34;&#34;
@@ -1163,7 +1165,7 @@ class OpenSSLConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-19 00:44:08</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-20 00:44:40</span> | Work in progress
 
       </div>
     </footer>

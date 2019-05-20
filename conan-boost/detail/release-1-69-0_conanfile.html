@@ -1389,7 +1389,8 @@ class BoostConan(ConanFile):
         contents += &#39; &#34;%s&#34;&#39; % exe.replace(&#34;\\&#34;, &#34;/&#34;)
 
         if tools.is_apple_os(self.settings.os):
-            contents += &#34; -isysroot %s&#34; % tools.XCRun(self.settings).sdk_path
+            if self.settings.compiler == &#34;apple-clang&#34;:
+                contents += &#34; -isysroot %s&#34; % tools.XCRun(self.settings).sdk_path
             if self.settings.get_safe(&#34;arch&#34;):
                 contents += &#34; -arch %s&#34; % tools.to_apple_arch(self.settings.arch)
 
@@ -1593,7 +1594,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-19 00:44:27</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-20 00:44:59</span> | Work in progress
 
       </div>
     </footer>

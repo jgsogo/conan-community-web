@@ -924,6 +924,16 @@ class OpenSSLConan(ConanFile):
 
         if self.settings.os != &#34;Windows&#34;:
             env_build = AutoToolsBuildEnvironment(self)
+            if self.settings.os == &#34;iOS&#34;:
+                # in OpenSSL 1.1.1x having the following args &#34;offends&#34; (sic) the Configure script
+                env_build.flags.remove(&#34;-arch&#34;)
+                if &#34;armv7&#34; in env_build.flags:
+                    env_build.flags.remove(&#34;armv7&#34;)
+                if &#34;armv8&#34; in env_build.flags:
+                    env_build.flags.remove(&#34;armv8&#34;)
+                if &#34;arm64&#34; in env_build.flags:
+                    env_build.flags.remove(&#34;arm64&#34;)
+                    
             extra_flags = &#39; &#39;.join(env_build.flags)
             extra_flags += &#34; -fPIC&#34; if not self.options.no_fpic else &#34;&#34;
             if self.settings.build_type == &#34;Debug&#34;:
@@ -1163,7 +1173,7 @@ class OpenSSLConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-19 00:44:08</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-20 00:44:40</span> | Work in progress
 
       </div>
     </footer>
