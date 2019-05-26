@@ -130,7 +130,7 @@
                 <span data-feather="file-text"></span>
                 conan-tbb
                 
-                <span class="numberCircle numberCircle-error" title=""><span>60</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>64</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -682,8 +682,12 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -5,32 +5,118 @@
-     PYTHON: &#34;C:\\Python37&#34;
+@@ -2,44 +2,127 @@
+ 
+ 
+ environment:
+-    PYTHON_HOME: &#34;C:\\Python37&#34;
++    PYTHON: &#34;C:\\Python37&#34;
  
      CONAN_USERNAME: &#34;conan&#34;
 +    CONAN_CHANNEL: &#34;testing&#34;
@@ -770,6 +774,8 @@
 +      
          - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
            CONAN_VISUAL_VERSIONS: 15
+-        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+-          CONAN_VISUAL_VERSIONS: 16
 +          CONAN_ARCHS: x86
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MT
@@ -815,8 +821,11 @@
 +      
  
  install:
-   - set PATH=%PATH%;%PYTHON%/Scripts/
-@@ -40,4 +126,3 @@
+-  - set PATH=%PYTHON_HOME%;%PYTHON_HOME%/Scripts/;%PATH%
++  - set PATH=%PATH%;%PYTHON%/Scripts/
+   - pip.exe install conan --upgrade
+   - pip.exe install conan_package_tools
+   - conan user # It creates the conan data directory
  
  test_script:
    - python build.py
@@ -840,7 +849,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-25 00:45:39</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-26 00:45:55</span> | Work in progress
 
       </div>
     </footer>

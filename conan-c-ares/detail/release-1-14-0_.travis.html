@@ -130,7 +130,7 @@
                 <span data-feather="file-text"></span>
                 conan-tbb
                 
-                <span class="numberCircle numberCircle-error" title=""><span>60</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>64</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -636,7 +636,7 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,62 +1,106 @@
+@@ -1,14 +1,14 @@
 -
  env:
     global:
@@ -656,13 +656,7 @@
  
  linux: &amp;linux
     os: linux
--   sudo: required
-+   dist: xenial
-    language: python
--   python: &#34;3.6&#34;
-+   python: &#34;3.7&#34;
-    services:
-      - docker
+@@ -20,45 +20,87 @@
  osx: &amp;osx
     os: osx
     language: generic
@@ -724,11 +718,12 @@
 +     
        - &lt;&lt;: *linux
 -        env: CONAN_CLANG_VERSIONS=7.0 CONAN_DOCKER_IMAGE=conanio/clang7
--      - &lt;&lt;: *osx
 +        stage: conan-linux
 +        env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60 CONAN_CURRENT_PAGE=1
 +     
-+      - &lt;&lt;: *linux
+       - &lt;&lt;: *linux
+-        env: CONAN_CLANG_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/clang8
+-      - &lt;&lt;: *osx
 +        stage: conan-linux
 +        env: CONAN_CLANG_VERSIONS=7.0 CONAN_DOCKER_IMAGE=conanio/clang7 CONAN_CURRENT_PAGE=1
 +     
@@ -745,7 +740,7 @@
 -        osx_image: xcode9.2
 -        env: CONAN_APPLE_CLANG_VERSIONS=9.0
 -      - &lt;&lt;: *osx
--        osx_image: xcode9.3
+-        osx_image: xcode9.4
 -        env: CONAN_APPLE_CLANG_VERSIONS=9.1
 -      - &lt;&lt;: *osx
 -        osx_image: xcode10.1
@@ -794,7 +789,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-25 00:48:59</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-26 00:49:01</span> | Work in progress
 
       </div>
     </footer>

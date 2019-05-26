@@ -130,7 +130,7 @@
                 <span data-feather="file-text"></span>
                 conan-tbb
                 
-                <span class="numberCircle numberCircle-error" title=""><span>60</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>64</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -636,7 +636,7 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,83 +1,125 @@
+@@ -1,85 +1,125 @@
  build: false
  
 +
@@ -660,8 +660,6 @@
  
      matrix:
 -        - MINGW_CONFIGURATIONS: &#39;4.9@x86_64@seh@posix, 5@x86_64@seh@posix, 6@x86_64@seh@posix, 7@x86_64@seh@posix&#39;
--
--
 +      
          - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
            CONAN_VISUAL_VERSIONS: 12
@@ -670,13 +668,11 @@
 +          CONAN_VISUAL_RUNTIMES: MT
            CONAN_CURRENT_PAGE: 1
 -          CONAN_TOTAL_PAGES: 4
--
 +      
          - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
            CONAN_VISUAL_VERSIONS: 12
 -          CONAN_CURRENT_PAGE: 2
 -          CONAN_TOTAL_PAGES: 4
--
 +          CONAN_ARCHS: x86
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MD
@@ -686,7 +682,6 @@
            CONAN_VISUAL_VERSIONS: 12
 -          CONAN_CURRENT_PAGE: 3
 -          CONAN_TOTAL_PAGES: 4
--
 +          CONAN_ARCHS: x86_64
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MT
@@ -696,7 +691,6 @@
            CONAN_VISUAL_VERSIONS: 12
 -          CONAN_CURRENT_PAGE: 4
 -          CONAN_TOTAL_PAGES: 4
--
 +          CONAN_ARCHS: x86_64
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MD
@@ -709,13 +703,11 @@
 +          CONAN_VISUAL_RUNTIMES: MT
            CONAN_CURRENT_PAGE: 1
 -          CONAN_TOTAL_PAGES: 4
--
 +      
          - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
            CONAN_VISUAL_VERSIONS: 14
 -          CONAN_CURRENT_PAGE: 2
 -          CONAN_TOTAL_PAGES: 4
--
 +          CONAN_ARCHS: x86
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MD
@@ -725,7 +717,6 @@
            CONAN_VISUAL_VERSIONS: 14
 -          CONAN_CURRENT_PAGE: 3
 -          CONAN_TOTAL_PAGES: 4
--
 +          CONAN_ARCHS: x86_64
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MT
@@ -735,7 +726,6 @@
            CONAN_VISUAL_VERSIONS: 14
 -          CONAN_CURRENT_PAGE: 4
 -          CONAN_TOTAL_PAGES: 4
--
 +          CONAN_ARCHS: x86_64
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MD
@@ -748,13 +738,11 @@
 +          CONAN_VISUAL_RUNTIMES: MT
            CONAN_CURRENT_PAGE: 1
 -          CONAN_TOTAL_PAGES: 4
--
 +      
          - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
            CONAN_VISUAL_VERSIONS: 15
 -          CONAN_CURRENT_PAGE: 2
 -          CONAN_TOTAL_PAGES: 4
--
 +          CONAN_ARCHS: x86
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MD
@@ -764,7 +752,6 @@
            CONAN_VISUAL_VERSIONS: 15
 -          CONAN_CURRENT_PAGE: 3
 -          CONAN_TOTAL_PAGES: 4
--
 +          CONAN_ARCHS: x86_64
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MT
@@ -774,11 +761,25 @@
            CONAN_VISUAL_VERSIONS: 15
 -          CONAN_CURRENT_PAGE: 4
 -          CONAN_TOTAL_PAGES: 4
--
+-        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+-          CONAN_VISUAL_VERSIONS: 16
 +          CONAN_ARCHS: x86_64
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MD
-+          CONAN_CURRENT_PAGE: 1
+           CONAN_CURRENT_PAGE: 1
+-          CONAN_TOTAL_PAGES: 4
+-        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+-          CONAN_VISUAL_VERSIONS: 16
+-          CONAN_CURRENT_PAGE: 2
+-          CONAN_TOTAL_PAGES: 4
+-        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+-          CONAN_VISUAL_VERSIONS: 16
+-          CONAN_CURRENT_PAGE: 3
+-          CONAN_TOTAL_PAGES: 4
+-        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+-          CONAN_VISUAL_VERSIONS: 16
+-          CONAN_CURRENT_PAGE: 4
+-          CONAN_TOTAL_PAGES: 4
 +      
 +      
 +        - MINGW_CONFIGURATIONS: &#34;4.9@x86_64@seh@posix&#34;
@@ -823,7 +824,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-25 00:48:59</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-26 00:49:01</span> | Work in progress
 
       </div>
     </footer>
