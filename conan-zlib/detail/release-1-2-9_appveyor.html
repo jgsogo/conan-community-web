@@ -684,7 +684,7 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -4,14 +4,119 @@
+@@ -4,16 +4,119 @@
  environment:
      PYTHON: &#34;C:\\Python37&#34;
  
@@ -759,6 +759,8 @@
 +      
          - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
            CONAN_VISUAL_VERSIONS: 15
+-        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+-          CONAN_VISUAL_VERSIONS: 16
 +          CONAN_ARCHS: x86
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MT
@@ -805,7 +807,7 @@
  
  install:
    - set PATH=%PATH%;%PYTHON%/Scripts/
-@@ -21,4 +126,3 @@
+@@ -23,4 +126,3 @@
  
  test_script:
    - python build.py
@@ -829,7 +831,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-26 00:45:55</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-27 00:45:51</span> | Work in progress
 
       </div>
     </footer>

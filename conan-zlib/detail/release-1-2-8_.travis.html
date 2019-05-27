@@ -700,7 +700,7 @@
  linux: &amp;linux
     os: linux
     dist: xenial
-@@ -8,48 +20,87 @@
+@@ -8,50 +20,87 @@
  osx: &amp;osx
     os: osx
     language: generic
@@ -796,6 +796,8 @@
 -        env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60
 -      - &lt;&lt;: *linux
 -        env: CONAN_CLANG_VERSIONS=7.0 CONAN_DOCKER_IMAGE=conanio/clang7
+-      - &lt;&lt;: *linux
+-        env: CONAN_CLANG_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/clang8
 -      - &lt;&lt;: *osx
 -        osx_image: xcode7.3
 -        env: CONAN_APPLE_CLANG_VERSIONS=7.3
@@ -837,7 +839,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-26 00:45:55</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-27 00:45:51</span> | Work in progress
 
       </div>
     </footer>
