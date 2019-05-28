@@ -196,7 +196,7 @@
                 <span data-feather="file-text"></span>
                 conan-strawberryperl
                 
-                <span class="numberCircle numberCircle-error" title=""><span>14</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>18</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -730,7 +730,7 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,49 +1,128 @@
+@@ -1,57 +1,128 @@
  build: false
 +
  
@@ -832,13 +832,20 @@
          - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
            CONAN_VISUAL_VERSIONS: 15
            CONAN_ARCHS: x86_64
+-
+-        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+-          CONAN_VISUAL_VERSIONS: 16
+-          CONAN_ARCHS: x86
+-
+-        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+-          CONAN_VISUAL_VERSIONS: 16
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MT
 +          CONAN_CURRENT_PAGE: 1
 +      
 +        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
 +          CONAN_VISUAL_VERSIONS: 15
-+          CONAN_ARCHS: x86_64
+           CONAN_ARCHS: x86_64
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MD
 +          CONAN_CURRENT_PAGE: 1
@@ -891,7 +898,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-27 00:47:39</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-28 00:48:31</span> | Work in progress
 
       </div>
     </footer>
