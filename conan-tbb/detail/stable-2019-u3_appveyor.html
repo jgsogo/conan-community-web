@@ -730,7 +730,7 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,41 +1,122 @@
+@@ -1,49 +1,122 @@
  build: false
 +
  
@@ -832,13 +832,20 @@
          - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
            CONAN_VISUAL_VERSIONS: 15
            CONAN_ARCHS: x86_64
+-
+-        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+-          CONAN_VISUAL_VERSIONS: 16
+-          CONAN_ARCHS: x86
+-
+-        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+-          CONAN_VISUAL_VERSIONS: 16
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MT
 +          CONAN_CURRENT_PAGE: 1
 +      
 +        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
 +          CONAN_VISUAL_VERSIONS: 15
-+          CONAN_ARCHS: x86_64
+           CONAN_ARCHS: x86_64
 +          CONAN_BUILD_TYPES: Release
 +          CONAN_VISUAL_RUNTIMES: MD
 +          CONAN_CURRENT_PAGE: 1
@@ -863,7 +870,7 @@
  
  install:
    - set PATH=%PATH%;%PYTHON%/Scripts/
-@@ -44,6 +125,4 @@
+@@ -52,6 +125,4 @@
    - conan user # It creates the conan data directory
  
  test_script:
@@ -889,7 +896,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-05-28 00:48:31</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-05-29 00:48:35</span> | Work in progress
 
       </div>
     </footer>
