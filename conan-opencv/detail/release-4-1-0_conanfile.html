@@ -701,7 +701,10 @@ class OpenCVConan(ConanFile):
                &#34;cuda&#34;: [True, False],
                &#34;protobuf&#34;: [True, False],
                &#34;freetype&#34;: [True, False],
-               &#34;harfbuzz&#34;: [True, False]}
+               &#34;harfbuzz&#34;: [True, False],
+               &#34;eigen&#34;: [True, False],
+               &#34;glog&#34;: [True, False],
+               &#34;gflags&#34;: [True, False]}
     default_options = {&#34;shared&#34;: False,
                        &#34;fPIC&#34;: True,
                        &#34;contrib&#34;: False,
@@ -712,14 +715,17 @@ class OpenCVConan(ConanFile):
                        &#34;png&#34;: True,
                        &#34;jasper&#34;: True,
                        &#34;openexr&#34;: True,
-                       &#34;gtk&#34;: 3,
+                       &#34;gtk&#34;: None,
                        &#34;nonfree&#34;: False,
                        &#34;dc1394&#34;: True,
                        &#34;carotene&#34;: False,
                        &#34;cuda&#34;: False,
                        &#34;protobuf&#34;: True,
                        &#34;freetype&#34;: True,
-                       &#34;harfbuzz&#34;: True}
+                       &#34;harfbuzz&#34;: True,
+                       &#34;eigen&#34;: True,
+                       &#39;glog&#39;: True,
+                       &#34;gflags&#34;: True}
     exports_sources = [&#34;CMakeLists.txt&#34;, &#34;patches/*.patch&#34;]
     exports = &#34;LICENSE&#34;
     generators = &#34;cmake&#34;
@@ -814,6 +820,12 @@ class OpenCVConan(ConanFile):
             self.requires.add(&#39;freetype/2.9.1@bincrafters/stable&#39;)
         if self.options.harfbuzz:
             self.requires.add(&#39;harfbuzz/2.4.0@bincrafters/stable&#39;)
+        if self.options.eigen:
+            self.requires.add(&#39;eigen/3.3.7@conan/stable&#39;)
+        if self.options.glog:
+            self.requires.add(&#39;glog/0.4.0@bincrafters/stable&#39;)
+        if self.options.gflags:
+            self.requires.add(&#39;gflags/2.2.2@bincrafters/stable&#39;)
 
     def _configure_cmake(self):
         cmake = CMake(self)
@@ -871,6 +883,7 @@ class OpenCVConan(ConanFile):
         cmake.definitions[&#39;WITH_CUDA&#39;] = self.options.cuda
         # This allows compilation on older GCC/NVCC, otherwise build errors.
         cmake.definitions[&#39;CUDA_NVCC_FLAGS&#39;] = &#39;--expt-relaxed-constexpr&#39;
+        cmake.definitions[&#39;WITH_EIGEN&#39;] = self.options.eigen
         
         # MinGW doesn&#39;t build wih Media Foundation
         cmake.definitions[&#39;WITH_MSMF&#39;] = self.settings.compiler == &#39;Visual Studio&#39;
@@ -1005,10 +1018,13 @@ class OpenCVConan(ConanFile):
                 &#34;xfeatures2d&#34;,
                 &#34;ximgproc&#34;,
                 &#34;xobjdetect&#34;,
-                &#34;xphoto&#34;] + opencv_libs
+                &#34;xphoto&#34;,
+                &#34;sfm&#34;] + opencv_libs
         
             if not self.options.freetype or not self.options.harfbuzz:
                 opencv_libs.remove(&#34;freetype&#34;)
+            if not self.options.eigen or not self.options.glog or not self.options.gflags:
+                opencv_libs.remove(&#34;sfm&#34;)
 
         if self.options.cuda:
             opencv_libs = [&#34;cudaarithm&#34;,
@@ -1091,6 +1107,8 @@ class OpenCVConan(ConanFile):
                 os.path.join(&#39;lib&#39;, &#39;opencv4&#39;, &#39;3rdparty&#39;))
             if not self.options.shared:
                 self.cpp_info.libs.append(&#39;ade&#39;)
+        if self.options.contrib and self.options.eigen and self.options.glog and self.options.gflags:
+            self.cpp_info.libs.append(&#39;multiview&#39;)
 </code>
         </pre>
     </div>
@@ -1111,7 +1129,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-06-03 00:50:46</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-06-04 00:51:48</span> | Work in progress
 
       </div>
     </footer>

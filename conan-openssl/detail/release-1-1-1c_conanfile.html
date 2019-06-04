@@ -853,7 +853,8 @@ class OpenSSLConan(ConanFile):
                &#34;no_sha&#34;: [True, False],
                &#34;no_fpic&#34;: [True, False],
                &#34;no_async&#34;: [True, False],
-               &#34;no_dso&#34;: [True, False]}
+               &#34;no_dso&#34;: [True, False],
+               &#34;capieng_dialog&#34;: [True, False]}
     default_options = &#34;=False\n&#34;.join(options.keys()) + &#34;=False&#34;
 
     # When a new version is available they move the tar.gz to old/ location
@@ -880,6 +881,10 @@ class OpenSSLConan(ConanFile):
 
     def configure(self):
         del self.settings.compiler.libcxx
+
+    def config_options(self):
+        if self.settings.os != &#34;Windows&#34;:
+            del self.options.capieng_dialog
 
     def requirements(self):
         if not self.options.no_zlib:
@@ -971,7 +976,8 @@ class OpenSSLConan(ConanFile):
         else:
             extra_flags = &#34;--debug&#34; if self.settings.build_type == &#34;Debug&#34; else &#34;--release&#34;
             extra_flags += &#34; no-shared&#34; if not self.options.shared else &#34; shared&#34;
-
+            if self.options.capieng_dialog:
+                extra_flags += &#34; -DOPENSSL_CAPIENG_DIALOG=1&#34;
         if self.settings.os == &#34;Android&#34;:
             # see NOTES.ANDROID
             extra_flags += &#34; -D__ANDROID_API__=%s&#34; % str(self.settings.os.api_level)
@@ -1048,8 +1054,8 @@ class OpenSSLConan(ConanFile):
 
     def emscripten_build(self):
         win_bash = sys.platform == &#34;win32&#34;
-        self.run_in_src(&#34;emconfigure ./Configure cc %s&#34; % self._get_flags(), win_bash=win_bash)
-        self.run_in_src(&#34;emmake make&#34;)
+        self.run_in_src(&#34;emconfigure ./Configure cc %s&#34; % self._get_flags(), show_output=True, win_bash=win_bash)
+        self.run_in_src(&#34;emmake make&#34;, show_output=True, win_bash=win_bash)
 
     def unix_build(self):
         win_bash = sys.platform == &#34;win32&#34;
@@ -1155,15 +1161,20 @@ class OpenSSLConan(ConanFile):
                 self.copy(src=self.subfolder, pattern=&#34;*libssl.dll.a&#34;, dst=&#34;lib&#34;, keep_path=False)
                 self.copy(src=self.subfolder, pattern=&#34;*libcrypto*.dll&#34;, dst=&#34;bin&#34;, keep_path=False)
                 self.copy(src=self.subfolder, pattern=&#34;*libssl*.dll&#34;, dst=&#34;bin&#34;, keep_path=False)
+                self.copy(pattern=&#34;*.dll&#34;, dst=&#34;bin/engines&#34;, src=&#34;binaries/lib/engines&#34;, keep_path=True)
             else:
                 self.copy(src=self.subfolder, pattern=&#34;*libcrypto.a&#34;, dst=&#34;lib&#34;, keep_path=False)
                 self.copy(src=self.subfolder, pattern=&#34;*libssl.a&#34;, dst=&#34;lib&#34;, keep_path=False)
         else:
             if self.options.shared:
-                self.copy(pattern=&#34;*libcrypto*.dylib&#34;, dst=&#34;lib&#34;, keep_path=False)
-                self.copy(pattern=&#34;*libssl*.dylib&#34;, dst=&#34;lib&#34;, keep_path=False)
+                self.copy(pattern=&#34;*libcrypto*.dylib&#34;, dst=&#34;lib&#34;, keep_path=False, symlinks=True)
+                self.copy(pattern=&#34;*libssl*.dylib&#34;, dst=&#34;lib&#34;, keep_path=False, symlinks=True)
+                self.copy(pattern=&#34;*.dylib&#34;, src=os.path.join(self.subfolder, &#34;engines&#34;),
+                          dst=&#34;bin/engines&#34;, keep_path=True)
                 self.copy(pattern=&#34;*libcrypto.so*&#34;, dst=&#34;lib&#34;, keep_path=False, symlinks=True)
                 self.copy(pattern=&#34;*libssl.so*&#34;, dst=&#34;lib&#34;, keep_path=False, symlinks=True)
+                self.copy(pattern=&#34;*.so&#34;, src=os.path.join(self.subfolder, &#34;engines&#34;),
+                          dst=&#34;bin/engines&#34;, keep_path=True)
             else:
                 self.copy(&#34;*.a&#34;, &#34;lib&#34;, keep_path=False)
 
@@ -1204,7 +1215,7 @@ class OpenSSLConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-06-03 00:49:59</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-06-04 00:51:00</span> | Work in progress
 
       </div>
     </footer>
