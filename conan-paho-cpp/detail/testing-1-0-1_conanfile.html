@@ -711,7 +711,6 @@ class PahocppConan(ConanFile):
         cmake.definitions[&#34;PAHO_BUILD_SAMPLES&#34;] = False
         cmake.definitions[&#34;PAHO_BUILD_STATIC&#34;] = not self.options.shared
         cmake.definitions[&#34;PAHO_BUILD_SHARED&#34;] = self.options.shared
-        cmake.definitions[&#34;PAHO_MQTT_C_STATIC&#34;] = not self.options[&#34;paho-c&#34;].shared
         cmake.definitions[&#34;PAHO_WITH_SSL&#34;] = self.options.SSL
         cmake.configure()
         return cmake
@@ -751,7 +750,7 @@ class PahocppConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-06-14 01:04:07</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-06-15 00:59:42</span> | Work in progress
 
       </div>
     </footer>
