@@ -1184,6 +1184,21 @@ class BoostConan(ConanFile):
         else:
             return None
 
+    @property
+    def _gnu_cxx11_abi(self):
+        &#34;&#34;&#34;Checks libcxx setting and returns value for the GNU C++11 ABI flag
+        _GLIBCXX_USE_CXX11_ABI= .  Returns None if C++ library cannot be
+        determined.
+        &#34;&#34;&#34;
+        try:
+            if str(self.settings.compiler.libcxx) == &#34;libstdc++&#34;:
+                return &#34;0&#34;
+            elif str(self.settings.compiler.libcxx) == &#34;libstdc++11&#34;:
+                return &#34;1&#34;
+        except:
+            pass
+        return None
+
     def get_build_flags(self):
 
         if tools.cross_building(self.settings):
@@ -1257,10 +1272,9 @@ class BoostConan(ConanFile):
         # Standalone toolchain fails when declare the std lib
         if self.settings.os != &#34;Android&#34;:
             try:
-                if str(self.settings.compiler.libcxx) == &#34;libstdc++&#34;:
-                    flags.append(&#34;define=_GLIBCXX_USE_CXX11_ABI=0&#34;)
-                elif str(self.settings.compiler.libcxx) == &#34;libstdc++11&#34;:
-                    flags.append(&#34;define=_GLIBCXX_USE_CXX11_ABI=1&#34;)
+                if self._gnu_cxx11_abi:
+                    flags.append(&#34;define=_GLIBCXX_USE_CXX11_ABI=%s&#34; % self._gnu_cxx11_abi)
+
                 if &#34;clang&#34; in str(self.settings.compiler):
                     if str(self.settings.compiler.libcxx) == &#34;libc++&#34;:
                         cxx_flags.append(&#34;-stdlib=libc++&#34;)
@@ -1548,6 +1562,10 @@ class BoostConan(ConanFile):
         if self.options.filesystem_no_deprecated:
             self.cpp_info.defines.append(&#34;BOOST_FILESYSTEM_NO_DEPRECATED&#34;)
 
+        if self.settings.os != &#34;Android&#34;:
+            if self._gnu_cxx11_abi:
+                self.cpp_info.defines.append(&#34;_GLIBCXX_USE_CXX11_ABI=%s&#34; % self._gnu_cxx11_abi)
+
         if not self.options.header_only:
             if self.options.error_code_header_only:
                 self.cpp_info.defines.append(&#34;BOOST_ERROR_CODE_HEADER_ONLY&#34;)
@@ -1595,7 +1613,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-06-15 00:57:12</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-06-16 00:58:48</span> | Work in progress
 
       </div>
     </footer>
