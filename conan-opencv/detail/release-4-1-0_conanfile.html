@@ -983,6 +983,9 @@ class OpenCVConan(ConanFile):
                        &#34;core&#34;,
                        &#34;dnn&#34;]
 
+        if not self.options.protobuf:
+                opencv_libs.remove(&#34;dnn&#34;)
+
         if self.settings.os != &#39;Android&#39;:
             # gapi depends on ade but ade disabled for Android
             # https://github.com/opencv/opencv/blob/4.0.1/modules/gapi/cmake/DownloadADE.cmake#L2
@@ -1129,7 +1132,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-06-17 00:58:09</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-06-18 01:03:59</span> | Work in progress
 
       </div>
     </footer>

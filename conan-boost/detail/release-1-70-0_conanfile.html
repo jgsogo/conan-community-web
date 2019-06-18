@@ -838,7 +838,7 @@ class BoostConan(ConanFile):
         url = &#34;https://dl.bintray.com/boostorg/release/%s/source/%s&#34; % (self.version, zip_name)
         tools.get(url, sha256=sha256)
 
-        for patch in [&#34;python_base_prefix.patch&#34;, &#34;boost_build_asmflags.patch&#34;]:
+        for patch in [&#34;python_base_prefix.patch&#34;]:
             tools.patch(patch_file=os.path.join(&#34;patches&#34;, patch),
                         base_path=os.path.join(self.source_folder, self.folder_name))
 
@@ -1613,7 +1613,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-06-17 00:57:44</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-06-18 01:03:31</span> | Work in progress
 
       </div>
     </footer>
