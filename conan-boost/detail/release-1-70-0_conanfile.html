@@ -838,7 +838,8 @@ class BoostConan(ConanFile):
         url = &#34;https://dl.bintray.com/boostorg/release/%s/source/%s&#34; % (self.version, zip_name)
         tools.get(url, sha256=sha256)
 
-        for patch in [&#34;python_base_prefix.patch&#34;]:
+        for patch in [&#34;python_base_prefix.patch&#34;,
+                      &#34;bcp_namespace_issues.patch&#34;]:
             tools.patch(patch_file=os.path.join(&#34;patches&#34;, patch),
                         base_path=os.path.join(self.source_folder, self.folder_name))
 
@@ -1071,7 +1072,7 @@ class BoostConan(ConanFile):
                 namespace = &#34;--namespace=%s&#34; % self.options.namespace
                 alias = &#34;--namespace-alias&#34; if self.options.namespace_alias else &#34;&#34;
                 boostdir = &#34;--boost=%s&#34; % self.folder_name
-                libraries = {&#34;build&#34;, &#34;boost-build.jam&#34;, &#34;boostcpp.jam&#34;}
+                libraries = {&#34;build&#34;, &#34;boost-build.jam&#34;, &#34;boostcpp.jam&#34;, &#34;boost-install&#34;, &#34;headers&#34;}
                 for d in os.listdir(os.path.join(self.folder_name, &#34;boost&#34;)):
                     if os.path.isdir(os.path.join(self.folder_name, &#34;boost&#34;, d)):
                         libraries.add(d)
@@ -1613,7 +1614,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-06-18 01:03:31</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-06-19 00:59:46</span> | Work in progress
 
       </div>
     </footer>
