@@ -438,7 +438,7 @@
                 <span data-feather="file-text"></span>
                 conan-fontconfig
                 
-                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>17</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -809,6 +809,23 @@ class ZlibConan(ConanFile):
                     current_lib = os.path.join(lib_path, &#34;libzlibstatic.a&#34;)
                     os.rename(current_lib, os.path.join(lib_path, &#34;libzlib.a&#34;))
 
+    def _delete_crypt_header(self):
+        &#34;&#34;&#34;
+        Delete the crypt.h which is causing trouble for linking.
+        The crypt.h defines only static methods which are to be included
+        in zip.c/unzip.c so it will work just fine by  including zip.h/unzip.h
+        and linking against libminizip
+        cf: https://bugzilla.redhat.com/show_bug.cgi?id=1424609
+        &#34;&#34;&#34;
+        crypt_path = os.path.join(self.package_folder, &#34;include&#34;, &#34;crypt.h&#34;)
+        if os.path.exists(crypt_path):
+            self.output.warn(&#34;Removing crypt.h at path: &#34;
+                             &#34;{}&#34;.format(crypt_path))
+            os.remove(crypt_path)
+        else:
+            self.output.warn(&#34;Didn&#39;t find crypt.h at path: &#34;
+                             &#34;{}&#34;.format(crypt_path))
+
     def package(self):
         # Extract the License/s from the header to a file
         with tools.chdir(os.path.join(self.source_folder, self._source_subfolder)):
@@ -841,6 +858,8 @@ class ZlibConan(ConanFile):
 
         self._rename_libraries()
 
+        self._delete_crypt_header()
+
         # Provide a cmake finder
         self.copy(&#39;FindZLIB.cmake&#39;, &#39;.&#39;, &#39;.&#39;)
 
@@ -870,7 +889,7 @@ class ZlibConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-06-21 00:59:56</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-06-22 00:58:03</span> | Work in progress
 
       </div>
     </footer>

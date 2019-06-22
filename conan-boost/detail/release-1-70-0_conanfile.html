@@ -438,7 +438,7 @@
                 <span data-feather="file-text"></span>
                 conan-fontconfig
                 
-                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>17</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -1072,7 +1072,7 @@ class BoostConan(ConanFile):
                 namespace = &#34;--namespace=%s&#34; % self.options.namespace
                 alias = &#34;--namespace-alias&#34; if self.options.namespace_alias else &#34;&#34;
                 boostdir = &#34;--boost=%s&#34; % self.folder_name
-                libraries = {&#34;build&#34;, &#34;boost-build.jam&#34;, &#34;boostcpp.jam&#34;, &#34;boost-install&#34;, &#34;headers&#34;}
+                libraries = {&#34;build&#34;, &#34;boost-build.jam&#34;, &#34;boostcpp.jam&#34;, &#34;boost_install&#34;, &#34;headers&#34;}
                 for d in os.listdir(os.path.join(self.folder_name, &#34;boost&#34;)):
                     if os.path.isdir(os.path.join(self.folder_name, &#34;boost&#34;, d)):
                         libraries.add(d)
@@ -1614,7 +1614,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-06-21 01:01:05</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-06-22 00:59:04</span> | Work in progress
 
       </div>
     </footer>

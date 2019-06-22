@@ -438,7 +438,7 @@
                 <span data-feather="file-text"></span>
                 conan-fontconfig
                 
-                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>17</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -825,12 +825,15 @@ import sys
 class OpenSSLConan(ConanFile):
     name = &#34;OpenSSL&#34;
     version = &#34;1.1.1c&#34;
-    settings = &#34;os&#34;, &#34;compiler&#34;, &#34;arch&#34;, &#34;build_type&#34;
-    url = &#34;http://github.com/lasote/conan-openssl&#34;
-    license = &#34;The current OpenSSL licence is an &#39;Apache style&#39; license: https://www.openssl.org/source/license.html&#34;
     description = &#34;OpenSSL is an open source project that provides a robust, commercial-grade, and full-featured &#34; \
                   &#34;toolkit for the Transport Layer Security (TLS) and Secure Sockets Layer (SSL) protocols&#34;
-    # https://github.com/openssl/openssl/blob/OpenSSL_1_0_2l/INSTALL
+    topics = (&#34;conan&#34;, &#34;openssl&#34;, &#34;tls&#34;, &#34;encryption&#34;)
+    url = &#34;http://github.com/conan-community/conan-openssl&#34;
+    homepage = &#34;https://www.openssl.org&#34;
+    author = &#34;Conan Community&#34;
+    license = &#34;The current OpenSSL licence is an &#39;Apache style&#39; license: https://www.openssl.org/source/license.html&#34;
+    settings = &#34;os&#34;, &#34;compiler&#34;, &#34;arch&#34;, &#34;build_type&#34;
+    # https://github.com/openssl/openssl/blob/OpenSSL_1_1_1c/INSTALL
     options = {&#34;no_threads&#34;: [True, False],
                &#34;no_zlib&#34;: [True, False],
                &#34;shared&#34;: [True, False],
@@ -859,7 +862,7 @@ class OpenSSLConan(ConanFile):
 
     # When a new version is available they move the tar.gz to old/ location
     source_tgz = &#34;https://www.openssl.org/source/openssl-%s.tar.gz&#34; % version
-    source_tgz_old = &#34;https://www.openssl.org/source/old/1.1.0/openssl-%s.tar.gz&#34; % version
+    source_tgz_old = &#34;https://www.openssl.org/source/old/1.1.1/openssl-%s.tar.gz&#34; % version
 
     def build_requirements(self):
         # useful for example for conditional build_requires
@@ -1215,7 +1218,7 @@ class OpenSSLConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-06-21 01:00:42</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-06-22 00:58:44</span> | Work in progress
 
       </div>
     </footer>
