@@ -676,7 +676,7 @@
  linux: &amp;linux
     os: linux
     dist: xenial
-@@ -8,50 +20,92 @@
+@@ -8,47 +20,92 @@
  osx: &amp;osx
     os: osx
     language: generic
@@ -744,16 +744,6 @@
        - &lt;&lt;: *linux
 -        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7-armv7hf CONAN_ARCHS=armv7hf
 -      - &lt;&lt;: *osx
-+        stage: conan-linux
-+        env: CONAN_CLANG_VERSIONS=7.0 CONAN_DOCKER_IMAGE=conanio/clang7 CONAN_CURRENT_PAGE=1
-+     
-+
-+     
-+      - &lt;&lt;: *linux
-+        stage: conan-osx
-         osx_image: xcode7.3
--        env: CONAN_APPLE_CLANG_VERSIONS=7.3
--      - &lt;&lt;: *osx
 -        osx_image: xcode8.3
 -        env: CONAN_APPLE_CLANG_VERSIONS=8.1
 -      - &lt;&lt;: *osx
@@ -765,6 +755,14 @@
 -      - &lt;&lt;: *osx
 -        osx_image: xcode10.1
 -        env: CONAN_APPLE_CLANG_VERSIONS=10.0
++        stage: conan-linux
++        env: CONAN_CLANG_VERSIONS=7.0 CONAN_DOCKER_IMAGE=conanio/clang7 CONAN_CURRENT_PAGE=1
++     
++
++     
++      - &lt;&lt;: *linux
++        stage: conan-osx
++        osx_image: xcode7.3
 +        env: CONAN_APPLE_CLANG_VERSIONS=7.3 CONAN_CURRENT_PAGE=1
 +     
 +      - &lt;&lt;: *linux
@@ -818,7 +816,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-06-22 01:01:30</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-06-23 01:02:06</span> | Work in progress
 
       </div>
     </footer>
