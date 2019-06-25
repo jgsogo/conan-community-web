@@ -64,7 +64,7 @@
                 <span data-feather="file-text"></span>
                 conan-openssl
                 
-                <span class="numberCircle numberCircle-error" title=""><span>125</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>139</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -438,7 +438,7 @@
                 <span data-feather="file-text"></span>
                 conan-fontconfig
                 
-                <span class="numberCircle numberCircle-error" title=""><span>17</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>18</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -553,6 +553,8 @@
         <a class="btn btn-sm btn-outline-secondary" href="https://github.com/conan-community/conan-fontconfig/tree/release/2.13.91" role="button">Github <span data-feather="external-link"></span></a>
         
         
+            <a class="btn btn-sm btn-outline-secondary" href="https://bintray.com/conan-community/conan/fontconfig%3Aconan/2.13.91%3Astable" role="button">Bintray <span data-feather="external-link"></span></a>
+        
     </div>
     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" id="branchesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span data-feather="git-branch"></span>
@@ -573,7 +575,7 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/release-2-13-91.html">
                 release/2.13.91
                 
-                <span class="numberCircle numberCircle-error" title=""><span>4</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
                 
                 
             </a>
@@ -645,7 +647,7 @@ from conans.errors import ConanInvalidConfiguration
 
 class FontconfigConan(ConanFile):
     name = &#34;fontconfig&#34;
-    version = &#34;2.13.1&#34;
+    version = &#34;2.13.91&#34;
     license = &#34;MIT&#34;
     url = &#34;https://github.com/conan-community/conan-fontconfig&#34;
     description = &#34;Fontconfig is a library for configuring and customizing font access&#34;
@@ -661,13 +663,10 @@ class FontconfigConan(ConanFile):
     _autotools = None
 
     def requirements(self):
-        self.requires(&#34;freetype/2.9.0@bincrafters/stable&#34;)
-        self.requires(&#34;expat/2.2.5@bincrafters/stable&#34;)
+        self.requires(&#34;freetype/2.9.1@bincrafters/stable&#34;)
+        self.requires(&#34;Expat/2.2.6@pix4d/stable&#34;)
         if self.settings.os == &#34;Linux&#34;:
             self.requires(&#34;libuuid/1.0.3@bincrafters/stable&#34;)
-
-    def build_requirements(self):
-        self.build_requires(&#34;gperf/3.1@conan/stable&#34;)
 
     def configure(self):
         if self.settings.os == &#34;Windows&#34;:
@@ -676,10 +675,13 @@ class FontconfigConan(ConanFile):
 
     def source(self):
         source_url = &#34;https://www.freedesktop.org/software/fontconfig/release/fontconfig-{}.tar.gz&#34;
-        sha256 = &#34;9f0d852b39d75fc655f9f53850eb32555394f36104a044bb2b2fc9e66dbbfa7f&#34;
+        sha256 = &#34;19e5b1bc9d013a52063a44e1307629711f0bfef35b9aca16f9c793971e2eb1e5&#34;
         tools.get(source_url.format(self.version), sha256=sha256)
         extrated_dir = self.name + &#34;-&#34; + self.version
         os.rename(extrated_dir, self._source_subfolder)
+
+    def build_requirements(self):
+        self.build_requires(&#34;gperf_installer/3.1@conan/stable&#34;)
 
     def _configure_autotools(self):
         if not self._autotools:
@@ -736,7 +738,7 @@ class FontconfigConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-06-24 01:06:33</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-06-25 01:05:15</span> | Work in progress
 
       </div>
     </footer>
