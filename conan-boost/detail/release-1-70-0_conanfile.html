@@ -449,7 +449,7 @@
                 <span data-feather="file-text"></span>
                 conan-openexr
                 
-                <span class="numberCircle numberCircle-error" title=""><span>9</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>8</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -805,6 +805,9 @@ class BoostConan(ConanFile):
         return not self.options.without_iostreams and not self.options.header_only
 
     def configure(self):
+        pass
+
+    def requirements(self):
         if self.zip_bzip2_requires_needed:
             if self.options.zlib:
                 self.requires(&#34;zlib/1.2.11@conan/stable&#34;)
@@ -1614,7 +1617,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-06-27 01:03:28</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-06-28 01:03:50</span> | Work in progress
 
       </div>
     </footer>
