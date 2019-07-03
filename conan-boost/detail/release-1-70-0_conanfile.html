@@ -841,8 +841,11 @@ class BoostConan(ConanFile):
         url = &#34;https://dl.bintray.com/boostorg/release/%s/source/%s&#34; % (self.version, zip_name)
         tools.get(url, sha256=sha256)
 
-        for patch in [&#34;python_base_prefix.patch&#34;,
-                      &#34;bcp_namespace_issues.patch&#34;]:
+        for patch in [&#34;0001-beast-fix-moved-from-executor.patch&#34;,
+                      &#34;bcp_namespace_issues.patch&#34;,
+                      &#34;boost_build_qcc_fix_debug_build_parameter.patch&#34;,
+                      &#34;boost_core_qnx_cxx_provide___cxa_get_globals.patch&#34;,
+                      &#34;python_base_prefix.patch&#34;]:
             tools.patch(patch_file=os.path.join(&#34;patches&#34;, patch),
                         base_path=os.path.join(self.source_folder, self.folder_name))
 
@@ -1617,7 +1620,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-07-02 01:05:42</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-07-03 01:13:24</span> | Work in progress
 
       </div>
     </footer>
