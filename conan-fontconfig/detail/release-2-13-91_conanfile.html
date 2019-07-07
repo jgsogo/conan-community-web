@@ -702,6 +702,8 @@ class FontconfigConan(ConanFile):
         freetype_path = self.deps_cpp_info[&#34;freetype&#34;].rootpath
         shutil.copyfile(os.path.join(freetype_path, &#34;lib&#34;, &#34;pkgconfig&#34;, &#34;freetype2.pc&#34;), &#34;freetype2.pc&#34;)
         tools.replace_prefix_in_pc_file(&#34;freetype2.pc&#34;, freetype_path)
+        if self.settings.build_type == &#34;Debug&#34;:
+            tools.replace_in_file(&#34;freetype2.pc&#34;, &#34;-lfreetype&#34;, &#34;-lfreetyped&#34;)
 
     def build(self):
         # Patch files from dependencies
@@ -743,7 +745,7 @@ class FontconfigConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-07-06 01:11:01</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-07-07 01:11:04</span> | Work in progress
 
       </div>
     </footer>
