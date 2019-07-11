@@ -752,9 +752,9 @@ class OpenCVConan(ConanFile):
         tools.get(&#34;https://github.com/opencv/opencv_contrib/archive/{}.tar.gz&#34;.format(self.version), sha256=sha256)
         os.rename(&#39;opencv_contrib-%s&#39; % self.version, &#39;contrib&#39;)
 
-        for dir in [&#39;libjasper&#39;, &#39;libjpeg-turbo&#39;, &#39;libjpeg&#39;, &#39;libpng&#39;, &#39;libtiff&#39;,
+        for directory in [&#39;libjasper&#39;, &#39;libjpeg-turbo&#39;, &#39;libjpeg&#39;, &#39;libpng&#39;, &#39;libtiff&#39;,
                     &#39;libwebp&#39;, &#39;openexr&#39;, &#39;protobuf&#39;, &#39;zlib&#39;]:
-            tools.rmdir(os.path.join(self._source_subfolder, &#39;3rdparty&#39;, dir))
+            tools.rmdir(os.path.join(self._source_subfolder, &#39;3rdparty&#39;, directory))
 
     def config_options(self):
         if self.settings.os == &#39;Windows&#39;:
@@ -807,7 +807,7 @@ class OpenCVConan(ConanFile):
         if self.options.webp:
             self.requires.add(&#39;libwebp/1.0.0@bincrafters/stable&#39;)
         if self.options.png:
-            self.requires.add(&#39;libpng/1.6.34@bincrafters/stable&#39;)
+            self.requires.add(&#39;libpng/1.6.37@bincrafters/stable&#39;)
         if self.options.jasper:
             self.requires.add(&#39;jasper/2.0.14@conan/stable&#39;)
         if self.options.openexr:
@@ -817,7 +817,7 @@ class OpenCVConan(ConanFile):
             # otherwise, PROTOBUF_UPDATE_FILES should be set to re-generate files
             self.requires.add(&#39;protobuf/3.5.2@bincrafters/stable&#39;)
         if self.options.freetype:
-            self.requires.add(&#39;freetype/2.9.1@bincrafters/stable&#39;)
+            self.requires.add(&#39;freetype/2.10.0@bincrafters/stable&#39;)
         if self.options.harfbuzz:
             self.requires.add(&#39;harfbuzz/2.4.0@bincrafters/stable&#39;)
         if self.options.eigen:
@@ -984,7 +984,7 @@ class OpenCVConan(ConanFile):
                        &#34;dnn&#34;]
 
         if not self.options.protobuf:
-                opencv_libs.remove(&#34;dnn&#34;)
+            opencv_libs.remove(&#34;dnn&#34;)
 
         if self.settings.os != &#39;Android&#39;:
             # gapi depends on ade but ade disabled for Android
@@ -1132,7 +1132,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-07-10 01:12:01</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-07-11 01:12:35</span> | Work in progress
 
       </div>
     </footer>
