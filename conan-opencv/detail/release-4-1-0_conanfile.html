@@ -704,7 +704,8 @@ class OpenCVConan(ConanFile):
                &#34;harfbuzz&#34;: [True, False],
                &#34;eigen&#34;: [True, False],
                &#34;glog&#34;: [True, False],
-               &#34;gflags&#34;: [True, False]}
+               &#34;gflags&#34;: [True, False],
+               &#34;gstreamer&#34;: [True, False]}
     default_options = {&#34;shared&#34;: False,
                        &#34;fPIC&#34;: True,
                        &#34;contrib&#34;: False,
@@ -725,7 +726,8 @@ class OpenCVConan(ConanFile):
                        &#34;harfbuzz&#34;: True,
                        &#34;eigen&#34;: True,
                        &#39;glog&#39;: True,
-                       &#34;gflags&#34;: True}
+                       &#34;gflags&#34;: True,
+                       &#34;gstreamer&#34;: True}
     exports_sources = [&#34;CMakeLists.txt&#34;, &#34;patches/*.patch&#34;]
     exports = &#34;LICENSE&#34;
     generators = &#34;cmake&#34;
@@ -869,6 +871,7 @@ class OpenCVConan(ConanFile):
         cmake.definitions[&#39;BUILD_PROTOBUF&#39;] = False
         cmake.definitions[&#39;PROTOBUF_UPDATE_FILES&#39;] = False
 
+        cmake.definitions[&#39;WITH_GSTREAMER&#39;] = self.options.gstreamer
         cmake.definitions[&#39;WITH_JPEG&#39;] = self.options.jpeg
         cmake.definitions[&#39;WITH_TIFF&#39;] = self.options.tiff
         cmake.definitions[&#39;WITH_WEBP&#39;] = self.options.webp
@@ -1132,7 +1135,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-07-11 01:12:35</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-07-12 01:13:16</span> | Work in progress
 
       </div>
     </footer>

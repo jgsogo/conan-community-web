@@ -1143,8 +1143,8 @@ class OpenSSLConan(ConanFile):
     @property
     def _configure_args(self):
         openssldir = self.options.openssldir if self.options.openssldir else os.path.join(self.package_folder, &#34;res&#34;)
-        prefix = tools.unix_path(self.package_folder) if self._win_bash else self.package_folder
-        openssldir = tools.unix_path(openssldir) if self._win_bash else openssldir
+        prefix = self.package_folder.replace(&#34;\\&#34;, &#34;/&#34;) if self._win_bash else self.package_folder
+        openssldir = self.package_folder.replace(&#34;\\&#34;, &#34;/&#34;) if self._win_bash else openssldir
         args = [&#39;&#34;%s&#34;&#39; % (self._target if self._full_version &gt;= &#34;1.1.0&#34; else self._ancestor_target),
                 &#34;shared&#34; if self.options.shared else &#34;no-shared&#34;,
                 &#34;--prefix=%s&#34; % prefix,
@@ -1390,7 +1390,7 @@ class OpenSSLConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-07-11 01:11:43</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-07-12 01:12:24</span> | Work in progress
 
       </div>
     </footer>
