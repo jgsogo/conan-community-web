@@ -1312,6 +1312,9 @@ class OpenSSLConan(ConanFile):
             self._clean_tmp_dir(os.environ[&#34;TMPDIR&#34;])
 
     def build(self):
+        # TODO (uilian) Only for testing
+        if self.settings.os == &#34;Windows&#34;:
+            self.run(&#34;fsutil.exe volume diskfree %ConEmuWorkDrive%\\&#34;)
         with tools.vcvars(self.settings) if self.settings.compiler == &#34;Visual Studio&#34; else tools.no_op():
             if self._full_version &gt;= &#34;1.1.0&#34;:
                 self._create_targets()
@@ -1390,7 +1393,7 @@ class OpenSSLConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-07-15 01:12:21</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-07-16 01:13:21</span> | Work in progress
 
       </div>
     </footer>
