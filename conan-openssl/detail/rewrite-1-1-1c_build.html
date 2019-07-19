@@ -820,19 +820,24 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,7 +1,10 @@
--from conan.packager import ConanMultiPackager
-+#!/usr/bin/env python
-+# -*- coding: utf-8 -*-
-+
-+from cpt.packager import ConanMultiPackager
+@@ -2,16 +2,9 @@
+ # -*- coding: utf-8 -*-
+ 
+ from cpt.packager import ConanMultiPackager
+-from cpt.ci_manager import is_azure_pipelines
  
  
  if __name__ == &#34;__main__&#34;:
      builder = ConanMultiPackager()
--    builder.add_common_builds(shared_option_name=&#34;OpenSSL:shared&#34;, pure_c=True)
+-    builder.add_common_builds(pure_c=True)
 +    builder.add_common_builds()
-     builder.run()</code>
+     builder.run()
+-
+-    if is_azure_pipelines():
+-        from conans.client import conan_api
+-
+-        instance, _, _ = conan_api.Conan.factory()
+-        instance.remove(&#34;*&#34;, force=True)</code>
         </pre>
     </div>
 
@@ -852,7 +857,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-07-18 01:14:20</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-07-19 01:14:53</span> | Work in progress
 
       </div>
     </footer>
