@@ -64,7 +64,7 @@
                 <span data-feather="file-text"></span>
                 conan-openssl
                 
-                <span class="numberCircle numberCircle-error" title=""><span>128</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>127</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -328,7 +328,7 @@
                 <span data-feather="file-text"></span>
                 conan-relapack
                 
-                <span class="numberCircle numberCircle-error" title=""><span>12</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -613,7 +613,7 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-openssl/detail/release-1-0-2j.html">
                 release/1.0.2j
                 
-                <span class="numberCircle numberCircle-error" title=""><span>4</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
                 
                 
             </a>
@@ -749,7 +749,7 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-openssl/detail/release-1-1-1c.html">
                 release/1.1.1c
                 
-                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>4</span></span>
                 
                 
             </a>
@@ -791,12 +791,6 @@
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-openssl/detail/release-1-1-1c_appveyor.html">
-                        appveyor.yml <span class="numberCircle numberCircle-error" title=""><span> </span></span>
-                    </a>
-                  </li>
-                
-                  <li class="nav-item">
                     <a class="nav-link active" href="https://jgsogo.es/conan-community-web/conan-openssl/detail/release-1-1-1c_build.html">
                         build.py <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
@@ -826,19 +820,24 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,7 +1,10 @@
--from conan.packager import ConanMultiPackager
-+#!/usr/bin/env python
-+# -*- coding: utf-8 -*-
-+
-+from cpt.packager import ConanMultiPackager
+@@ -2,16 +2,9 @@
+ # -*- coding: utf-8 -*-
+ 
+ from cpt.packager import ConanMultiPackager
+-from cpt.ci_manager import is_azure_pipelines
  
  
  if __name__ == &#34;__main__&#34;:
      builder = ConanMultiPackager()
--    builder.add_common_builds(shared_option_name=&#34;OpenSSL:shared&#34;, pure_c=True)
+-    builder.add_common_builds(pure_c=True)
 +    builder.add_common_builds()
-     builder.run()</code>
+     builder.run()
+-
+-    if is_azure_pipelines():
+-        from conans.client import conan_api
+-
+-        instance, _, _ = conan_api.Conan.factory()
+-        instance.remove(&#34;*&#34;, force=True)</code>
         </pre>
     </div>
 
@@ -858,7 +857,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-07-21 01:15:45</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-07-22 01:15:12</span> | Work in progress
 
       </div>
     </footer>

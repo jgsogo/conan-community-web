@@ -64,7 +64,7 @@
                 <span data-feather="file-text"></span>
                 conan-openssl
                 
-                <span class="numberCircle numberCircle-error" title=""><span>128</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>127</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -328,7 +328,7 @@
                 <span data-feather="file-text"></span>
                 conan-relapack
                 
-                <span class="numberCircle numberCircle-error" title=""><span>12</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>13</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -550,14 +550,14 @@
         <a class="btn btn-sm btn-outline-secondary" href="https://jgsogo.es/conan-community-web/conan-openssl/detail/index.html" role="button">Index <span data-feather="home"></span></a>
     </div>
     <div class="btn-group mr-2">
-        <a class="btn btn-sm btn-outline-secondary" href="https://github.com/conan-community/conan-openssl/tree/release/1.1.1c" role="button">Github <span data-feather="external-link"></span></a>
+        <a class="btn btn-sm btn-outline-secondary" href="https://github.com/conan-community/conan-openssl/tree/release/1.0.2j" role="button">Github <span data-feather="external-link"></span></a>
         
         
     </div>
     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" id="branchesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span data-feather="git-branch"></span>
         
-            release/1.1.1c
+            release/1.0.2j
         
     </button>
     <div class="dropdown-menu" aria-labelledby="branchesMenuButton">
@@ -613,7 +613,7 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-openssl/detail/release-1-0-2j.html">
                 release/1.0.2j
                 
-                <span class="numberCircle numberCircle-error" title=""><span>4</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
                 
                 
             </a>
@@ -749,7 +749,7 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-openssl/detail/release-1-1-1c.html">
                 release/1.1.1c
                 
-                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>4</span></span>
                 
                 
             </a>
@@ -781,35 +781,35 @@
         
             <ul class="nav nav-tabs">
               <li class="nav-item">
-                <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-openssl/detail/release-1-1-1c.html">Details</a>
+                <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-openssl/detail/release-1-0-2j.html">Details</a>
               </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-openssl/detail/release-1-1-1c_conanfile.html">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-openssl/detail/release-1-0-2j_conanfile.html">
                         conanfile.py
                     </a>
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link active" href="https://jgsogo.es/conan-community-web/conan-openssl/detail/release-1-1-1c_appveyor.html">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-openssl/detail/release-1-0-2j_appveyor.html">
                         appveyor.yml <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-openssl/detail/release-1-1-1c_build.html">
+                    <a class="nav-link active" href="https://jgsogo.es/conan-community-web/conan-openssl/detail/release-1-0-2j_build.html">
                         build.py <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-openssl/detail/release-1-1-1c_README.html">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-openssl/detail/release-1-0-2j_README.html">
                         README.md <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-openssl/detail/release-1-1-1c_.travis.html">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-openssl/detail/release-1-0-2j_.travis.html">
                         .travis.yml <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
@@ -821,257 +821,29 @@
 
 
     
-    <h4>appveyor.yml</h4>
+    <h4>build.py</h4>
     <div>
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,150 +1,122 @@
- build: false
- 
+@@ -1,12 +1,10 @@
+-from conan.packager import ConanMultiPackager
++#!/usr/bin/env python
++# -*- coding: utf-8 -*-
 +
- environment:
--    PYTHON: &#34;C:\\Python27&#34;
--    PYTHON_VERSION: &#34;2.7.8&#34;
--    PYTHON_ARCH: &#34;32&#34;
-+    PYTHON: &#34;C:\\Python37&#34;
++from cpt.packager import ConanMultiPackager
  
--    CONAN_REFERENCE: &#34;OpenSSL/1.1.1c&#34;
-     CONAN_USERNAME: &#34;conan&#34;
-+    CONAN_CHANNEL: &#34;testing&#34;
-     CONAN_LOGIN_USERNAME: &#34;conanbot&#34;
--    CONAN_CHANNEL: &#34;testing&#34;
-+    VS150COMNTOOLS: &#34;C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\&#34;
-     CONAN_UPLOAD: &#34;https://api.bintray.com/conan/conan-community/conan&#34;
--    CONAN_STABLE_BRANCH_PATTERN: &#34;release/*&#34;
--    CONAN_TOTAL_PAGES: 2
--    CONAN_UPLOAD_ONLY_WHEN_STABLE: 1 # Will only upload when the branch matches &#34;release/*&#34;
--    CONAN_BUILD_POLICY: &#34;outdated&#34;
-+    CONAN_STABLE_BRANCH_PATTERN: &#34;(release|stable)/[a-zA-Z0-9_][a-zA-Z0-9_+.-]+&#34;
-+    CONAN_UPLOAD_ONLY_WHEN_STABLE: 1 # Will only upload when the branch matches stable pattern
-+    CONAN_TOTAL_PAGES: 1
-+
  
-     matrix:
--        - MINGW_CONFIGURATIONS: &#34;4.9@x86@dwarf2@posix&#34;
--          CONAN_BUILD_REQUIRES: &#34;msys2_installer/latest@bincrafters/stable&#34;
--          CONAN_REMOTES: &#34;https://api.bintray.com/conan/bincrafters/public-conan&#34;
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 12
-+          CONAN_ARCHS: x86
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MT
-           CONAN_CURRENT_PAGE: 1
--
--        - MINGW_CONFIGURATIONS: &#34;4.9@x86@dwarf2@posix&#34;
--          CONAN_BUILD_REQUIRES: &#34;msys2_installer/latest@bincrafters/stable&#34;
--          CONAN_REMOTES: &#34;https://api.bintray.com/conan/bincrafters/public-conan&#34;
--          CONAN_CURRENT_PAGE: 2
--          
--        - MINGW_CONFIGURATIONS: &#34;4.9@x86_64@seh@posix&#34;
--          CONAN_BUILD_REQUIRES: &#34;msys2_installer/latest@bincrafters/stable&#34;
--          CONAN_REMOTES: &#34;https://api.bintray.com/conan/bincrafters/public-conan&#34;
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 12
-+          CONAN_ARCHS: x86
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MD
-           CONAN_CURRENT_PAGE: 1
--
--        - MINGW_CONFIGURATIONS: &#34;4.9@x86_64@seh@posix&#34;
--          CONAN_BUILD_REQUIRES: &#34;msys2_installer/latest@bincrafters/stable&#34;
--          CONAN_REMOTES: &#34;https://api.bintray.com/conan/bincrafters/public-conan&#34;
--          CONAN_CURRENT_PAGE: 2
--          
--        - MINGW_CONFIGURATIONS: &#34;5@xx86@dwarf2@posix&#34;
--          CONAN_BUILD_REQUIRES: &#34;msys2_installer/latest@bincrafters/stable&#34;
--          CONAN_REMOTES: &#34;https://api.bintray.com/conan/bincrafters/public-conan&#34;
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 12
-+          CONAN_ARCHS: x86_64
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MT
-           CONAN_CURRENT_PAGE: 1
--
--        - MINGW_CONFIGURATIONS: &#34;5@x86@dwarf2@posix&#34;
--          CONAN_BUILD_REQUIRES: &#34;msys2_installer/latest@bincrafters/stable&#34;
--          CONAN_REMOTES: &#34;https://api.bintray.com/conan/bincrafters/public-conan&#34;
--          CONAN_CURRENT_PAGE: 2
--          
--        - MINGW_CONFIGURATIONS: &#34;5@x86_64@seh@posix&#34;
--          CONAN_BUILD_REQUIRES: &#34;msys2_installer/latest@bincrafters/stable&#34;
--          CONAN_REMOTES: &#34;https://api.bintray.com/conan/bincrafters/public-conan&#34;
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 12
-+          CONAN_ARCHS: x86_64
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MD
-           CONAN_CURRENT_PAGE: 1
--
--        - MINGW_CONFIGURATIONS: &#34;5@x86_64@seh@posix&#34;
--          CONAN_BUILD_REQUIRES: &#34;msys2_installer/latest@bincrafters/stable&#34;
--          CONAN_REMOTES: &#34;https://api.bintray.com/conan/bincrafters/public-conan&#34;
--          CONAN_CURRENT_PAGE: 2
--
--        - MINGW_CONFIGURATIONS: &#34;6@x86@dwarf2@posix&#34;
--          CONAN_BUILD_REQUIRES: &#34;msys2_installer/latest@bincrafters/stable&#34;
--          CONAN_REMOTES: &#34;https://api.bintray.com/conan/bincrafters/public-conan&#34;
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 14
-+          CONAN_ARCHS: x86
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MT
-           CONAN_CURRENT_PAGE: 1
--
--        - MINGW_CONFIGURATIONS: &#34;6@x86@dwarf2@posix&#34;
--          CONAN_BUILD_REQUIRES: &#34;msys2_installer/latest@bincrafters/stable&#34;
--          CONAN_REMOTES: &#34;https://api.bintray.com/conan/bincrafters/public-conan&#34;
--          CONAN_CURRENT_PAGE: 2
--
--        - MINGW_CONFIGURATIONS: &#34;6@x86_64@seh@posix&#34;
--          CONAN_BUILD_REQUIRES: &#34;msys2_installer/latest@bincrafters/stable&#34;
--          CONAN_REMOTES: &#34;https://api.bintray.com/conan/bincrafters/public-conan&#34;
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 14
-+          CONAN_ARCHS: x86
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MD
-           CONAN_CURRENT_PAGE: 1
--
--        - MINGW_CONFIGURATIONS: &#34;6@x86_64@seh@posix&#34;
--          CONAN_BUILD_REQUIRES: &#34;msys2_installer/latest@bincrafters/stable&#34;
--          CONAN_REMOTES: &#34;https://api.bintray.com/conan/bincrafters/public-conan&#34;
--          CONAN_CURRENT_PAGE: 2
--
--        - MINGW_CONFIGURATIONS: &#34;7@x86@dwarf2@posix&#34;
--          CONAN_BUILD_REQUIRES: &#34;msys2_installer/latest@bincrafters/stable&#34;
--          CONAN_REMOTES: &#34;https://api.bintray.com/conan/bincrafters/public-conan&#34;
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 14
-+          CONAN_ARCHS: x86_64
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MT
-           CONAN_CURRENT_PAGE: 1
--
--        - MINGW_CONFIGURATIONS: &#34;7@x86@dwarf2@posix&#34;
--          CONAN_BUILD_REQUIRES: &#34;msys2_installer/latest@bincrafters/stable&#34;
--          CONAN_REMOTES: &#34;https://api.bintray.com/conan/bincrafters/public-conan&#34;
--          CONAN_CURRENT_PAGE: 2
--
--        - MINGW_CONFIGURATIONS: &#34;7@x86_64@seh@posix&#34;
--          CONAN_BUILD_REQUIRES: &#34;msys2_installer/latest@bincrafters/stable&#34;
--          CONAN_REMOTES: &#34;https://api.bintray.com/conan/bincrafters/public-conan&#34;
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-+          CONAN_VISUAL_VERSIONS: 14
-+          CONAN_ARCHS: x86_64
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MD
-           CONAN_CURRENT_PAGE: 1
--
--        - MINGW_CONFIGURATIONS: &#34;7@x86_64@seh@posix&#34;
--          CONAN_BUILD_REQUIRES: &#34;msys2_installer/latest@bincrafters/stable&#34;
--          CONAN_REMOTES: &#34;https://api.bintray.com/conan/bincrafters/public-conan&#34;
--          CONAN_CURRENT_PAGE: 2
--
--        - MINGW_CONFIGURATIONS: &#34;8@x86@dwarf2@posix&#34;
--          CONAN_BUILD_REQUIRES: &#34;msys2_installer/latest@bincrafters/stable&#34;
--          CONAN_REMOTES: &#34;https://api.bintray.com/conan/bincrafters/public-conan&#34;
--          CONAN_CURRENT_PAGE: 1
--
--        - MINGW_CONFIGURATIONS: &#34;8@x86@dwarf2@posix&#34;
--          CONAN_BUILD_REQUIRES: &#34;msys2_installer/latest@bincrafters/stable&#34;
--          CONAN_REMOTES: &#34;https://api.bintray.com/conan/bincrafters/public-conan&#34;
--          CONAN_CURRENT_PAGE: 2
--
--        - MINGW_CONFIGURATIONS: &#34;8@x86_64@seh@posix&#34;
--          CONAN_BUILD_REQUIRES: &#34;msys2_installer/latest@bincrafters/stable&#34;
--          CONAN_REMOTES: &#34;https://api.bintray.com/conan/bincrafters/public-conan&#34;
--          CONAN_CURRENT_PAGE: 1
--
--        - MINGW_CONFIGURATIONS: &#34;8@x86_64@seh@posix&#34;
--          CONAN_BUILD_REQUIRES: &#34;msys2_installer/latest@bincrafters/stable&#34;
--          CONAN_REMOTES: &#34;https://api.bintray.com/conan/bincrafters/public-conan&#34;
--          CONAN_CURRENT_PAGE: 2
--
--        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
--          CONAN_VISUAL_VERSIONS: 16
--          CONAN_CURRENT_PAGE: 1
--        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
--          CONAN_VISUAL_VERSIONS: 16
--          CONAN_CURRENT_PAGE: 2
--
-+      
-         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-           CONAN_VISUAL_VERSIONS: 15
-+          CONAN_ARCHS: x86
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MT
-           CONAN_CURRENT_PAGE: 1
-+      
-         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-           CONAN_VISUAL_VERSIONS: 15
--          CONAN_CURRENT_PAGE: 2
--
--        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
--          CONAN_VISUAL_VERSIONS: 14
-+          CONAN_ARCHS: x86
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MD
-           CONAN_CURRENT_PAGE: 1
--        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
--          CONAN_VISUAL_VERSIONS: 14
--          CONAN_CURRENT_PAGE: 2
--
--        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
--          CONAN_VISUAL_VERSIONS: 12
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-+          CONAN_VISUAL_VERSIONS: 15
-+          CONAN_ARCHS: x86_64
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MT
-           CONAN_CURRENT_PAGE: 1
--        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
--          CONAN_VISUAL_VERSIONS: 12
--          CONAN_CURRENT_PAGE: 2
--
--
-+      
-+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-+          CONAN_VISUAL_VERSIONS: 15
-+          CONAN_ARCHS: x86_64
-+          CONAN_BUILD_TYPES: Release
-+          CONAN_VISUAL_RUNTIMES: MD
-+          CONAN_CURRENT_PAGE: 1
-+      
-+      
-+        - MINGW_CONFIGURATIONS: &#34;4.9@x86_64@seh@posix&#34;
-+          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
-+          CONAN_CURRENT_PAGE: 1
-+      
-+        - MINGW_CONFIGURATIONS: &#34;5@x86_64@seh@posix&#34;
-+          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
-+          CONAN_CURRENT_PAGE: 1
-+      
-+        - MINGW_CONFIGURATIONS: &#34;6@x86_64@seh@posix&#34;
-+          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
-+          CONAN_CURRENT_PAGE: 1
-+      
-+        - MINGW_CONFIGURATIONS: &#34;7@x86_64@seh@posix&#34;
-+          CONAN_BASH_PATH: &#34;c:\\msys64\\usr\\bin\\bash&#34;
-+          CONAN_CURRENT_PAGE: 1
-+      
- 
- install:
-   - set PATH=%PATH%;%PYTHON%/Scripts/</code>
+ if __name__ == &#34;__main__&#34;:
+     builder = ConanMultiPackager()
+-    builder.add_common_builds(shared_option_name=&#34;OpenSSL:shared&#34;, pure_c=True)
+-    efence_builds = []
+-    for settings, options in builder.builds:
+-        efence_builds.append([settings, dict(options.items() + [(&#39;OpenSSL:no_electric_fence&#39;, True)])])
+-        efence_builds.append([settings, dict(options.items() + [(&#39;OpenSSL:no_electric_fence&#39;, False)])])
+-    builder.builds = efence_builds
++    builder.add_common_builds()
+     builder.run()</code>
         </pre>
     </div>
 
@@ -1091,7 +863,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-07-21 01:15:45</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-07-22 01:15:12</span> | Work in progress
 
       </div>
     </footer>
