@@ -97,7 +97,7 @@
                 <span data-feather="file-text"></span>
                 conan-bzip2
                 
-                <span class="numberCircle numberCircle-error" title=""><span>14</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>18</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -727,7 +727,7 @@ class OpenCVConan(ConanFile):
                        &#34;eigen&#34;: True,
                        &#39;glog&#39;: True,
                        &#34;gflags&#34;: True,
-                       &#34;gstreamer&#34;: True}
+                       &#34;gstreamer&#34;: False}
     exports_sources = [&#34;CMakeLists.txt&#34;, &#34;patches/*.patch&#34;]
     exports = &#34;LICENSE&#34;
     generators = &#34;cmake&#34;
@@ -828,13 +828,16 @@ class OpenCVConan(ConanFile):
             self.requires.add(&#39;glog/0.4.0@bincrafters/stable&#39;)
         if self.options.gflags:
             self.requires.add(&#39;gflags/2.2.2@bincrafters/stable&#39;)
+        if self.options.gstreamer:
+            self.requires.add(&#39;gstreamer/1.16.0@bincrafters/stable&#39;)
+            self.requires.add(&#39;gst-plugins-base/1.16.0@bincrafters/stable&#39;)
 
     def _configure_cmake(self):
         cmake = CMake(self)
         cmake.definitions[&#39;BUILD_EXAMPLES&#39;] = False
         cmake.definitions[&#39;BUILD_DOCS&#39;] = False
         cmake.definitions[&#39;BUILD_TESTS&#39;] = False
-        cmake.definitions[&#39;BUILD_PERF_TEST&#39;] = False
+        cmake.definitions[&#39;BUILD_PERF_TESTS&#39;] = False
         cmake.definitions[&#39;WITH_IPP&#39;] = False
         cmake.definitions[&#39;BUILD_IPP_IW&#39;] = False
         cmake.definitions[&#39;BUILD_opencv_apps&#39;] = False
@@ -895,13 +898,20 @@ class OpenCVConan(ConanFile):
         if self.options.freetype:
             cmake.definitions[&#39;FREETYPE_FOUND&#39;] = True
             cmake.definitions[&#39;FREETYPE_LIBRARIES&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;freetype&#39;].libs)
-            cmake.definitions[&#39;FREETYPE_INCLUDE_DIRS&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;freetype&#39;].includedirs)
+            cmake.definitions[&#39;FREETYPE_INCLUDE_DIRS&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;freetype&#39;].include_paths)
         if self.options.harfbuzz:
             cmake.definitions[&#39;HARFBUZZ_FOUND&#39;] = True
             cmake.definitions[&#39;HARFBUZZ_LIBRARIES&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;harfbuzz&#39;].libs)
-            cmake.definitions[&#39;HARFBUZZ_INCLUDE_DIRS&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;harfbuzz&#39;].includedirs)
+            cmake.definitions[&#39;HARFBUZZ_INCLUDE_DIRS&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;harfbuzz&#39;].include_paths)
         if self.options.openexr:
             cmake.definitions[&#39;OPENEXR_ROOT&#39;] = self.deps_cpp_info[&#39;openexr&#39;].rootpath
+        if self.options.gstreamer:
+            cmake.definitions[&#39;HAVE_GSTREAMER&#39;] = True
+            cmake.definitions[&#39;GSTREAMER_VERSION&#39;] = self.deps_cpp_info[&#39;gstreamer&#39;].version
+            cmake.definitions[&#39;GSTREAMER_LIBRARIES&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;gstreamer&#39;].libs +
+                                                                self.deps_cpp_info[&#39;gst-plugins-base&#39;].libs)
+            cmake.definitions[&#39;GSTREAMER_INCLUDE_DIRS&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;gstreamer&#39;].include_paths +
+                                                                   self.deps_cpp_info[&#39;gst-plugins-base&#39;].include_paths)
 
         # system libraries
         if self.settings.os == &#39;Linux&#39;:
@@ -1135,7 +1145,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-07-24 01:16:00</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-07-25 01:17:09</span> | Work in progress
 
       </div>
     </footer>

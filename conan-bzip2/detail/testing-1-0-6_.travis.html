@@ -97,7 +97,7 @@
                 <span data-feather="file-text"></span>
                 conan-bzip2
                 
-                <span class="numberCircle numberCircle-error" title=""><span>14</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>18</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -578,6 +578,14 @@
                 
             </a>
         
+            <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-bzip2/detail/testing-1-0-8.html">
+                testing/1.0.8
+                
+                <span class="numberCircle numberCircle-error" title=""><span>4</span></span>
+                
+                
+            </a>
+        
     </div>
 </div>
 
@@ -652,7 +660,7 @@
  
  linux: &amp;linux
     os: linux
-@@ -19,48 +20,87 @@
+@@ -19,50 +20,87 @@
  osx: &amp;osx
     os: osx
     language: generic
@@ -725,24 +733,26 @@
 +        env: CONAN_APPLE_CLANG_VERSIONS=7.3 CONAN_CURRENT_PAGE=1
 +     
        - &lt;&lt;: *linux
--        env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=conanio/clang39
+-        env: CONAN_GCC_VERSIONS=9 CONAN_DOCKER_IMAGE=conanio/gcc9
 +        stage: conan-osx
 +        osx_image: xcode8.1
 +        env: CONAN_APPLE_CLANG_VERSIONS=8.1 CONAN_CURRENT_PAGE=1
 +     
        - &lt;&lt;: *linux
--        env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=conanio/clang40
+-        env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=conanio/clang39
 +        stage: conan-osx
 +        osx_image: xcode9.0
 +        env: CONAN_APPLE_CLANG_VERSIONS=9.0 CONAN_CURRENT_PAGE=1
 +     
        - &lt;&lt;: *linux
--        env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=conanio/clang50
+-        env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=conanio/clang40
 +        stage: conan-osx
 +        osx_image: xcode9.1
 +        env: CONAN_APPLE_CLANG_VERSIONS=9.1 CONAN_CURRENT_PAGE=1
 +     
        - &lt;&lt;: *linux
+-        env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=conanio/clang50
+-      - &lt;&lt;: *linux
 -        env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60
 -      - &lt;&lt;: *linux
 -        env: CONAN_CLANG_VERSIONS=7.0 CONAN_DOCKER_IMAGE=conanio/clang7
@@ -789,7 +799,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-07-24 01:15:36</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-07-25 01:16:47</span> | Work in progress
 
       </div>
     </footer>
