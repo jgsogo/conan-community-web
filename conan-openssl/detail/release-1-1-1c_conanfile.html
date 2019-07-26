@@ -97,7 +97,7 @@
                 <span data-feather="file-text"></span>
                 conan-bzip2
                 
-                <span class="numberCircle numberCircle-error" title=""><span>18</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>24</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -720,7 +720,8 @@ class OpenSSLConan(ConanFile):
     def build_requirements(self):
         # useful for example for conditional build_requires
         if tools.os_info.is_windows:
-            self.build_requires(&#34;strawberryperl/5.30.0.1@conan/stable&#34;)
+            if not self._win_bash:
+                self.build_requires(&#34;strawberryperl/5.30.0.1@conan/stable&#34;)
             if not self.options.no_asm and not tools.which(&#34;nasm&#34;):
                 self.build_requires(&#34;nasm/2.13.01@conan/stable&#34;)
 
@@ -1159,7 +1160,7 @@ class OpenSSLConan(ConanFile):
         else:
             self.cpp_info.libs = [&#34;ssl&#34;, &#34;crypto&#34;]
         if self.settings.os == &#34;Windows&#34;:
-            self.cpp_info.libs.extend([&#34;crypt32&#34;, &#34;msi&#34;, &#34;ws2_32&#34;, &#34;advapi32&#34;, &#34;user32&#34;])
+            self.cpp_info.libs.extend([&#34;crypt32&#34;, &#34;msi&#34;, &#34;ws2_32&#34;, &#34;advapi32&#34;, &#34;user32&#34;, &#34;gdi32&#34;])
         elif self.settings.os == &#34;Linux&#34;:
             self.cpp_info.libs.extend([&#34;dl&#34;, &#34;pthread&#34;])
 </code>
@@ -1182,7 +1183,7 @@ class OpenSSLConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-07-25 01:16:17</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-07-26 01:16:30</span> | Work in progress
 
       </div>
     </footer>
