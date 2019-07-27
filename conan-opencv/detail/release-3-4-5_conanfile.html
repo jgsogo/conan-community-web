@@ -811,6 +811,8 @@ class OpenCVConan(ConanFile):
         cmake.definitions[&#34;WITH_CAROTENE&#34;] = False
         cmake.definitions[&#39;WITH_QUIRC&#39;] = False
 
+        cmake.definitions[&#39;WITH_DSHOW&#39;] = self.settings.compiler == &#39;Visual Studio&#39;
+
         if self.options.openexr:
             cmake.definitions[&#39;OPENEXR_ROOT&#39;] = self.deps_cpp_info[&#39;openexr&#39;].rootpath
 
@@ -905,12 +907,21 @@ class OpenCVConan(ConanFile):
         for lib in self.opencv_libs:
             self.cpp_info.libs.append(&#34;opencv_%s%s%s&#34; % (lib, version, suffix))
 
+        opencv_lib = &#39;lib&#39; if self.options.shared else &#39;staticlib&#39;
+        opencv_arch = {&#39;x86&#39;: &#39;x86&#39;,
+                       &#39;x86_64&#39;: &#39;x64&#39;,
+                       &#39;armv7&#39;: &#39;ARM&#39;,
+                       &#39;armv8&#39;: &#39;ARM&#39;}.get(str(self.settings.arch), None)
+        opencv_runtime = None
         if self.settings.compiler == &#39;Visual Studio&#39;:
-            arch = {&#39;x86&#39;: &#39;x86&#39;,
-                    &#39;x86_64&#39;: &#39;x64&#39;}.get(str(self.settings.arch))
-            vc = &#39;vc%s&#39; % str(self.settings.compiler.version)
-            bindir = os.path.join(self.package_folder, arch, vc, &#39;bin&#39;)
-            libdir = os.path.join(self.package_folder, arch, vc, &#39;lib&#39; if self.options.shared else &#39;staticlib&#39;)
+            opencv_runtime = &#39;vc%s&#39; % str(self.settings.compiler.version)
+
+        if self.settings.os == &#34;Windows&#34; and self.settings.compiler == &#34;gcc&#34;:
+            opencv_runtime = &#39;mingw&#39;
+
+        if opencv_runtime:
+            bindir = os.path.join(self.package_folder, opencv_arch, opencv_runtime, &#39;bin&#39;)
+            libdir = os.path.join(self.package_folder, opencv_arch, opencv_runtime, opencv_lib)
             self.cpp_info.bindirs.append(bindir)
             self.cpp_info.libdirs.append(libdir)
 
@@ -956,7 +967,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-07-26 01:17:19</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-07-27 01:18:06</span> | Work in progress
 
       </div>
     </footer>
