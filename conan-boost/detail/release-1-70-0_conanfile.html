@@ -53,7 +53,7 @@
                 <span data-feather="file-text"></span>
                 conan-zlib
                 
-                <span class="numberCircle numberCircle-error" title=""><span>41</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>42</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -64,7 +64,7 @@
                 <span data-feather="file-text"></span>
                 conan-openssl
                 
-                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>8</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -1371,12 +1371,10 @@ class BoostConan(ConanFile):
         contents = &#34;&#34;
         if self.zip_bzip2_requires_needed:
             def create_library_config(name):
-                reference = str(self.requires[name])
-                version_name = reference.split(&#34;@&#34;)[0]
-                version = version_name.split(&#34;/&#34;)[1]
                 includedir = self.deps_cpp_info[name].include_paths[0].replace(&#39;\\&#39;, &#39;/&#39;)
                 libdir = self.deps_cpp_info[name].lib_paths[0].replace(&#39;\\&#39;, &#39;/&#39;)
                 lib = self.deps_cpp_info[name].libs[0]
+                version = self.deps_cpp_info[name].version
                 return &#34;\nusing {name} : {version} : &#34; \
                        &#34;&lt;include&gt;{includedir} &#34; \
                        &#34;&lt;search&gt;{libdir} &#34; \
@@ -1526,10 +1524,6 @@ class BoostConan(ConanFile):
         self.copy(pattern=&#34;*.lib&#34;, dst=&#34;lib&#34;, src=out_lib_dir, keep_path=False)
         self.copy(pattern=&#34;*.dll&#34;, dst=&#34;bin&#34;, src=out_lib_dir, keep_path=False)
 
-        # When first call with source do not package anything
-        if not os.path.exists(os.path.join(self.package_folder, &#34;lib&#34;)):
-            return
-
     def package_info(self):
         gen_libs = [] if self.options.header_only else tools.collect_libs(self)
 
@@ -1622,7 +1616,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-08-01 01:19:52</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-08-02 01:22:59</span> | Work in progress
 
       </div>
     </footer>

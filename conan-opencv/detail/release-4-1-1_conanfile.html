@@ -53,7 +53,7 @@
                 <span data-feather="file-text"></span>
                 conan-zlib
                 
-                <span class="numberCircle numberCircle-error" title=""><span>41</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>42</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -64,7 +64,7 @@
                 <span data-feather="file-text"></span>
                 conan-openssl
                 
-                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>8</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -752,6 +752,11 @@ class OpenCVConan(ConanFile):
         if self.options.cuda and not self.options.contrib:
             raise ConanInvalidConfiguration(
                 &#34;opencv:cuda requires opencv:contrib&#34;)
+        if not self.options.contrib:
+            del self.options.freetype
+            del self.options.harfbuzz
+            del self.options.glog
+            del self.options.gflags
 
     def source(self):
         sha256 = &#34;5de5d96bdfb9dad6e6061d70f47a0a91cee96bb35afb9afb9ecb3d43e243d217&#34;
@@ -771,11 +776,6 @@ class OpenCVConan(ConanFile):
             del self.options.fPIC
         if self.settings.os != &#39;Linux&#39;:
             del self.options.gtk
-        if not self.options.contrib:
-            del self.options.freetype
-            del self.options.harfbuzz
-            del self.options.glog
-            del self.options.gflags
 
     def system_requirements(self):
         if self.settings.os == &#39;Linux&#39; and tools.os_info.is_linux:
@@ -1174,7 +1174,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-08-01 01:20:26</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-08-02 01:23:33</span> | Work in progress
 
       </div>
     </footer>
