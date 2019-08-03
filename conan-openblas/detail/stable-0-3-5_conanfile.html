@@ -772,6 +772,7 @@ class openblasConan(ConanFile):
                       ignore_case=True, keep_path=False)
 
     def package_info(self):
+        self.env_info.OpenBLAS_HOME = self.package_folder
         self.cpp_info.libs = tools.collect_libs(self)
         if self._is_msvc:
             self.cpp_info.includedirs.append(os.path.join(&#34;include&#34;, &#34;openblas&#34;))
@@ -800,7 +801,7 @@ class openblasConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-08-02 01:24:31</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-08-03 01:24:28</span> | Work in progress
 
       </div>
     </footer>
