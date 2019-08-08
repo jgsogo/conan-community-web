@@ -628,7 +628,7 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,202 +1,111 @@
+@@ -1,238 +1,111 @@
 ----
 -os: osx
 -language: generic
@@ -676,6 +676,9 @@
 -    - name: &#34;1.1.1c - XCode 10&#34;
 -      osx_image: xcode10
 -      env: CONAN_APPLE_CLANG_VERSIONS=10.0 CONAN_REFERENCE=&#34;OpenSSL/1.1.1c&#34;
+-    - name: &#34;1.1.1c - XCode 11&#34;
+-      osx_image: xcode11
+-      env: CONAN_APPLE_CLANG_VERSIONS=11.0 CONAN_REFERENCE=&#34;OpenSSL/1.1.1c&#34;
 +   include:
 +     
 +      - &lt;&lt;: *linux
@@ -718,6 +721,9 @@
 -    - name: &#34;1.1.1b - XCode 10&#34;
 -      osx_image: xcode10
 -      env: CONAN_APPLE_CLANG_VERSIONS=10.0 CONAN_REFERENCE=&#34;OpenSSL/1.1.1b&#34;
+-    - name: &#34;1.1.1b - XCode 11&#34;
+-      osx_image: xcode11
+-      env: CONAN_APPLE_CLANG_VERSIONS=11.0 CONAN_REFERENCE=&#34;OpenSSL/1.1.1b&#34;
 +     
 +      - &lt;&lt;: *linux
 +        stage: conan-linux
@@ -755,6 +761,9 @@
 -    - name: &#34;1.1.1a - XCode 10&#34;
 -      osx_image: xcode10
 -      env: CONAN_APPLE_CLANG_VERSIONS=10.0 CONAN_REFERENCE=&#34;OpenSSL/1.1.1a&#34;
+-    - name: &#34;1.1.1a - XCode 11&#34;
+-      osx_image: xcode11
+-      env: CONAN_APPLE_CLANG_VERSIONS=11.0 CONAN_REFERENCE=&#34;OpenSSL/1.1.1a&#34;
 -
 -    - name: &#34;1.1.0k - XCode 7.3 - Page 1&#34;
 -      osx_image: xcode7.3
@@ -786,6 +795,12 @@
 -    - name: &#34;1.1.0k - XCode 10 - Page 2&#34;
 -      osx_image: xcode10
 -      env: CONAN_APPLE_CLANG_VERSIONS=10.0 CONAN_REFERENCE=&#34;OpenSSL/1.1.0k&#34; CONAN_TOTAL_PAGES=2 CONAN_CURRENT_PAGE=2
+-    - name: &#34;1.1.0k - XCode 11 - Page 1&#34;
+-      osx_image: xcode11
+-      env: CONAN_APPLE_CLANG_VERSIONS=11.0 CONAN_REFERENCE=&#34;OpenSSL/1.1.0k&#34; CONAN_TOTAL_PAGES=2 CONAN_CURRENT_PAGE=1
+-    - name: &#34;1.1.0k - XCode 11 - Page 2&#34;
+-      osx_image: xcode11
+-      env: CONAN_APPLE_CLANG_VERSIONS=11.0 CONAN_REFERENCE=&#34;OpenSSL/1.1.0k&#34; CONAN_TOTAL_PAGES=2 CONAN_CURRENT_PAGE=2
 -
 -    - name: &#34;1.1.0j - XCode 7.3 - Page 1&#34;
 -      osx_image: xcode7.3
@@ -817,6 +832,12 @@
 -    - name: &#34;1.1.0j - XCode 10 - Page 2&#34;
 -      osx_image: xcode10
 -      env: CONAN_APPLE_CLANG_VERSIONS=10.0 CONAN_REFERENCE=&#34;OpenSSL/1.1.0j&#34; CONAN_TOTAL_PAGES=2 CONAN_CURRENT_PAGE=2
+-    - name: &#34;1.1.0j - XCode 11 - Page 1&#34;
+-      osx_image: xcode11
+-      env: CONAN_APPLE_CLANG_VERSIONS=11.0 CONAN_REFERENCE=&#34;OpenSSL/1.1.0j&#34; CONAN_TOTAL_PAGES=2 CONAN_CURRENT_PAGE=1
+-    - name: &#34;1.1.0j - XCode 11 - Page 2&#34;
+-      osx_image: xcode11
+-      env: CONAN_APPLE_CLANG_VERSIONS=11.0 CONAN_REFERENCE=&#34;OpenSSL/1.1.0j&#34; CONAN_TOTAL_PAGES=2 CONAN_CURRENT_PAGE=2
 -
 -    - name: &#34;1.1.0i - XCode 7.3 - Page 1&#34;
 -      osx_image: xcode7.3
@@ -848,6 +869,12 @@
 -    - name: &#34;1.1.0i - XCode 10 - Page 2&#34;
 -      osx_image: xcode10
 -      env: CONAN_APPLE_CLANG_VERSIONS=10.0 CONAN_REFERENCE=&#34;OpenSSL/1.1.0i&#34; CONAN_TOTAL_PAGES=2 CONAN_CURRENT_PAGE=2
+-    - name: &#34;1.1.0i - XCode 11 - Page 1&#34;
+-      osx_image: xcode11
+-      env: CONAN_APPLE_CLANG_VERSIONS=11.0 CONAN_REFERENCE=&#34;OpenSSL/1.1.0i&#34; CONAN_TOTAL_PAGES=2 CONAN_CURRENT_PAGE=1
+-    - name: &#34;1.1.0i - XCode 11 - Page 2&#34;
+-      osx_image: xcode11
+-      env: CONAN_APPLE_CLANG_VERSIONS=11.0 CONAN_REFERENCE=&#34;OpenSSL/1.1.0i&#34; CONAN_TOTAL_PAGES=2 CONAN_CURRENT_PAGE=2
 -
 -    - name: &#34;1.0.2s - XCode 7.3&#34;
 -      osx_image: xcode7.3
@@ -864,6 +891,9 @@
 -    - name: &#34;1.0.2s - XCode 10&#34;
 -      osx_image: xcode10
 -      env: CONAN_APPLE_CLANG_VERSIONS=10.0 CONAN_REFERENCE=&#34;OpenSSL/1.0.2s&#34;
+-    - name: &#34;1.0.2s - XCode 11&#34;
+-      osx_image: xcode11
+-      env: CONAN_APPLE_CLANG_VERSIONS=11.0 CONAN_REFERENCE=&#34;OpenSSL/1.0.2s&#34;
 -
 -    - name: &#34;1.0.2r - XCode 7.3&#34;
 -      osx_image: xcode7.3
@@ -880,6 +910,9 @@
 -    - name: &#34;1.0.2r - XCode 10&#34;
 -      osx_image: xcode10
 -      env: CONAN_APPLE_CLANG_VERSIONS=10.0 CONAN_REFERENCE=&#34;OpenSSL/1.0.2r&#34;
+-    - name: &#34;1.0.2r - XCode 11&#34;
+-      osx_image: xcode11
+-      env: CONAN_APPLE_CLANG_VERSIONS=11.0 CONAN_REFERENCE=&#34;OpenSSL/1.0.2r&#34;
 -
 -    - name: &#34;1.0.2q - XCode 7.3&#34;
 -      osx_image: xcode7.3
@@ -896,6 +929,9 @@
 -    - name: &#34;1.0.2q - XCode 10&#34;
 -      osx_image: xcode10
 -      env: CONAN_APPLE_CLANG_VERSIONS=10.0 CONAN_REFERENCE=&#34;OpenSSL/1.0.2q&#34;
+-    - name: &#34;1.0.2q - XCode 11&#34;
+-      osx_image: xcode11
+-      env: CONAN_APPLE_CLANG_VERSIONS=11.0 CONAN_REFERENCE=&#34;OpenSSL/1.0.2q&#34;
 +     
 +      - &lt;&lt;: *linux
 +        stage: conan-osx
@@ -953,7 +989,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-08-07 01:25:36</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-08-08 01:23:58</span> | Work in progress
 
       </div>
     </footer>
