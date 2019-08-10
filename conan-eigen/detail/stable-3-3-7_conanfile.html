@@ -207,7 +207,7 @@
                 <span data-feather="file-text"></span>
                 conan-eigen
                 
-                <span class="numberCircle numberCircle-error" title=""><span>27</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>25</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -583,7 +583,7 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-eigen/detail/stable-3-3-7.html">
                 stable/3.3.7
                 
-                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>6</span></span>
                 
                 
             </a>
@@ -598,14 +598,6 @@
         
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-eigen/detail/testing-3-3-5.html">
                 testing/3.3.5
-                
-                <span class="numberCircle numberCircle-error" title=""><span>3</span></span>
-                
-                
-            </a>
-        
-            <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-eigen/detail/testing-3-3-7.html">
-                testing/3.3.7
                 
                 <span class="numberCircle numberCircle-error" title=""><span>3</span></span>
                 
@@ -629,6 +621,12 @@
                   <li class="nav-item">
                     <a class="nav-link active" href="https://jgsogo.es/conan-community-web/conan-eigen/detail/stable-3-3-7_conanfile.html">
                         conanfile.py
+                    </a>
+                  </li>
+                
+                  <li class="nav-item">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-eigen/detail/stable-3-3-7_appveyor.html">
+                        appveyor.yml <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
                 
@@ -660,7 +658,7 @@
     <h4>conanfile.py</h4>
     <div>
         <pre>
-            <code class="python">from conans import ConanFile, tools, CMake
+            <code class="python">from conans import ConanFile, tools
 import os
 from glob import glob
 
@@ -672,28 +670,30 @@ class EigenConan(ConanFile):
     homepage = &#34;http://eigen.tuxfamily.org&#34;
     description = &#34;Eigen is a C++ template library for linear algebra: matrices, vectors, \
                    numerical solvers, and related algorithms.&#34;
-    license = &#34;Mozilla Public License Version 2.0&#34;
-    no_copy_source = True
+    license = &#34;MPL-2.0&#34;
+    author = &#34;Conan Community&#34;
+    topics = (&#34;eigen&#34;, &#34;algebra&#34;, &#34;linear-algebra&#34;, &#34;vector&#34;, &#34;numerical&#34;)
+    exports = &#34;LICENSE&#34;
     options = {&#34;EIGEN_USE_BLAS&#34;: [True, False],
                &#34;EIGEN_USE_LAPACKE&#34;: [True, False],
                &#34;EIGEN_USE_LAPACKE_STRICT&#34;: [True, False]}
-    default_options = &#34;EIGEN_USE_BLAS=False&#34;, &#34;EIGEN_USE_LAPACKE=False&#34;, &#34;EIGEN_USE_LAPACKE_STRICT=False&#34;
+    default_options = {&#34;EIGEN_USE_BLAS&#34;: False, &#34;EIGEN_USE_LAPACKE&#34;: False, &#34;EIGEN_USE_LAPACKE_STRICT&#34;: False}
+    no_copy_source = True
 
     @property
-    def source_subfolder(self):
-        return &#34;sources&#34;
+    def _source_subfolder(self):
+        return &#34;source_subfolder&#34;
 
     def source(self):
         source_url = &#34;http://bitbucket.org/eigen/eigen&#34;
-        tools.get(&#34;{0}/get/{1}.tar.gz&#34;.format(source_url, self.version))
-        os.rename(glob(&#34;eigen-eigen-*&#34;)[0], self.source_subfolder)
+        sha256 = &#34;7e84ef87a07702b54ab3306e77cea474f56a40afa1c0ab245bb11725d006d0da&#34;
+        tools.get(&#34;{0}/get/{1}.tar.gz&#34;.format(source_url, self.version), sha256=sha256)
+        os.rename(glob(&#34;eigen-eigen-*&#34;)[0], self._source_subfolder)
 
     def package(self):
-        cmake = CMake(self)
-        cmake.configure(source_folder=self.source_subfolder)
-        cmake.install()
-        self.copy(&#34;COPYING.*&#34;, dst=&#34;licenses&#34;, src=self.source_subfolder,
-                  ignore_case=True, keep_path=False)
+        self.copy(&#34;COPYING.*&#34;, dst=&#34;licenses&#34;, src=self._source_subfolder)
+        self.copy(&#34;*&#34;, dst=os.path.join(&#34;include&#34;, &#34;eigen3&#34;, &#34;Eigen&#34;), src=os.path.join(self._source_subfolder, &#34;Eigen&#34;))
+        os.remove(os.path.join(self.package_folder, &#34;include&#34;, &#34;eigen3&#34;, &#34;Eigen&#34;, &#34;CMakeLists.txt&#34;))
 
     def package_info(self):
         self.cpp_info.includedirs = [&#39;include/eigen3&#39;]
@@ -727,7 +727,7 @@ class EigenConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-08-09 01:25:54</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-08-10 01:26:10</span> | Work in progress
 
       </div>
     </footer>
