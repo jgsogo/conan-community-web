@@ -207,7 +207,7 @@
                 <span data-feather="file-text"></span>
                 conan-eigen
                 
-                <span class="numberCircle numberCircle-error" title=""><span>25</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>29</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -604,6 +604,14 @@
                 
             </a>
         
+            <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-eigen/detail/testing-3-3-7.html">
+                testing/3.3.7
+                
+                <span class="numberCircle numberCircle-error" title=""><span>4</span></span>
+                
+                
+            </a>
+        
     </div>
 </div>
 
@@ -674,10 +682,7 @@ class EigenConan(ConanFile):
     author = &#34;Conan Community&#34;
     topics = (&#34;eigen&#34;, &#34;algebra&#34;, &#34;linear-algebra&#34;, &#34;vector&#34;, &#34;numerical&#34;)
     exports = &#34;LICENSE&#34;
-    options = {&#34;EIGEN_USE_BLAS&#34;: [True, False],
-               &#34;EIGEN_USE_LAPACKE&#34;: [True, False],
-               &#34;EIGEN_USE_LAPACKE_STRICT&#34;: [True, False]}
-    default_options = {&#34;EIGEN_USE_BLAS&#34;: False, &#34;EIGEN_USE_LAPACKE&#34;: False, &#34;EIGEN_USE_LAPACKE_STRICT&#34;: False}
+    exports_sources = &#34;FindEigen3.cmake&#34;
     no_copy_source = True
 
     @property
@@ -691,22 +696,26 @@ class EigenConan(ConanFile):
         os.rename(glob(&#34;eigen-eigen-*&#34;)[0], self._source_subfolder)
 
     def package(self):
+        unsupported_folder = os.path.join(self.package_folder, &#34;include&#34;, &#34;eigen3&#34;, &#34;unsupported&#34;, &#34;Eigen&#34;)
+        eigen_folder = os.path.join(self.package_folder, &#34;include&#34;, &#34;eigen3&#34;, &#34;Eigen&#34;)
         self.copy(&#34;COPYING.*&#34;, dst=&#34;licenses&#34;, src=self._source_subfolder)
-        self.copy(&#34;*&#34;, dst=os.path.join(&#34;include&#34;, &#34;eigen3&#34;, &#34;Eigen&#34;), src=os.path.join(self._source_subfolder, &#34;Eigen&#34;))
-        os.remove(os.path.join(self.package_folder, &#34;include&#34;, &#34;eigen3&#34;, &#34;Eigen&#34;, &#34;CMakeLists.txt&#34;))
+        self.copy(&#34;*&#34;, dst=eigen_folder, src=os.path.join(self._source_subfolder, &#34;Eigen&#34;))
+        self.copy(&#34;*&#34;, dst=unsupported_folder, src=os.path.join(self._source_subfolder, &#34;unsupported&#34;, &#34;Eigen&#34;))
+        self.copy(&#34;signature_of_eigen3_matrix_library&#34;, dst=os.path.join(&#34;include&#34;, &#34;eigen3&#34;), src=self._source_subfolder)
+        self.copy(&#34;FindEigen3.cmake&#34;)
+        os.remove(os.path.join(eigen_folder, &#34;CMakeLists.txt&#34;))
+        os.remove(os.path.join(unsupported_folder, &#34;CMakeLists.txt&#34;))
+        os.remove(os.path.join(unsupported_folder, &#34;CXX11&#34;, &#34;CMakeLists.txt&#34;))
+        os.remove(os.path.join(unsupported_folder, &#34;CXX11&#34;, &#34;src&#34;, &#34;Tensor&#34;, &#34;README.md&#34;))
+        os.remove(os.path.join(unsupported_folder, &#34;src&#34;, &#34;EulerAngles&#34;, &#34;CMakeLists.txt&#34;))
+        os.rename(os.path.join(unsupported_folder, &#34;src&#34;, &#34;LevenbergMarquardt&#34;, &#34;CopyrightMINPACK.txt&#34;),
+                               os.path.join(self.package_folder, &#34;licenses&#34;, &#34;CopyrightMINPACK.txt&#34;))
+
+    def package_id(self):
+        self.info.header_only()
 
     def package_info(self):
-        self.cpp_info.includedirs = [&#39;include/eigen3&#39;]
-        if self.options.EIGEN_USE_BLAS:
-            self.cpp_info.defines.append(&#34;EIGEN_USE_BLAS&#34;)
-
-        if self.options.EIGEN_USE_LAPACKE:
-            self.cpp_info.defines.append(&#34;EIGEN_USE_LAPACKE&#34;)
-
-        if self.options.EIGEN_USE_LAPACKE_STRICT:
-            self.cpp_info.defines.append(&#34;EIGEN_USE_LAPACKE_STRICT&#34;)
-
-        self.env_info.Eigen3_DIR = os.path.join(self.package_folder, &#34;share&#34;, &#34;eigen3&#34;, &#34;cmake&#34;)
+        self.cpp_info.includedirs = [&#39;include/eigen3&#39;, &#39;include/unsupported&#39;]
 </code>
         </pre>
     </div>
@@ -727,7 +736,7 @@ class EigenConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-08-12 01:27:30</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-08-13 01:27:51</span> | Work in progress
 
       </div>
     </footer>

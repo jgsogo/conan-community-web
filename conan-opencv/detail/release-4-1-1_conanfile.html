@@ -207,7 +207,7 @@
                 <span data-feather="file-text"></span>
                 conan-eigen
                 
-                <span class="numberCircle numberCircle-error" title=""><span>25</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>29</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -713,7 +713,9 @@ class OpenCVConan(ConanFile):
                &#34;eigen&#34;: [True, False],
                &#34;glog&#34;: [True, False],
                &#34;gflags&#34;: [True, False],
-               &#34;gstreamer&#34;: [True, False]}
+               &#34;gstreamer&#34;: [True, False],
+               &#34;openblas&#34;: [True, False],
+               &#34;ffmpeg&#34;: [True, False]}
     default_options = {&#34;shared&#34;: False,
                        &#34;fPIC&#34;: True,
                        &#34;contrib&#34;: False,
@@ -735,7 +737,9 @@ class OpenCVConan(ConanFile):
                        &#34;eigen&#34;: True,
                        &#39;glog&#39;: True,
                        &#34;gflags&#34;: True,
-                       &#34;gstreamer&#34;: False}
+                       &#34;gstreamer&#34;: False,
+                       &#34;openblas&#34;: False,
+                       &#34;ffmpeg&#34;: False}
     exports_sources = [&#34;CMakeLists.txt&#34;, &#34;patches/*.patch&#34;]
     exports = &#34;LICENSE&#34;
     generators = &#34;cmake&#34;
@@ -836,6 +840,10 @@ class OpenCVConan(ConanFile):
         if self.options.gstreamer:
             self.requires.add(&#39;gstreamer/1.16.0@bincrafters/stable&#39;)
             self.requires.add(&#39;gst-plugins-base/1.16.0@bincrafters/stable&#39;)
+        if self.options.openblas:
+            self.requires.add(&#39;openblas/0.3.5@conan/stable&#39;)
+        if self.options.ffmpeg:
+            self.requires.add(&#39;ffmpeg/4.2@bincrafters/stable&#39;)
         if self.options.contrib:
             if self.options.freetype:
                 self.requires.add(&#39;freetype/2.10.0@bincrafters/stable&#39;)
@@ -897,7 +905,12 @@ class OpenCVConan(ConanFile):
         cmake.definitions[&#39;WITH_OPENEXR&#39;] = self.options.openexr
         cmake.definitions[&#34;WITH_1394&#34;] = self.options.dc1394
         cmake.definitions[&#39;WITH_PROTOBUF&#39;] = self.options.protobuf
-        cmake.definitions[&#39;WITH_FFMPEG&#39;] = False
+        cmake.definitions[&#39;WITH_FFMPEG&#39;] = self.options.ffmpeg
+        cmake.definitions[&#39;HAVE_FFMPEG_WRAPPER&#39;] = False
+        cmake.definitions[&#39;OPENCV_FFMPEG_SKIP_DOWNLOAD&#39;] = True
+        cmake.definitions[&#39;OPENCV_FFMPEG_SKIP_BUILD_CHECK&#39;] = True
+        cmake.definitions[&#39;OPENCV_FFMPEG_USE_FIND_PACKAGE&#39;] = False
+        cmake.definitions[&#39;OPENCV_INSTALL_FFMPEG_DOWNLOAD_SCRIPT&#39;] = False
         cmake.definitions[&#39;WITH_QUIRC&#39;] = False
         cmake.definitions[&#39;WITH_CAROTENE&#39;] = self.options.carotene
         cmake.definitions[&#39;WITH_CUDA&#39;] = self.options.cuda
@@ -923,6 +936,12 @@ class OpenCVConan(ConanFile):
                     includes.extend(self.deps_cpp_info[dep].include_paths)
             cmake.definitions[&#39;GSTREAMER_LIBRARIES&#39;] = &#39;;&#39;.join(libs)
             cmake.definitions[&#39;GSTREAMER_INCLUDE_DIRS&#39;] = &#39;;&#39;.join(includes)
+        if self.options.ffmpeg:
+            for lib in [&#39;avcodec&#39;, &#39;avformat&#39;, &#39;avutil&#39;, &#39;swscale&#39;, &#39;avresample&#39;]:
+                cmake.definitions[&#39;FFMPEG_lib%s_VERSION&#39; % lib] = self.deps_cpp_info[&#39;ffmpeg&#39;].version
+            cmake.definitions[&#39;HAVE_FFMPEG&#39;] = True
+            cmake.definitions[&#39;FFMPEG_LIBRARIES&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;ffmpeg&#39;].libs)
+            cmake.definitions[&#39;FFMPEG_INCLUDE_DIRS&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;ffmpeg&#39;].include_paths)
         if self.options.contrib:
             # OpenCV doesn&#39;t use find_package for freetype &amp; harfbuzz, so let&#39;s specify them
             if self.options.freetype:
@@ -1174,7 +1193,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-08-12 01:26:42</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-08-13 01:26:59</span> | Work in progress
 
       </div>
     </footer>
