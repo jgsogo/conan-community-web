@@ -757,7 +757,9 @@ class BoostConan(ConanFile):
         &#34;zlib&#34;: [True, False],
         &#34;bzip2&#34;: [True, False],
         &#34;lzma&#34;: [True, False],
-        &#34;zstd&#34;: [True, False]
+        &#34;zstd&#34;: [True, False],
+        &#34;segmented_stacks&#34;: [True, False],
+        &#34;extra_b2_flags&#34;: &#34;ANY&#34;  # custom b2 flags
     }
     options.update({&#34;without_%s&#34; % libname: [True, False] for libname in lib_list})
 
@@ -777,7 +779,9 @@ class BoostConan(ConanFile):
                        &#34;zlib=True&#34;,
                        &#34;bzip2=True&#34;,
                        &#34;lzma=False&#34;,
-                       &#34;zstd=False&#34;]
+                       &#34;zstd=False&#34;,
+                       &#34;segmented_stacks=False&#34;,
+                       &#34;extra_b2_flags=None&#34;]
 
     default_options.extend([&#34;without_%s=False&#34; % libname for libname in lib_list if libname != &#34;python&#34;])
     default_options.append(&#34;without_python=True&#34;)
@@ -1299,6 +1303,10 @@ class BoostConan(ConanFile):
             flags.append(&#34;define=BOOST_ASIO_NO_DEPRECATED=1&#34;)
         if self.options.filesystem_no_deprecated:
             flags.append(&#34;define=BOOST_FILESYSTEM_NO_DEPRECATED=1&#34;)
+        if self.options.segmented_stacks:
+            flags.extend([&#34;segmented-stacks=on&#34;,
+                          &#34;define=BOOST_USE_SEGMENTED_STACKS=1&#34;,
+                          &#34;define=BOOST_USE_UCONTEXT=1&#34;])
 
         if tools.is_apple_os(self.settings.os):
             if self.settings.get_safe(&#34;os.version&#34;):
@@ -1314,6 +1322,9 @@ class BoostConan(ConanFile):
 
         cxx_flags = &#39;cxxflags=&#34;%s&#34;&#39; % &#34; &#34;.join(cxx_flags) if cxx_flags else &#34;&#34;
         flags.append(cxx_flags)
+
+        if self.options.extra_b2_flags:
+            flags.append(str(self.options.extra_b2_flags))
 
         return flags
 
@@ -1565,6 +1576,9 @@ class BoostConan(ConanFile):
         if self.options.filesystem_no_deprecated:
             self.cpp_info.defines.append(&#34;BOOST_FILESYSTEM_NO_DEPRECATED&#34;)
 
+        if self.options.segmented_stacks:
+            self.cpp_info.defines.extend([&#34;BOOST_USE_SEGMENTED_STACKS&#34;, &#34;BOOST_USE_UCONTEXT&#34;])
+
         if self.settings.os != &#34;Android&#34;:
             if self._gnu_cxx11_abi:
                 self.cpp_info.defines.append(&#34;_GLIBCXX_USE_CXX11_ABI=%s&#34; % self._gnu_cxx11_abi)
@@ -1616,7 +1630,7 @@ class BoostConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-08-13 01:26:25</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-08-14 01:27:26</span> | Work in progress
 
       </div>
     </footer>

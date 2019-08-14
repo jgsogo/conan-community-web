@@ -715,7 +715,8 @@ class OpenCVConan(ConanFile):
                &#34;gflags&#34;: [True, False],
                &#34;gstreamer&#34;: [True, False],
                &#34;openblas&#34;: [True, False],
-               &#34;ffmpeg&#34;: [True, False]}
+               &#34;ffmpeg&#34;: [True, False],
+               &#34;lapack&#34;: [True, False]}
     default_options = {&#34;shared&#34;: False,
                        &#34;fPIC&#34;: True,
                        &#34;contrib&#34;: False,
@@ -739,7 +740,8 @@ class OpenCVConan(ConanFile):
                        &#34;gflags&#34;: True,
                        &#34;gstreamer&#34;: False,
                        &#34;openblas&#34;: False,
-                       &#34;ffmpeg&#34;: False}
+                       &#34;ffmpeg&#34;: False,
+                       &#34;lapack&#34;: False}
     exports_sources = [&#34;CMakeLists.txt&#34;, &#34;patches/*.patch&#34;]
     exports = &#34;LICENSE&#34;
     generators = &#34;cmake&#34;
@@ -844,6 +846,8 @@ class OpenCVConan(ConanFile):
             self.requires.add(&#39;openblas/0.3.5@conan/stable&#39;)
         if self.options.ffmpeg:
             self.requires.add(&#39;ffmpeg/4.2@bincrafters/stable&#39;)
+        if self.options.lapack:
+            self.requires.add(&#39;lapack/3.7.1@conan/stable&#39;)
         if self.options.contrib:
             if self.options.freetype:
                 self.requires.add(&#39;freetype/2.10.0@bincrafters/stable&#39;)
@@ -917,6 +921,7 @@ class OpenCVConan(ConanFile):
         # This allows compilation on older GCC/NVCC, otherwise build errors.
         cmake.definitions[&#39;CUDA_NVCC_FLAGS&#39;] = &#39;--expt-relaxed-constexpr&#39;
         cmake.definitions[&#39;WITH_EIGEN&#39;] = self.options.eigen
+        cmake.definitions[&#39;WITH_LAPACK&#39;] = self.options.lapack
         
         # MinGW doesn&#39;t build wih Media Foundation
         cmake.definitions[&#39;WITH_MSMF&#39;] = self.settings.compiler == &#39;Visual Studio&#39;
@@ -942,6 +947,13 @@ class OpenCVConan(ConanFile):
             cmake.definitions[&#39;HAVE_FFMPEG&#39;] = True
             cmake.definitions[&#39;FFMPEG_LIBRARIES&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;ffmpeg&#39;].libs)
             cmake.definitions[&#39;FFMPEG_INCLUDE_DIRS&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;ffmpeg&#39;].include_paths)
+        if self.options.lapack:
+            cmake.definitions[&#39;LAPACK_LIBRARIES&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;lapack&#39;].libs)
+            cmake.definitions[&#39;LAPACK_LINK_LIBRARIES&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;lapack&#39;].lib_paths)
+            cmake.definitions[&#39;LAPACK_INCLUDE_DIR&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;lapack&#39;].include_paths)
+            cmake.definitions[&#39;LAPACK_CBLAS_H&#39;] = &#39;cblas.h&#39;
+            cmake.definitions[&#39;LAPACK_LAPACKE_H&#39;] = &#39;lapacke.h&#39;
+            cmake.definitions[&#39;LAPACK_IMPL&#39;] = &#39;LAPACK/Generic&#39;
         if self.options.contrib:
             # OpenCV doesn&#39;t use find_package for freetype &amp; harfbuzz, so let&#39;s specify them
             if self.options.freetype:
@@ -1193,7 +1205,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-08-13 01:26:59</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-08-14 01:28:00</span> | Work in progress
 
       </div>
     </footer>
