@@ -699,8 +699,9 @@ class ZlibConan(ConanFile):
                    &#34;(Also Free, Not to Mention Unencumbered by Patents)&#34;)
     settings = &#34;os&#34;, &#34;arch&#34;, &#34;compiler&#34;, &#34;build_type&#34;
     options = {&#34;shared&#34;: [True, False], &#34;fPIC&#34;: [True, False], &#34;minizip&#34;: [True, False]}
-    default_options = &#34;shared=False&#34;, &#34;fPIC=True&#34;, &#34;minizip=False&#34;
-    exports = [&#34;LICENSE&#34;, &#34;FindZLIB.cmake&#34;]
+    default_options = {&#39;shared&#39;: False, &#39;fPIC&#39;: True, &#39;minizip&#39;: False}
+    topics = (&#34;conan&#34;, &#34;zlib&#34;, &#34;compression&#34;, &#34;zip&#34;)
+    exports = [&#34;LICENSE&#34;]
     exports_sources = [&#34;CMakeLists.txt&#34;, &#34;CMakeLists_minizip.txt&#34;, &#34;minizip.patch&#34;]
     generators = &#34;cmake&#34;
     _source_subfolder = &#34;source_subfolder&#34;
@@ -807,6 +808,23 @@ class ZlibConan(ConanFile):
                     current_lib = os.path.join(lib_path, &#34;libzlibstatic.a&#34;)
                     os.rename(current_lib, os.path.join(lib_path, &#34;libzlib.a&#34;))
 
+    def _delete_crypt_header(self):
+        &#34;&#34;&#34;
+        Delete the crypt.h which is causing trouble for linking.
+        The crypt.h defines only static methods which are to be included
+        in zip.c/unzip.c so it will work just fine by  including zip.h/unzip.h
+        and linking against libminizip
+        cf: https://bugzilla.redhat.com/show_bug.cgi?id=1424609
+        &#34;&#34;&#34;
+        crypt_path = os.path.join(self.package_folder, &#34;include&#34;, &#34;crypt.h&#34;)
+        if os.path.exists(crypt_path):
+            self.output.warn(&#34;Removing crypt.h at path: &#34;
+                             &#34;{}&#34;.format(crypt_path))
+            os.remove(crypt_path)
+        else:
+            self.output.warn(&#34;Didn&#39;t find crypt.h at path: &#34;
+                             &#34;{}&#34;.format(crypt_path))
+
     def package(self):
         # Extract the License/s from the header to a file
         with tools.chdir(os.path.join(self.source_folder, self._source_subfolder)):
@@ -838,9 +856,7 @@ class ZlibConan(ConanFile):
         self.copy(pattern=&#34;*.lib&#34;, dst=&#34;lib&#34;, src=build_dir, keep_path=False)
 
         self._rename_libraries()
-
-        # Provide a cmake finder
-        self.copy(&#39;FindZLIB.cmake&#39;, &#39;.&#39;, &#39;.&#39;)
+        self._delete_crypt_header()
 
     def package_info(self):
         if self.options.minizip:
@@ -868,7 +884,7 @@ class ZlibConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-08-15 01:27:23</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-08-16 01:27:33</span> | Work in progress
 
       </div>
     </footer>
