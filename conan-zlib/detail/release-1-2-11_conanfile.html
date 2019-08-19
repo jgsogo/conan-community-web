@@ -701,8 +701,9 @@ class ZlibConan(ConanFile):
                    &#34;(Also Free, Not to Mention Unencumbered by Patents)&#34;)
     settings = &#34;os&#34;, &#34;arch&#34;, &#34;compiler&#34;, &#34;build_type&#34;
     options = {&#34;shared&#34;: [True, False], &#34;fPIC&#34;: [True, False], &#34;minizip&#34;: [True, False]}
-    default_options = &#34;shared=False&#34;, &#34;fPIC=True&#34;, &#34;minizip=False&#34;
-    exports = [&#34;LICENSE&#34;, &#34;FindZLIB.cmake&#34;]
+    default_options = {&#39;shared&#39;: False, &#39;fPIC&#39;: True, &#39;minizip&#39;: False}
+    topics = (&#34;conan&#34;, &#34;zlib&#34;, &#34;compression&#34;, &#34;zip&#34;)
+    exports = [&#34;LICENSE&#34;]
     exports_sources = [&#34;CMakeLists.txt&#34;, &#34;CMakeLists_minizip.txt&#34;, &#34;minizip.patch&#34;]
     generators = &#34;cmake&#34;
     _source_subfolder = &#34;source_subfolder&#34;
@@ -857,11 +858,7 @@ class ZlibConan(ConanFile):
         self.copy(pattern=&#34;*.lib&#34;, dst=&#34;lib&#34;, src=build_dir, keep_path=False)
 
         self._rename_libraries()
-
         self._delete_crypt_header()
-
-        # Provide a cmake finder
-        self.copy(&#39;FindZLIB.cmake&#39;, &#39;.&#39;, &#39;.&#39;)
 
     def package_info(self):
         if self.options.minizip:
@@ -889,7 +886,7 @@ class ZlibConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-08-18 01:28:49</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-08-19 01:29:22</span> | Work in progress
 
       </div>
     </footer>
