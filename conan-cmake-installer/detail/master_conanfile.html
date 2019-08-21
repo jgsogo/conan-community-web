@@ -660,7 +660,9 @@ class CMakeInstallerConan(ConanFile):
     settings = &#34;os_build&#34;, &#34;arch_build&#34;, &#34;compiler&#34;, &#34;arch&#34;
     options = {&#34;version&#34;: available_versions}
     default_options = {&#34;version&#34;: [v for v in available_versions if &#34;-&#34; not in v][0]}
+    generators = &#34;cmake&#34;
     exports = &#34;LICENSE&#34;
+    exports_sources = &#34;CMakeLists.txt&#34;
 
     @property
     def _source_subfolder(self):
@@ -733,6 +735,9 @@ class CMakeInstallerConan(ConanFile):
     def _configure_cmake(self):
         cmake = CMake(self)
         cmake.definitions[&#34;CMAKE_BOOTSTRAP&#34;] = False
+        if self.settings.os_build == &#34;Linux&#34;:
+            cmake.definitions[&#34;OPENSSL_USE_STATIC_LIBS&#34;] = True
+            cmake.definitions[&#34;CMAKE_EXE_LINKER_FLAGS&#34;] = &#34;-lz&#34;
         cmake.configure(source_dir=self._source_subfolder)
         return cmake
 
@@ -794,7 +799,7 @@ class CMakeInstallerConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-08-20 01:32:13</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-08-21 01:32:15</span> | Work in progress
 
       </div>
     </footer>
