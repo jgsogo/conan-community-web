@@ -700,13 +700,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
         if self.settings.compiler == &#39;Visual Studio&#39; and self.settings.build_type == &#39;Debug&#39;:
             version_suffix += &#34;_d&#34;
 
-        self.cpp_info.includedirs = [os.path.join(&#39;include&#39;, &#39;OpenEXR&#39;), ]
         self.cpp_info.libs = [&#39;IlmImf&#39; + version_suffix,
                               &#39;IlmImfUtil&#39; + version_suffix,
                               &#39;IlmThread&#39; + version_suffix,
                               &#39;Iex&#39; + version_suffix,
                               &#39;Half&#39; + version_suffix]
-
+        
+        self.cpp_info.includedirs = [os.path.join(&#39;include&#39;, &#39;OpenEXR&#39;), &#39;include&#39;]
         if self.options.shared and self.settings.os == &#34;Windows&#34;:
             self.cpp_info.defines.append(&#34;OPENEXR_DLL&#34;)
 
@@ -732,7 +732,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-08-27 01:37:39</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-08-28 01:37:51</span> | Work in progress
 
       </div>
     </footer>

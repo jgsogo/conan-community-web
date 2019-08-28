@@ -807,8 +807,12 @@ that have future-proof scalability&#34;&#34;&#34;
                 os.environ[name] = value
 
         extra = &#34;&#34; if self.settings.os == &#34;Windows&#34; or self.options.shared else &#34;extra_inc=big_iron.inc&#34;
-        arch = &#34;ia32&#34; if self.settings.arch == &#34;x86&#34; else &#34;intel64&#34;
-
+        if self.settings.arch == &#34;x86&#34;:
+            arch = &#34;ia32&#34; 
+        elif self.settings.arch == &#34;x86_64&#34;:
+            arch = &#34;intel64&#34;
+        elif self.settings.arch == &#34;armv7&#34;:
+            arch = &#34;armv7&#34;
         if self.settings.compiler in [&#39;gcc&#39;, &#39;clang&#39;, &#39;apple-clang&#39;]:
             if str(self.settings.compiler.libcxx) in [&#39;libstdc++&#39;, &#39;libstdc++11&#39;]:
                 extra += &#34; stdlib=libstdc++&#34;
@@ -890,7 +894,7 @@ that have future-proof scalability&#34;&#34;&#34;
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-08-27 01:35:40</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-08-28 01:35:51</span> | Work in progress
 
       </div>
     </footer>

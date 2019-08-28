@@ -673,6 +673,7 @@ class LibalsaConan(ConanFile):
         if self.settings.os != &#34;Linux&#34;:
             raise ConanInvalidConfiguration(&#34;Only Linux supported&#34;)
         del self.settings.compiler.libcxx
+        del self.settings.compiler.cppstd
 
     def source(self):
         sha256 = &#34;be3443c69dd2cb86e751c0abaa4b74343c75db28ef13d11d19a3130a5b0ff78d&#34;
@@ -732,7 +733,7 @@ class LibalsaConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-08-27 01:36:37</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-08-28 01:36:49</span> | Work in progress
 
       </div>
     </footer>
