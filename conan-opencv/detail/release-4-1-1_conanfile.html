@@ -860,6 +860,12 @@ class OpenCVConan(ConanFile):
 
     def _configure_cmake(self):
         cmake = CMake(self)
+        cmake.definitions[&#39;OPENCV_CONFIG_INSTALL_PATH&#39;] = &#34;cmake&#34;
+        cmake.definitions[&#39;OPENCV_BIN_INSTALL_PATH&#39;] = &#34;bin&#34;
+        cmake.definitions[&#39;OPENCV_LIB_INSTALL_PATH&#39;] = &#34;lib&#34;
+        cmake.definitions[&#39;OPENCV_3P_LIB_INSTALL_PATH&#39;] = &#34;lib&#34;
+        cmake.definitions[&#39;OPENCV_OTHER_INSTALL_PATH&#39;] = &#34;res&#34;
+        cmake.definitions[&#39;OPENCV_LICENSES_INSTALL_PATH&#39;] = &#34;licenses&#34;
         cmake.definitions[&#39;BUILD_EXAMPLES&#39;] = False
         cmake.definitions[&#39;BUILD_DOCS&#39;] = False
         cmake.definitions[&#39;BUILD_TESTS&#39;] = False
@@ -919,7 +925,7 @@ class OpenCVConan(ConanFile):
         cmake.definitions[&#39;CUDA_NVCC_FLAGS&#39;] = &#39;--expt-relaxed-constexpr&#39;
         cmake.definitions[&#39;WITH_EIGEN&#39;] = self.options.eigen
         cmake.definitions[&#39;WITH_LAPACK&#39;] = self.options.lapack
-        
+
         # MinGW doesn&#39;t build wih Media Foundation
         cmake.definitions[&#39;WITH_MSMF&#39;] = self.settings.compiler == &#39;Visual Studio&#39;
 
@@ -1093,7 +1099,7 @@ class OpenCVConan(ConanFile):
                 &#34;xobjdetect&#34;,
                 &#34;xphoto&#34;,
                 &#34;sfm&#34;] + opencv_libs
-        
+
             if not self.options.freetype or not self.options.harfbuzz:
                 opencv_libs.remove(&#34;freetype&#34;)
             if not self.options.eigen or not self.options.glog or not self.options.gflags:
@@ -1119,29 +1125,6 @@ class OpenCVConan(ConanFile):
             &#34;.&#34;, &#34;&#34;) if self.settings.os == &#34;Windows&#34; else &#34;&#34;
         for lib in opencv_libs:
             self.cpp_info.libs.append(&#34;opencv_%s%s%s&#34; % (lib, version, suffix))
-
-        opencv_lib = &#39;lib&#39; if self.options.shared else &#39;staticlib&#39;
-        opencv_arch = {&#39;x86&#39;: &#39;x86&#39;,
-                       &#39;x86_64&#39;: &#39;x64&#39;,
-                       &#39;armv7&#39;: &#39;ARM&#39;,
-                       &#39;armv8&#39;: &#39;ARM&#39;}.get(str(self.settings.arch), None)
-        opencv_runtime = None
-        if self.settings.compiler == &#39;Visual Studio&#39;:
-            opencv_runtime = &#39;vc%s&#39; % str(self.settings.compiler.version)
-            if self.options.cuda:
-                cuda_platform = {&#39;x86&#39;: &#39;Win32&#39;,
-                                 &#39;x86_64&#39;: &#39;x64&#39;}.get(str(self.settings.arch))
-                cuda_path = os.environ.get(&#39;CUDA_PATH&#39;)
-                self.cpp_info.libdirs.append(os.path.join(cuda_path, &#34;lib&#34;, cuda_platform))
-
-        if self.settings.os == &#34;Windows&#34; and self.settings.compiler == &#34;gcc&#34;:
-            opencv_runtime = &#39;mingw&#39;
-
-        if opencv_runtime:
-            bindir = os.path.join(self.package_folder, opencv_arch, opencv_runtime, &#39;bin&#39;)
-            libdir = os.path.join(self.package_folder, opencv_arch, opencv_runtime, opencv_lib)
-            self.cpp_info.bindirs.append(bindir)
-            self.cpp_info.libdirs.append(libdir)
 
         if self.options.cuda:
             self.cpp_info.libs.extend([&#34;nvrtc&#34;, &#34;cudart&#34;, &#34;cuda&#34;])
@@ -1202,7 +1185,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-08-29 01:35:37</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-08-30 01:36:02</span> | Work in progress
 
       </div>
     </footer>
