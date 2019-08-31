@@ -1007,6 +1007,9 @@ class OpenCVConan(ConanFile):
                 cmake.definitions[&#39;ANDROID_NDK&#39;] = os.environ.get(
                     &#39;ANDROID_NDK_HOME&#39;)
 
+        if str(self.settings.os) in [&#34;iOS&#34;, &#34;watchOS&#34;, &#34;tvOS&#34;]:
+            cmake.definitions[&#39;IOS&#39;] = True
+
         cmake.configure(build_folder=self._build_subfolder)
         return cmake
 
@@ -1185,7 +1188,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-08-30 01:36:02</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-08-31 01:36:27</span> | Work in progress
 
       </div>
     </footer>

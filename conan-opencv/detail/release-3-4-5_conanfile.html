@@ -695,7 +695,8 @@ class OpenCVConan(ConanFile):
                &#34;png&#34;: [True, False],
                &#34;jasper&#34;: [True, False],
                &#34;openexr&#34;: [True, False],
-               &#34;gtk&#34;: [None, 2, 3]}
+               &#34;gtk&#34;: [None, 2, 3],
+               &#34;lapack&#34;: [True, False]}
     default_options = {&#34;shared&#34;: False,
                        &#34;fPIC&#34;: True,
                        &#34;contrib&#34;: False,
@@ -705,7 +706,8 @@ class OpenCVConan(ConanFile):
                        &#34;png&#34;: True,
                        &#34;jasper&#34;: True,
                        &#34;openexr&#34;: True,
-                       &#34;gtk&#34;: 3}
+                       &#34;gtk&#34;: None,
+                       &#34;lapack&#34;: False}
     exports_sources = [&#34;CMakeLists.txt&#34;]
     generators = &#34;cmake&#34;
     description = &#34;OpenCV (Open Source Computer Vision Library) is an open source computer vision and machine &#34; \
@@ -777,6 +779,8 @@ class OpenCVConan(ConanFile):
             self.requires.add(&#39;jasper/2.0.14@conan/stable&#39;)
         if self.options.openexr:
             self.requires.add(&#39;openexr/2.3.0@conan/stable&#39;)
+        if self.options.lapack:
+            self.requires.add(&#39;lapack/3.7.1@conan/stable&#39;)
 
     def _configure_cmake(self):
         cmake = CMake(self)
@@ -818,11 +822,35 @@ class OpenCVConan(ConanFile):
         cmake.definitions[&#39;WITH_FFMPEG&#39;] = False
         cmake.definitions[&#34;WITH_CAROTENE&#34;] = False
         cmake.definitions[&#39;WITH_QUIRC&#39;] = False
+        cmake.definitions[&#39;WITH_LAPACK&#39;] = self.options.lapack
 
         cmake.definitions[&#39;WITH_DSHOW&#39;] = self.settings.compiler == &#39;Visual Studio&#39;
 
         if self.options.openexr:
             cmake.definitions[&#39;OPENEXR_ROOT&#39;] = self.deps_cpp_info[&#39;openexr&#39;].rootpath
+        if self.options.lapack:
+            cmake.definitions[&#39;LAPACK_LIBRARIES&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;lapack&#39;].libs)
+            cmake.definitions[&#39;LAPACK_LINK_LIBRARIES&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;lapack&#39;].lib_paths)
+            cmake.definitions[&#39;LAPACK_INCLUDE_DIR&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;lapack&#39;].include_paths)
+            cmake.definitions[&#39;LAPACK_CBLAS_H&#39;] = &#39;cblas.h&#39;
+            cmake.definitions[&#39;LAPACK_LAPACKE_H&#39;] = &#39;lapacke.h&#39;
+            cmake.definitions[&#39;LAPACK_IMPL&#39;] = &#39;LAPACK/Generic&#39;
+        if self.options.contrib:
+            # OpenCV doesn&#39;t use find_package for freetype &amp; harfbuzz, so let&#39;s specify them
+            if self.options.freetype:
+                cmake.definitions[&#39;FREETYPE_FOUND&#39;] = True
+                cmake.definitions[&#39;FREETYPE_LIBRARIES&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;freetype&#39;].libs)
+                cmake.definitions[&#39;FREETYPE_INCLUDE_DIRS&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;freetype&#39;].include_paths)
+            if self.options.harfbuzz:
+                cmake.definitions[&#39;HARFBUZZ_FOUND&#39;] = True
+                cmake.definitions[&#39;HARFBUZZ_LIBRARIES&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;harfbuzz&#39;].libs)
+                cmake.definitions[&#39;HARFBUZZ_INCLUDE_DIRS&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;harfbuzz&#39;].include_paths)
+            if self.options.gflags:
+                cmake.definitions[&#39;GFLAGS_LIBRARY_DIR_HINTS&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;gflags&#39;].lib_paths)
+                cmake.definitions[&#39;GFLAGS_INCLUDE_DIR_HINTS&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;gflags&#39;].include_paths)
+            if self.options.glog:
+                cmake.definitions[&#39;GLOG_LIBRARY_DIR_HINTS&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;glog&#39;].lib_paths)
+                cmake.definitions[&#39;GLOG_INCLUDE_DIR_HINTS&#39;] = &#39;;&#39;.join(self.deps_cpp_info[&#39;glog&#39;].include_paths)
 
         # system libraries
         if self.settings.os == &#39;Linux&#39;:
@@ -975,7 +1003,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-08-30 01:36:02</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-08-31 01:36:27</span> | Work in progress
 
       </div>
     </footer>

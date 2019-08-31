@@ -674,14 +674,14 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,73 +1,10 @@
+@@ -1,72 +1,10 @@
 -[![Download](https://api.bintray.com/packages/conan-community/conan/opencv%3Aconan/images/download.svg) ](https://bintray.com/conan-community/conan/opencv%3Aconan/_latestVersion)
 -[![Build Status Travis](https://travis-ci.org/conan-community/conan-opencv.svg)](https://travis-ci.org/conan-community/conan-opencv)
 -[![Build Status AppVeyor](https://ci.appveyor.com/api/projects/status/github/conan-community/conan-opencv?svg=true)](https://ci.appveyor.com/project/ConanCIintegration/conan-opencv)
 -
 -## Conan package recipe for [*opencv*](https://github.com/opencv/opencv)
 -
--OpenCV (Open Source Computer Vision Library)
+-OpenCV (Open Source Computer Vision Library) is an open source computer vision and machine learning software library.
 -
 -The packages generated with this **conanfile** can be found on [Bintray](https://bintray.com/conan-community/conan/opencv%3Aconan).
  
@@ -699,14 +699,14 @@
 -
 -### Basic setup
 -
--    $ conan install opencv/2.4.13.5@conan/stable
+-    $ conan install opencv/2.4.13@conan/stable
 -
 -### Project setup
 -
 -If you handle multiple dependencies in your project is better to add a *conanfile.txt*
 -
 -    [requires]
--    opencv/2.4.13.5@conan/stable
+-    opencv/2.4.13@conan/stable
 -
 -    [generators]
 -    cmake
@@ -727,16 +727,15 @@
 -
 -
 -### Available Options
--| Option        | Default | Possible Values  |
--| ------------- |:----------------- |:------------:|
--| shared      | False |  [True, False] |
--| fPIC      | True |  [True, False] |
--| jpeg      | True |  [True, False] |
--| png      | True |  [True, False] |
--| tiff      | True |  [True, False] |
--| jasper      | True |  [True, False] |
--| openexr      | True |  [True, False] |
--
+-| Option        | Default | Possible Values  | Description |
+-| ------------- |:----------------- |:------------:| ----- |
+-| shared      | False |  [True, False] | Build shared libraries only |
+-| fPIC      | True |  [True, False] | Compile with -fPIC (Linux only) |
+-| jpeg      | True |  [True, False] | Build with libjpeg |
+-| png      | True |  [True, False] | Build with libpng |
+-| tiff      | True |  [True, False] | Build with libtiff |
+-| jasper      | True |  [True, False] | Build with jasper |
+-| openexr      | True |  [True, False] | Build with openexr |
 -
 -## Add Remote
 -
@@ -770,7 +769,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-08-30 01:36:02</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-08-31 01:36:27</span> | Work in progress
 
       </div>
     </footer>
