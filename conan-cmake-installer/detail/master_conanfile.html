@@ -744,6 +744,10 @@ class CMakeInstallerConan(ConanFile):
     def build(self):
         self._download_source()
         if self._build_from_source():
+            if self.settings.os_build == &#34;Linux&#34;:
+                tools.replace_in_file(os.path.join(self._source_subfolder, &#34;Utilities&#34;, &#34;cmcurl&#34;, &#34;CMakeLists.txt&#34;),
+                                    &#34;list(APPEND CURL_LIBS ${OPENSSL_LIBRARIES})&#34;,
+                                    &#34;list(APPEND CURL_LIBS ${OPENSSL_LIBRARIES} -ldl -lpthread)&#34;)
             self.settings.arch = self.settings.arch_build  # workaround for cross-building to get the correct arch during the build
             cmake = self._configure_cmake()
             cmake.build()
@@ -799,7 +803,7 @@ class CMakeInstallerConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-08-31 01:37:01</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-09-01 01:37:36</span> | Work in progress
 
       </div>
     </footer>
