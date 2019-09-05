@@ -708,6 +708,14 @@ class ZlibConan(ConanFile):
     generators = &#34;cmake&#34;
     _source_subfolder = &#34;source_subfolder&#34;
 
+    @property
+    def _is_msvc(self):
+        return self.settings.compiler == &#34;Visual Studio&#34;
+
+    @property
+    def _is_clangcl(self):
+        return self.settings.compiler == &#34;clang&#34; and self.settings.os == &#34;Windows&#34;
+
     def config_options(self):
         if self.settings.os == &#34;Windows&#34;:
             del self.options.fPIC
@@ -800,11 +808,11 @@ class ZlibConan(ConanFile):
             suffix = &#34;d&#34; if self.settings.build_type == &#34;Debug&#34; else &#34;&#34;
 
             if self.options.shared:
-                if self.settings.compiler == &#34;Visual Studio&#34;:
+                if self._is_clangcl or self._is_msvc:
                     current_lib = os.path.join(lib_path, &#34;zlib%s.lib&#34; % suffix)
                     os.rename(current_lib, os.path.join(lib_path, &#34;zlib.lib&#34;))
             else:
-                if self.settings.compiler == &#34;Visual Studio&#34;:
+                if self._is_clangcl or self._is_msvc:
                     current_lib = os.path.join(lib_path, &#34;zlibstatic%s.lib&#34; % suffix)
                     os.rename(current_lib, os.path.join(lib_path, &#34;zlib.lib&#34;))
                 elif self.settings.compiler == &#34;gcc&#34;:
@@ -887,7 +895,7 @@ class ZlibConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-09-04 01:37:36</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-09-05 01:38:20</span> | Work in progress
 
       </div>
     </footer>
