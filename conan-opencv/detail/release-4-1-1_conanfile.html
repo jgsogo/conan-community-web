@@ -826,11 +826,12 @@ class OpenCVConan(ConanFile):
         if self.options.tiff:
             self.requires.add(&#39;libtiff/4.0.9@bincrafters/stable&#39;)
         if self.options.webp:
-            self.requires.add(&#39;libwebp/1.0.0@bincrafters/stable&#39;)
+            self.requires.add(&#39;libwebp/1.0.3@bincrafters/stable&#39;)
         if self.options.png:
             self.requires.add(&#39;libpng/1.6.37@bincrafters/stable&#39;)
         if self.options.jasper:
             self.requires.add(&#39;jasper/2.0.14@conan/stable&#39;)
+            self.options[&#34;jasper&#34;].jpegturbo = self.options.jpegturbo
         if self.options.openexr:
             self.requires.add(&#39;openexr/2.3.0@conan/stable&#39;)
         if self.options.protobuf:
@@ -1188,7 +1189,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-09-05 01:39:20</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-09-06 01:39:56</span> | Work in progress
 
       </div>
     </footer>
