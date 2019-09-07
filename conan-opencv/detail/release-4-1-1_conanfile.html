@@ -867,20 +867,29 @@ class OpenCVConan(ConanFile):
         cmake.definitions[&#39;OPENCV_3P_LIB_INSTALL_PATH&#39;] = &#34;lib&#34;
         cmake.definitions[&#39;OPENCV_OTHER_INSTALL_PATH&#39;] = &#34;res&#34;
         cmake.definitions[&#39;OPENCV_LICENSES_INSTALL_PATH&#39;] = &#34;licenses&#34;
-        cmake.definitions[&#39;BUILD_EXAMPLES&#39;] = False
-        cmake.definitions[&#39;BUILD_DOCS&#39;] = False
-        cmake.definitions[&#39;BUILD_TESTS&#39;] = False
-        cmake.definitions[&#39;BUILD_PERF_TESTS&#39;] = False
         cmake.definitions[&#39;WITH_IPP&#39;] = False
-        cmake.definitions[&#39;BUILD_JAVA&#39;] = False
         cmake.definitions[&#39;BUILD_opencv_apps&#39;] = False
+        
+        # We are building C++ only. Disable other languages
+        cmake.definitions[&#39;BUILD_JAVA&#39;] = False
+        cmake.definitions[&#39;BUILD_opencv_java_bindings_generator&#39;] = False
+        cmake.definitions[&#39;BUILD_opencv_js&#39;] = False
         cmake.definitions[&#39;BUILD_opencv_python2&#39;] = False
         cmake.definitions[&#39;BUILD_opencv_python3&#39;] = False
+        cmake.definitions[&#39;BUILD_opencv_python_bindings_generator&#39;] = False
+        cmake.definitions[&#39;BUILD_opencv_python_tests&#39;] = False
+
+        # Don&#39;t build test
+        cmake.definitions[&#39;BUILD_TESTS&#39;] = False
+        cmake.definitions[&#39;BUILD_PERF_TESTS&#39;] = False
+        cmake.definitions[&#39;BUILD_opencv_ts&#39;] = False
+        cmake.definitions[&#39;INSTALL_TESTS&#39;] = False
+
+        # Don&#39;t install docs and examples
+        cmake.definitions[&#39;BUILD_DOCS&#39;] = False
+        cmake.definitions[&#39;BUILD_EXAMPLES&#39;] = False
         cmake.definitions[&#39;INSTALL_C_EXAMPLES&#39;] = False
         cmake.definitions[&#39;INSTALL_PYTHON_EXAMPLES&#39;] = False
-        cmake.definitions[&#39;BUILD_opencv_python_bindings_generator&#39;] = False
-        cmake.definitions[&#39;BUILD_opencv_js&#39;] = False
-        cmake.definitions[&#39;BUILD_opencv_java_bindings_generator&#39;] = False
 
         if self.settings.compiler == &#39;Visual Studio&#39;:
             cmake.definitions[&#39;BUILD_WITH_STATIC_CRT&#39;] = &#39;MT&#39; in str(
@@ -991,7 +1000,6 @@ class OpenCVConan(ConanFile):
             cmake.definitions[&#39;ANDROID_STL&#39;] = self.settings.compiler.libcxx
             cmake.definitions[&#39;ANDROID_NATIVE_API_LEVEL&#39;] = self.settings.os.api_level
 
-            cmake.definitions[&#39;BUILD_PERF_TESTS&#39;] = False
             cmake.definitions[&#39;BUILD_ANDROID_EXAMPLES&#39;] = False
 
             arch = str(self.settings.arch)
@@ -1189,7 +1197,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-09-06 01:39:56</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-09-07 01:40:38</span> | Work in progress
 
       </div>
     </footer>
