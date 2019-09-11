@@ -716,14 +716,14 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,33 +1,10 @@
+@@ -1,70 +1,10 @@
 -from conan.packager import ConanMultiPackager
 -import copy
 -import os
 -import platform
 +#!/usr/bin/env python
 +# -*- coding: utf-8 -*-
-+
+ 
 +from cpt.packager import ConanMultiPackager
  
  
@@ -739,20 +739,56 @@
 -        if platform.system() == &#34;Windows&#34;:
 -            filtered_builds = []
 -            for settings, options, env_vars, build_requires in builder.builds:
+-
 -                # MinGW shared with linker errors. I don&#39;t have a clue
 -                if settings[&#34;compiler&#34;] == &#34;gcc&#34; and options[&#34;boost:shared&#34;] is True:
 -                    continue
+-
+-                if ( ( settings[&#34;compiler&#34;] == &#34;Visual Studio&#34; ) and ( int(settings[&#34;compiler.version&#34;]) &gt;= 14 ) ) and ( int(settings[&#34;compiler.version&#34;]) &lt;= 15 ):
+-                    options_use_icu = options.copy()
+-                    options_use_icu[&#34;boost:use_icu&#34;] = True
+-                    filtered_builds.append([settings, options_use_icu, env_vars, build_requires])
+-
 -                filtered_builds.append([settings, options, env_vars, build_requires])
 -            builder.builds = filtered_builds
+-
+-
 -        if platform.system() == &#34;Linux&#34;:
 -            filtered_builds = []
 -            for settings, options, env_vars, build_requires in builder.builds:
--                if settings[&#34;compiler&#34;] == &#34;clang&#34;:
+-
+-                if ( settings[&#34;compiler&#34;] == &#34;clang&#34; ) and ( float( settings[&#34;compiler.version&#34;] ) &gt;= 6 ):
 -                    settings_libstdcxx11 = settings.copy()
 -                    settings_libstdcxx11[&#34;compiler.libcxx&#34;] = &#34;libstdc++11&#34;
 -                    filtered_builds.append([settings_libstdcxx11, options, env_vars, build_requires])
+-
+-                    options_use_icu = options.copy()
+-                    options_use_icu[&#34;boost:use_icu&#34;] = True
+-                    filtered_builds.append([settings_libstdcxx11, options_use_icu, env_vars, build_requires])
+-
+-                if ( settings[&#34;compiler&#34;] == &#34;gcc&#34; ) and ( settings[&#34;compiler.libcxx&#34;] == &#34;libstdc++11&#34; ) and ( float( settings[&#34;compiler.version&#34;] ) &gt;= 6 ) :
+-                    options_use_icu = options.copy()
+-                    options_use_icu[&#34;boost:use_icu&#34;] = True
+-                    filtered_builds.append([settings, options_use_icu, env_vars, build_requires])
+-
 -                filtered_builds.append([settings, options, env_vars, build_requires])
 -            builder.builds = filtered_builds
+-
+-
+-        if platform.system() == &#34;Darwin&#34;:
+-            filtered_builds = []
+-            for settings, options, env_vars, build_requires in builder.builds:
+-
+-                settings_cppstd = settings.copy()
+-                settings_cppstd[&#34;compiler.cppstd&#34;] = 11
+-                options_use_icu = options.copy()
+-                options_use_icu[&#34;boost:use_icu&#34;] = True
+-                filtered_builds.append([settings_cppstd, options_use_icu, env_vars, build_requires])
+-
+-                filtered_builds.append([settings, options, env_vars, build_requires])
+-
+-            builder.builds = filtered_builds
+-
 +    builder.add_common_builds()
      builder.run()</code>
         </pre>
@@ -774,7 +810,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-09-10 01:42:31</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-09-11 01:42:58</span> | Work in progress
 
       </div>
     </footer>
