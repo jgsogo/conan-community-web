@@ -664,8 +664,8 @@ class ncursesConan(ConanFile):
                   &#34;in a terminal-independent manner&#34;
     topics = (&#34;conan&#34;, &#34;ncurses&#34;, &#34;terminal&#34;, &#34;screen&#34;, &#34;tui&#34;)
     settings = &#34;os&#34;, &#34;compiler&#34;, &#34;arch&#34;, &#34;build_type&#34;
-    options = {&#34;shared&#34;: [True, False], &#34;fPIC&#34;: [True, False], &#34;with_cpp&#34;: [True, False], &#34;with_termlib&#34;: [True, False]}
-    default_options = {&#34;shared&#34;: False, &#34;fPIC&#34;: True, &#34;with_cpp&#34;: True, &#34;with_termlib&#34;: False}
+    options = {&#34;shared&#34;: [True, False], &#34;fPIC&#34;: [True, False], &#34;with_cpp&#34;: [True, False], &#34;with_termlib&#34;: [True, False], &#34;with_widec&#34;: [True, False]}
+    default_options = {&#34;shared&#34;: False, &#34;fPIC&#34;: True, &#34;with_cpp&#34;: True, &#34;with_termlib&#34;: False, &#34;with_widec&#34;: False}
     exports = &#34;LICENSE&#34;
     # NOTE: &#34;compile&#34; was patched: .cc files are properly handled with MinGW-style path conversion
     exports_sources = [&#34;*.patch&#34;, &#34;compile&#34;, &#34;ar-lib&#34;]
@@ -734,6 +734,9 @@ class ncursesConan(ConanFile):
                 &#39;--enable-pc-files&#39;,
                 &#39;--with-pkg-config-libdir=${prefix}/lib/pkgconfig&#39;
                 ]
+                
+            if self.options.with_widec:
+                args.extend([&#39;--enable-widec&#39;])
 
             if self.settings.os != &#34;Windows&#34; and self.options.shared:
                 args.extend([&#39;--with-shared&#39;, &#39;--without-normal&#39;, &#39;--without-debug&#39;])
@@ -830,7 +833,7 @@ class ncursesConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-10-03 01:59:08</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-10-04 02:05:37</span> | Work in progress
 
       </div>
     </footer>
