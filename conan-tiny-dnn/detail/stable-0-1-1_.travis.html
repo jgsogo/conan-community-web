@@ -542,46 +542,40 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 
       <h1 class="h2">
-        conan-fontconfig
+        conan-tiny-dnn
       </h1>
       
 <div class="btn-toolbar mb-2 mb-md-0">
     <div class="btn-group mr-2">
-        <a class="btn btn-sm btn-outline-secondary" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/index.html" role="button">Index <span data-feather="home"></span></a>
+        <a class="btn btn-sm btn-outline-secondary" href="https://jgsogo.es/conan-community-web/conan-tiny-dnn/detail/index.html" role="button">Index <span data-feather="home"></span></a>
     </div>
     <div class="btn-group mr-2">
-        <a class="btn btn-sm btn-outline-secondary" href="https://github.com/conan-community/conan-fontconfig/tree/release/2.13.1" role="button">Github <span data-feather="external-link"></span></a>
+        <a class="btn btn-sm btn-outline-secondary" href="https://github.com/conan-community/conan-tiny-dnn/tree/stable/0.1.1" role="button">Github <span data-feather="external-link"></span></a>
         
+        
+            <a class="btn btn-sm btn-outline-secondary" href="https://bintray.com/conan-community/conan/tiny-dnn%3Aconan/0.1.1%3Astable" role="button">Bintray <span data-feather="external-link"></span></a>
         
     </div>
     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" id="branchesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span data-feather="git-branch"></span>
         
-            release/2.13.1
+            stable/0.1.1
         
     </button>
     <div class="dropdown-menu" aria-labelledby="branchesMenuButton">
         
-            <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/release-2-13-1.html">
-                release/2.13.1
-                
-                <span class="numberCircle numberCircle-error" title=""><span>4</span></span>
-                
-                
-            </a>
-        
-            <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/release-2-13-91.html">
-                release/2.13.91
+            <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-tiny-dnn/detail/stable-0-1-1.html">
+                stable/0.1.1
                 
                 <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
                 
                 
             </a>
         
-            <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/testing-2-13-1.html">
-                testing/2.13.1
+            <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-tiny-dnn/detail/testing-0-1-1.html">
+                testing/0.1.1
                 
-                <span class="numberCircle numberCircle-error" title=""><span>4</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>3</span></span>
                 
                 
             </a>
@@ -597,29 +591,29 @@
         
             <ul class="nav nav-tabs">
               <li class="nav-item">
-                <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/release-2-13-1.html">Details</a>
+                <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-tiny-dnn/detail/stable-0-1-1.html">Details</a>
               </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/release-2-13-1_conanfile.html">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-tiny-dnn/detail/stable-0-1-1_conanfile.html">
                         conanfile.py
                     </a>
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/release-2-13-1_build.html">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-tiny-dnn/detail/stable-0-1-1_build.html">
                         build.py <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/release-2-13-1_README.html">
+                    <a class="nav-link" href="https://jgsogo.es/conan-community-web/conan-tiny-dnn/detail/stable-0-1-1_README.html">
                         README.md <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
                 
                   <li class="nav-item">
-                    <a class="nav-link active" href="https://jgsogo.es/conan-community-web/conan-fontconfig/detail/release-2-13-1_.travis.html">
+                    <a class="nav-link active" href="https://jgsogo.es/conan-community-web/conan-tiny-dnn/detail/stable-0-1-1_.travis.html">
                         .travis.yml <span class="numberCircle numberCircle-error" title=""><span> </span></span>
                     </a>
                   </li>
@@ -636,7 +630,7 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,3 +1,15 @@
+@@ -1,15 +1,106 @@
 +env:
 +   global:
 +     - CONAN_USERNAME: &#34;conan&#34;
@@ -651,63 +645,66 @@
 +
  linux: &amp;linux
     os: linux
-    dist: xenial
-@@ -15,56 +27,80 @@
- 
- jobs:
+-   sudo: required
++   dist: xenial
+    language: python
+-   python: &#34;3.6&#34;
++   python: &#34;3.7&#34;
+    services:
+      - docker
+-matrix:
++osx: &amp;osx
++   os: osx
++   language: generic
++
++stages:
++  - conan-linux
++  - conan-osx
++
++jobs:
     include:
 +     
-       - &lt;&lt;: *linux
-         stage: conan-linux
--        env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=conanio/gcc49
++      - &lt;&lt;: *linux
++        stage: conan-linux
 +        env: CONAN_GCC_VERSIONS=4.8 CONAN_DOCKER_IMAGE=conanio/gcc48 CONAN_CURRENT_PAGE=1
 +     
-       - &lt;&lt;: *linux
-         stage: conan-linux
--        env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=conanio/gcc5
++      - &lt;&lt;: *linux
++        stage: conan-linux
 +        env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=conanio/gcc49 CONAN_CURRENT_PAGE=1
 +     
-       - &lt;&lt;: *linux
-         stage: conan-linux
--        env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=conanio/gcc6
++      - &lt;&lt;: *linux
++        stage: conan-linux
 +        env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=conanio/gcc5 CONAN_CURRENT_PAGE=1
 +     
-       - &lt;&lt;: *linux
-         stage: conan-linux
--        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7
++      - &lt;&lt;: *linux
++        stage: conan-linux
 +        env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=conanio/gcc6 CONAN_CURRENT_PAGE=1
 +     
-       - &lt;&lt;: *linux
-         stage: conan-linux
--        env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8
++      - &lt;&lt;: *linux
++        stage: conan-linux
 +        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7 CONAN_CURRENT_PAGE=1
 +     
-       - &lt;&lt;: *linux
-         stage: conan-linux
--        env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=conanio/clang39
++      - &lt;&lt;: *linux
++        stage: conan-linux
 +        env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8 CONAN_CURRENT_PAGE=1
 +     
-+
+ 
 +     
        - &lt;&lt;: *linux
-         stage: conan-linux
--        env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=conanio/clang40
+-        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=lasote/conangcc7
++        stage: conan-linux
 +        env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=conanio/clang39 CONAN_CURRENT_PAGE=1
 +     
-       - &lt;&lt;: *linux
-         stage: conan-linux
--        env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=conanio/clang50
++      - &lt;&lt;: *linux
++        stage: conan-linux
 +        env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=conanio/clang40 CONAN_CURRENT_PAGE=1
 +     
-       - &lt;&lt;: *linux
-         stage: conan-linux
--        env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60
++      - &lt;&lt;: *linux
++        stage: conan-linux
 +        env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=conanio/clang50 CONAN_CURRENT_PAGE=1
 +     
-       - &lt;&lt;: *linux
-         stage: conan-linux
--        env: CONAN_CLANG_VERSIONS=7.0 CONAN_DOCKER_IMAGE=conanio/clang7
--      - &lt;&lt;: *osx
++      - &lt;&lt;: *linux
++        stage: conan-linux
 +        env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60 CONAN_CURRENT_PAGE=1
 +     
 +      - &lt;&lt;: *linux
@@ -717,40 +714,27 @@
 +
 +     
 +      - &lt;&lt;: *linux
-         stage: conan-osx
-         osx_image: xcode7.3
--        env: CONAN_APPLE_CLANG_VERSIONS=7.3
--      - &lt;&lt;: *osx
++        stage: conan-osx
++        osx_image: xcode7.3
 +        env: CONAN_APPLE_CLANG_VERSIONS=7.3 CONAN_CURRENT_PAGE=1
 +     
 +      - &lt;&lt;: *linux
-         stage: conan-osx
--        osx_image: xcode8.3
--        env: CONAN_APPLE_CLANG_VERSIONS=8.1
--      - &lt;&lt;: *osx
++        stage: conan-osx
 +        osx_image: xcode8.1
 +        env: CONAN_APPLE_CLANG_VERSIONS=8.1 CONAN_CURRENT_PAGE=1
 +     
 +      - &lt;&lt;: *linux
-         stage: conan-osx
--        osx_image: xcode9
--        env: CONAN_APPLE_CLANG_VERSIONS=9.0
--      - &lt;&lt;: *osx
++        stage: conan-osx
 +        osx_image: xcode9.0
 +        env: CONAN_APPLE_CLANG_VERSIONS=9.0 CONAN_CURRENT_PAGE=1
 +     
 +      - &lt;&lt;: *linux
-         stage: conan-osx
--        osx_image: xcode9.4
--        env: CONAN_APPLE_CLANG_VERSIONS=9.1
--      - &lt;&lt;: *osx
++        stage: conan-osx
 +        osx_image: xcode9.1
 +        env: CONAN_APPLE_CLANG_VERSIONS=9.1 CONAN_CURRENT_PAGE=1
 +     
 +      - &lt;&lt;: *linux
-         stage: conan-osx
--        osx_image: xcode10.1
--        env: CONAN_APPLE_CLANG_VERSIONS=10.0
++        stage: conan-osx
 +        osx_image: xcode10.0
 +        env: CONAN_APPLE_CLANG_VERSIONS=10.0 CONAN_CURRENT_PAGE=1
 +     
@@ -776,7 +760,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-10-05 01:59:48</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-10-05 01:58:35</span> | Work in progress
 
       </div>
     </footer>
