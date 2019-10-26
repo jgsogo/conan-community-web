@@ -738,10 +738,10 @@ from conans.errors import ConanInvalidConfiguration
 
 class TBBConan(ConanFile):
     name = &#34;TBB&#34;
-    version = &#34;2019_U4&#34;
+    version = &#34;2019_U9&#34;
     license = &#34;Apache-2.0&#34;
     url = &#34;https://github.com/conan-community/conan-tbb&#34;
-    homepage = &#34;https://github.com/01org/tbb&#34;
+    homepage = &#34;https://github.com/intel/tbb&#34;
     description = &#34;&#34;&#34;Intel Threading Building Blocks (Intel TBB) lets you easily write parallel C++
 programs that take full advantage of multicore performance, that are portable and composable, and
 that have future-proof scalability&#34;&#34;&#34;
@@ -782,7 +782,7 @@ that have future-proof scalability&#34;&#34;&#34;
         return self.settings.os == &#39;Windows&#39; and self.settings.compiler == &#39;clang&#39;
 
     def source(self):
-        sha256 = &#34;342a0a2cd583879850658284b86e9351ea019b4f3fcd731f4c18456f0ce9f900&#34;
+        sha256 = &#34;15652f5328cf00c576f065e5cd3eaf3317422fe82afb67a9bcec0dc065bd2abe&#34;
         tools.get(&#34;{}/archive/{}.tar.gz&#34;.format(self.homepage, self.version), sha256=sha256)
         os.rename(&#34;{}-{}&#34;.format(self.name.lower(), self.version), self._source_subfolder)
 
@@ -813,6 +813,8 @@ that have future-proof scalability&#34;&#34;&#34;
             arch = &#34;intel64&#34;
         elif self.settings.arch == &#34;armv7&#34;:
             arch = &#34;armv7&#34;
+        elif self.settings.arch == &#34;armv8&#34;:
+            arch = &#34;aarch64&#34;
         if self.settings.compiler in [&#39;gcc&#39;, &#39;clang&#39;, &#39;apple-clang&#39;]:
             if str(self.settings.compiler.libcxx) in [&#39;libstdc++&#39;, &#39;libstdc++11&#39;]:
                 extra += &#34; stdlib=libstdc++&#34;
@@ -894,7 +896,7 @@ that have future-proof scalability&#34;&#34;&#34;
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-10-25 02:10:15</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-10-26 02:11:15</span> | Work in progress
 
       </div>
     </footer>
