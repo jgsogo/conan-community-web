@@ -701,7 +701,6 @@ class FontconfigConan(ConanFile):
         #  - fontconfig requires libtool version number, change it for the corresponding freetype one
         tools.replace_in_file(os.path.join(self._source_subfolder, &#39;configure&#39;), &#39;21.0.15&#39;, &#39;2.8.1&#39;)
         os.rename(&#39;freetype.pc&#39;, &#39;freetype2.pc&#39;)
-        os.rename(&#39;ZLIB.pc&#39;, &#39;zlib.pc&#39;)
 
     def build(self):
         # Patch files from dependencies
@@ -743,7 +742,7 @@ class FontconfigConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-11-13 02:22:42</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-11-14 02:23:00</span> | Work in progress
 
       </div>
     </footer>
