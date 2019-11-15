@@ -636,82 +636,13 @@ class OpenEXRConan(ConanFile):
                   &#34;Magic for use in computer imaging applications.&#34;
     version = &#34;2.3.0&#34;
     license = &#34;BSD&#34;
-    url = &#34;https://github.com/jgsogo/conan-openexr.git&#34;
-    settings = &#34;os&#34;, &#34;compiler&#34;, &#34;build_type&#34;, &#34;arch&#34;
-    options = {&#34;shared&#34;: [True, False], &#34;namespace_versioning&#34;: [True, False], &#34;fPIC&#34;: [True, False]}
-    default_options = &#34;shared=False&#34;, &#34;namespace_versioning=True&#34;, &#34;fPIC=True&#34;
-    generators = &#34;cmake&#34;
-    exports_sources = [&#34;IlmImf__ImfSystemSpecific.cpp.patch&#34;]
+    url = &#34;https://github.com/conan-community/conan-openexr.git&#34;
 
-    def config_options(self):
-        if self.settings.os == &#34;Windows&#34;:
-            self.options.remove(&#34;fPIC&#34;)
-
-    def requirements(self):
-        self.requires(&#39;zlib/1.2.11@conan/stable&#39;)
+    alias = &#34;openexr/2.3.0&#34;
 
     def configure(self):
-        if &#34;fPIC&#34; in self.options.fields and self.options.shared:
-            self.options.fPIC = True
+        self.output.warn(&#34;[DEPRECATED] Package openexr/conan is being deprecated. Change yours to require openexr/2.3.0@ instead&#34;)
 
-    def source(self):
-        url = &#34;https://github.com/openexr/openexr/archive/v{version}.tar.gz&#34;
-        tools.get(url.format(version=self.version))
-        tools.replace_in_file(os.path.join(&#39;openexr-{}&#39;.format(self.version), &#39;CMakeLists.txt&#39;),
-                              &#39;project(OpenEXR VERSION ${OPENEXR_VERSION})&#39;,
-                              &#34;&#34;&#34;project(OpenEXR VERSION ${OPENEXR_VERSION})
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup(KEEP_RPATHS)
-
-set(OPENEXR_PACKAGE_PREFIX ${CMAKE_INSTALL_PREFIX})
-
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-&#34;&#34;&#34;)
-        tools.patch(patch_file=&#34;IlmImf__ImfSystemSpecific.cpp.patch&#34;,
-                    base_path=os.path.join(&#39;openexr-{}&#39;.format(self.version), &#39;OpenEXR&#39;))
-
-    def build(self):
-        # parallel builds are disabled due to the random issue: &#39;toFloat.h&#39;: No such file or directory
-        cmake = CMake(self, parallel=self.settings.os != &#39;Windows&#39;)
-        cmake.definitions[&#34;OPENEXR_BUILD_PYTHON_LIBS&#34;] = False
-        cmake.definitions[&#34;OPENEXR_BUILD_SHARED&#34;] = self.options.shared
-        cmake.definitions[&#34;OPENEXR_BUILD_STATIC&#34;] = not bool(self.options.shared)
-        cmake.definitions[&#34;OPENEXR_NAMESPACE_VERSIONING&#34;] = self.options.namespace_versioning
-        cmake.definitions[&#34;OPENEXR_ENABLE_TESTS&#34;] = False
-        cmake.definitions[&#34;OPENEXR_FORCE_CXX03&#34;] = True
-        cmake.definitions[&#34;OPENEXR_BUILD_UTILS&#34;] = False
-        cmake.definitions[&#34;ENABLE_TESTS&#34;] = False
-        cmake.definitions[&#34;OPENEXR_BUILD_TESTS&#34;] = False
-
-        cmake.configure(source_dir=&#39;openexr-{}&#39;.format(self.version))
-        cmake.build()
-
-    def package(self):
-        cmake = CMake(self)
-        cmake.install()
-        self.copy(&#34;license*&#34;, dst=&#34;licenses&#34;, src=&#34;ilmbase-%s&#34; % self.version, ignore_case=True, keep_path=False)
-
-    def package_info(self):
-        parsed_version = self.version.split(&#39;.&#39;)
-        version_suffix = &#34;-%s_%s&#34; % (parsed_version[0], parsed_version[1]) if self.options.namespace_versioning else &#34;&#34;
-        if not self.options.shared:
-            version_suffix += &#34;_s&#34;
-        if self.settings.compiler == &#39;Visual Studio&#39; and self.settings.build_type == &#39;Debug&#39;:
-            version_suffix += &#34;_d&#34;
-
-        self.cpp_info.libs = [&#39;IlmImf&#39; + version_suffix,
-                              &#39;IlmImfUtil&#39; + version_suffix,
-                              &#39;IlmThread&#39; + version_suffix,
-                              &#39;Iex&#39; + version_suffix,
-                              &#39;Half&#39; + version_suffix]
-        
-        self.cpp_info.includedirs = [os.path.join(&#39;include&#39;, &#39;OpenEXR&#39;), &#39;include&#39;]
-        if self.options.shared and self.settings.os == &#34;Windows&#34;:
-            self.cpp_info.defines.append(&#34;OPENEXR_DLL&#34;)
-
-        if self.settings.os != &#34;Windows&#34;:
-            self.cpp_info.cppflags = [&#34;-pthread&#34;]
 </code>
         </pre>
     </div>
@@ -732,7 +663,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-11-14 02:23:02</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-11-15 02:23:12</span> | Work in progress
 
       </div>
     </footer>
