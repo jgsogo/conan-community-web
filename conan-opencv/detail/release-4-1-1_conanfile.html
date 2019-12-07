@@ -817,25 +817,25 @@ class OpenCVConan(ConanFile):
                     installer.install(package)
 
     def requirements(self):
-        self.requires.add(&#39;zlib/1.2.11@conan/stable&#39;)
+        self.requires.add(&#39;zlib/1.2.11&#39;)
         if self.options.jpeg:
             # NOTE : use the same libjpeg implementation as jasper uses
             # otherwise, jpeg_create_decompress will fail on version check
             if self.options.jpegturbo:
-                self.requires.add(&#39;libjpeg-turbo/1.5.2@bincrafters/stable&#39;)
+                self.requires.add(&#39;libjpeg-turbo/1.5.2&#39;)
             else:
-                self.requires.add(&#39;libjpeg/9c@bincrafters/stable&#39;)
+                self.requires.add(&#39;libjpeg/9c&#39;)
         if self.options.tiff:
-            self.requires.add(&#39;libtiff/4.0.9@bincrafters/stable&#39;)
+            self.requires.add(&#39;libtiff/4.0.9&#39;)
         if self.options.webp:
-            self.requires.add(&#39;libwebp/1.0.3@bincrafters/stable&#39;)
+            self.requires.add(&#39;libwebp/1.0.3&#39;)
         if self.options.png:
-            self.requires.add(&#39;libpng/1.6.37@bincrafters/stable&#39;)
+            self.requires.add(&#39;libpng/1.6.37&#39;)
         if self.options.jasper:
-            self.requires.add(&#39;jasper/2.0.14@conan/stable&#39;)
+            self.requires.add(&#39;jasper/2.0.14&#39;)
             self.options[&#34;jasper&#34;].jpegturbo = self.options.jpegturbo
         if self.options.openexr:
-            self.requires.add(&#39;openexr/2.3.0@conan/stable&#39;)
+            self.requires.add(&#39;openexr/2.3.0&#39;)
         if self.options.protobuf:
             # NOTE : version should be the same as used in OpenCV release,
             # otherwise, PROTOBUF_UPDATE_FILES should be set to re-generate files
@@ -853,13 +853,13 @@ class OpenCVConan(ConanFile):
             self.requires.add(&#39;lapack/3.7.1@conan/stable&#39;)
         if self.options.contrib:
             if self.options.freetype:
-                self.requires.add(&#39;freetype/2.10.0@bincrafters/stable&#39;)
+                self.requires.add(&#39;freetype/2.10.0&#39;)
             if self.options.harfbuzz:
                 self.requires.add(&#39;harfbuzz/2.4.0@bincrafters/stable&#39;)
             if self.options.glog:
-                self.requires.add(&#39;glog/0.4.0@bincrafters/stable&#39;)
+                self.requires.add(&#39;glog/0.4.0&#39;)
             if self.options.gflags:
-                self.requires.add(&#39;gflags/2.2.2@bincrafters/stable&#39;)
+                self.requires.add(&#39;gflags/2.2.2&#39;)
 
     def _configure_cmake(self):
         cmake = CMake(self)
@@ -1219,6 +1219,8 @@ class OpenCVConan(ConanFile):
                 os.path.join(&#39;lib&#39;, &#39;opencv4&#39;, &#39;3rdparty&#39;))
             if not self.options.shared:
                 self.cpp_info.libs.append(&#39;ade&#39;)
+                if self.options.quirc:
+                    self.cpp_info.libs.append(&#39;quirc%s&#39; % suffix)
         if self.options.contrib and self.options.eigen and self.options.glog and self.options.gflags:
             self.cpp_info.libs.append(&#39;multiview&#39;)
 </code>
@@ -1241,7 +1243,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-12-06 02:29:02</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-12-07 02:28:40</span> | Work in progress
 
       </div>
     </footer>
