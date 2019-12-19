@@ -64,7 +64,7 @@
                 <span data-feather="file-text"></span>
                 conan-openssl
                 
-                <span class="numberCircle numberCircle-error" title=""><span>11</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>8</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -562,14 +562,6 @@
     </button>
     <div class="dropdown-menu" aria-labelledby="branchesMenuButton">
         
-            <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-openssl/detail/feature-1-0-2o.html">
-                feature/1.0.2o
-                
-                <span class="numberCircle numberCircle-error" title=""><span>3</span></span>
-                
-                
-            </a>
-        
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-openssl/detail/master.html">
                 master
                 
@@ -636,7 +628,7 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,238 +1,111 @@
+@@ -1,257 +1,111 @@
 ----
 -os: osx
 -language: generic
@@ -940,6 +932,25 @@
 -    - name: &#34;1.0.2q - XCode 11&#34;
 -      osx_image: xcode11
 -      env: CONAN_APPLE_CLANG_VERSIONS=11.0 CONAN_REFERENCE=&#34;OpenSSL/1.0.2q&#34;
+-
+-    - name: &#34;1.0.2o - XCode 7.3&#34;
+-      osx_image: xcode7.3
+-      env: CONAN_APPLE_CLANG_VERSIONS=7.3 CONAN_REFERENCE=&#34;OpenSSL/1.0.2o&#34;
+-    - name: &#34;1.0.2o - XCode 8.3&#34;
+-      osx_image: xcode8.3
+-      env: CONAN_APPLE_CLANG_VERSIONS=8.1 CONAN_REFERENCE=&#34;OpenSSL/1.0.2o&#34;
+-    - name: &#34;1.0.2o - XCode 9.2&#34;
+-      osx_image: xcode9.2
+-      env: CONAN_APPLE_CLANG_VERSIONS=9.0 CONAN_REFERENCE=&#34;OpenSSL/1.0.2o&#34;
+-    - name: &#34;1.0.2o - XCode 9.4&#34;
+-      osx_image: xcode9.4
+-      env: CONAN_APPLE_CLANG_VERSIONS=9.1 CONAN_REFERENCE=&#34;OpenSSL/1.0.2o&#34;
+-    - name: &#34;1.0.2o - XCode 10&#34;
+-      osx_image: xcode10
+-      env: CONAN_APPLE_CLANG_VERSIONS=10.0 CONAN_REFERENCE=&#34;OpenSSL/1.0.2o&#34;
+-    - name: &#34;1.0.2o - XCode 11&#34;
+-      osx_image: xcode11
+-      env: CONAN_APPLE_CLANG_VERSIONS=11.0 CONAN_REFERENCE=&#34;OpenSSL/1.0.2o&#34;
 +     
 +      - &lt;&lt;: *linux
 +        stage: conan-osx
@@ -997,7 +1008,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2019-12-18 02:32:45</span> | Work in progress
+  <span class="text-muted">Generation done at 2019-12-19 02:33:01</span> | Work in progress
 
       </div>
     </footer>
