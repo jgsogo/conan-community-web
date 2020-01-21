@@ -339,7 +339,7 @@
                 <span data-feather="file-text"></span>
                 conan-paho-c
                 
-                <span class="numberCircle numberCircle-error" title=""><span>23</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>29</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -886,6 +886,20 @@ class OpenCVConan(ConanFile):
         if self.settings.os != &#39;Windows&#39;:
             cmake.definitions[&#39;ENABLE_PIC&#39;] = self.options.fPIC
 
+        # Disable modules and options that are not compatible with Emscripten
+        if self.settings.os == &#39;Emscripten&#39;:
+            cmake.definitions[&#39;BUILD_opencv_videoio&#39;] = False
+            cmake.definitions[&#39;WITH_OPENCL&#39;] = False
+            cmake.definitions[&#39;WITH_OPENCLAMDBLAS&#39;] = False
+            cmake.definitions[&#39;WITH_OPENCLAMDFFT&#39;] = False
+            cmake.definitions[&#39;WITH_PTHREADS_PF&#39;] = False
+            cmake.definitions[&#39;WITH_V4L&#39;] = False
+            cmake.definitions[&#39;WITH_GTK&#39;] = False
+            cmake.definitions[&#39;WITH_IMGCODEC_HDR&#39;] = False
+            cmake.definitions[&#39;WITH_IMGCODEC_PFM&#39;] = False
+            cmake.definitions[&#39;WITH_IMGCODEC_PXM&#39;] = False
+            cmake.definitions[&#39;WITH_IMGCODEC_SUNRASTER&#39;] = False
+
         # We are building C++ only. Disable other languages
         cmake.definitions[&#39;BUILD_JAVA&#39;] = False
         cmake.definitions[&#39;BUILD_opencv_java_bindings_generator&#39;] = False
@@ -1118,6 +1132,9 @@ class OpenCVConan(ConanFile):
         if not self.options.protobuf:
             opencv_libs.remove(&#34;dnn&#34;)
 
+        if self.settings.os == &#39;Emscripten&#39;:
+            opencv_libs.remove(&#34;videoio&#34;)
+
         if self.settings.os != &#39;Android&#39;:
             # gapi depends on ade but ade disabled for Android
             # https://github.com/opencv/opencv/blob/4.0.1/modules/gapi/cmake/DownloadADE.cmake#L2
@@ -1243,7 +1260,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2020-01-20 02:53:19</span> | Work in progress
+  <span class="text-muted">Generation done at 2020-01-21 02:53:28</span> | Work in progress
 
       </div>
     </footer>
