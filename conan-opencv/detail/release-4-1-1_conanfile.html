@@ -1177,6 +1177,8 @@ class OpenCVConan(ConanFile):
                 opencv_libs.remove(&#34;freetype&#34;)
             if not self.options.eigen or not self.options.glog or not self.options.gflags:
                 opencv_libs.remove(&#34;sfm&#34;)
+            if str(self.settings.os) in [&#34;iOS&#34;, &#34;watchOS&#34;, &#34;tvOS&#34;]:
+                opencv_libs.remove(&#34;superres&#34;)
 
         if self.options.cuda:
             opencv_libs = [&#34;cudaarithm&#34;,
@@ -1260,7 +1262,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2020-02-06 03:00:34</span> | Work in progress
+  <span class="text-muted">Generation done at 2020-02-07 03:00:33</span> | Work in progress
 
       </div>
     </footer>
