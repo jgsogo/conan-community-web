@@ -681,6 +681,9 @@ class CerealConan(ConanFile):
     no_copy_source = True
     _source_subfolder = &#34;source_subfolder&#34;
 
+    def configure(self):
+        self.output.warn(&#34;[DEPRECATED] Package cereal/1.2.2@conan/stable is being deprecated. Change yours to require cereal/1.2.2 instead&#34;)
+
     def source(self):
         source_url = (&#34;%s/archive/v%s.zip&#34; % (self.homepage, self.version))
         tools.get(source_url)
@@ -721,7 +724,7 @@ class CerealConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2020-02-24 03:10:15</span> | Work in progress
+  <span class="text-muted">Generation done at 2020-02-25 03:11:18</span> | Work in progress
 
       </div>
     </footer>
