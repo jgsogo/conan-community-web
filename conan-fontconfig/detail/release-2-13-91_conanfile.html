@@ -718,6 +718,7 @@ class FontconfigConan(ConanFile):
         la = os.path.join(self.package_folder, &#34;lib&#34;, &#34;libfontconfig.la&#34;)
         if os.path.isfile(la):
             os.unlink(la)
+        tools.rmdir(os.path.join(self.package_folder, &#34;lib&#34;, &#34;pkgconfig&#34;))
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
@@ -745,7 +746,7 @@ class FontconfigConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2020-03-02 03:15:50</span> | Work in progress
+  <span class="text-muted">Generation done at 2020-03-03 03:16:55</span> | Work in progress
 
       </div>
     </footer>
