@@ -702,12 +702,16 @@ class LapackConan(ConanFile):
         if self.settings.os == &#34;Windows&#34;:
             self.build_requires(&#34;mingw_installer/1.0@conan/stable&#34;)
 
-    def system_requirements(self):
+    def system_requirements(self):        
+        if tools.which(&#34;gfortran&#34;) is not None:
+            # Prefere local install
+            return
         installer = SystemPackageTool()
         if tools.os_info.is_linux:
-            if tools.os_info.with_pacman or \
-                tools.os_info.with_yum:
+            if tools.os_info.with_zypper or tools.os_info.with_pacman:
                 installer.install(&#34;gcc-fortran&#34;)
+            elif tools.os_info.with_yum:
+                installer.install(&#34;gcc-gfortran&#34;)
             else:
                 installer.install(&#34;gfortran&#34;)
                 versionfloat = Version(self.settings.compiler.version.value)
@@ -804,7 +808,7 @@ class LapackConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2020-03-09 03:19:28</span> | Work in progress
+  <span class="text-muted">Generation done at 2020-03-10 03:19:58</span> | Work in progress
 
       </div>
     </footer>
