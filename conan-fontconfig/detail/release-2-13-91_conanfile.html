@@ -683,7 +683,7 @@ class FontconfigConan(ConanFile):
         os.rename(extrated_dir, self._source_subfolder)
 
     def build_requirements(self):
-        self.build_requires(&#34;gperf_installer/3.1@conan/stable&#34;)
+        self.build_requires(&#34;gperf/3.1&#34;)
         if not tools.which(&#34;pkg-config&#34;):
             self.build_requires(&#34;pkg-config_installer/0.29.2@bincrafters/stable&#34;)
 
@@ -725,7 +725,8 @@ class FontconfigConan(ConanFile):
         if self.settings.os == &#34;Linux&#34;:
             self.cpp_info.libs.extend([&#34;m&#34;, &#34;pthread&#34;])
         self.env_info.PATH.append(os.path.join(self.package_folder, &#39;bin&#39;))
-
+        self.cpp_info.names[&#34;cmake_find_package&#34;] = &#34;Fontconfig&#34;
+        self.cpp_info.names[&#34;cmake_find_package_multi&#34;] = &#34;Fontconfig&#34;
 </code>
         </pre>
     </div>
@@ -746,7 +747,7 @@ class FontconfigConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2020-04-03 03:34:36</span> | Work in progress
+  <span class="text-muted">Generation done at 2020-04-04 03:35:26</span> | Work in progress
 
       </div>
     </footer>
