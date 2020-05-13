@@ -709,6 +709,8 @@ class CMakeInstallerConan(ConanFile):
             del self.options.version
 
     def configure(self):
+        self.output.warn(&#34;[DEPRECATED] Package cmake_installer/{0}@conan/stable is being deprecated. &#34;
+                         &#34;Change yours to require cmake/{0} instead&#34;.format(self.version))
         if self._os == &#34;Macos&#34; and self._arch == &#34;x86&#34;:
             raise ConanInvalidConfiguration(&#34;Not supported x86 for OSx&#34;)
 
@@ -804,7 +806,7 @@ class CMakeInstallerConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2020-05-12 03:53:08</span> | Work in progress
+  <span class="text-muted">Generation done at 2020-05-13 03:53:42</span> | Work in progress
 
       </div>
     </footer>
