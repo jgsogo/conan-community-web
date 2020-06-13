@@ -701,6 +701,7 @@ class OpenCVConan(ConanFile):
     options = {&#34;shared&#34;: [True, False],
                &#34;fPIC&#34;: [True, False],
                &#34;contrib&#34;: [True, False],
+               &#34;modules&#34;: &#34;ANY&#34;,
                &#34;jpeg&#34;: [True, False],
                &#34;jpegturbo&#34;: [True, False],
                &#34;tiff&#34;: [True, False],
@@ -727,6 +728,7 @@ class OpenCVConan(ConanFile):
     default_options = {&#34;shared&#34;: False,
                        &#34;fPIC&#34;: True,
                        &#34;contrib&#34;: False,
+                       &#34;modules&#34;: None,
                        &#34;jpeg&#34;: True,
                        &#34;jpegturbo&#34;: False,
                        &#34;tiff&#34;: True,
@@ -1066,7 +1068,7 @@ class OpenCVConan(ConanFile):
         # This allows compilation on older GCC/NVCC, otherwise build errors.
         cmake.definitions[&#39;CUDA_NVCC_FLAGS&#39;] = &#39;--expt-relaxed-constexpr&#39;
 
-        # opencv-conrib modules
+        # opencv-contrib modules
         if self.options.contrib:
             cmake.definitions[&#39;OPENCV_EXTRA_MODULES_PATH&#39;] = os.path.join(self.build_folder, &#39;contrib&#39;, &#39;modules&#39;)
             cmake.definitions[&#39;OPENCV_ENABLE_NONFREE&#39;] = self.options.nonfree
@@ -1086,6 +1088,10 @@ class OpenCVConan(ConanFile):
             if self.options.glog:
                 cmake.definitions[&#39;GLOG_INCLUDE_DIR_HINTS&#39;] = &#39;;&#39;.join(self._gather_include_paths(&#39;glog&#39;))
                 cmake.definitions[&#39;GLOG_LIBRARY_DIR_HINTS&#39;] = &#39;;&#39;.join(self._gather_lib_paths(&#39;glog&#39;))
+
+        # Specify a custom set of modules
+        if self.options.modules:
+            cmake.definitions[&#39;BUILD_LIST&#39;] = self.options.modules
 
         # system libraries
         if self.settings.os == &#39;Linux&#39;:
@@ -1143,20 +1149,24 @@ class OpenCVConan(ConanFile):
         self.cpp_info.exelinkflags.extend(pkg_config.libs_only_other)
 
     def package_info(self):
-        opencv_libs = [&#34;stitching&#34;,
-                       &#34;photo&#34;,
-                       &#34;video&#34;,
-                       &#34;ml&#34;,
-                       &#34;calib3d&#34;,
-                       &#34;features2d&#34;,
-                       &#34;highgui&#34;,
-                       &#34;videoio&#34;,
-                       &#34;flann&#34;,
-                       &#34;imgcodecs&#34;,
-                       &#34;objdetect&#34;,
-                       &#34;dnn&#34;,
-                       &#34;imgproc&#34;,
-                       &#34;core&#34;]
+        if self.options.modules:
+            opencv_libs = str(self.options.modules).split(&#39;,&#39;)
+        else:
+            # Default core list   
+            opencv_libs = [&#34;stitching&#34;,
+                           &#34;photo&#34;,
+                           &#34;video&#34;,
+                           &#34;ml&#34;,
+                           &#34;calib3d&#34;,
+                           &#34;features2d&#34;,
+                           &#34;highgui&#34;,
+                           &#34;videoio&#34;,
+                           &#34;flann&#34;,
+                           &#34;imgcodecs&#34;,
+                           &#34;objdetect&#34;,
+                           &#34;dnn&#34;,
+                           &#34;imgproc&#34;,
+                           &#34;core&#34;]
 
         if not self.options.protobuf:
             opencv_libs.remove(&#34;dnn&#34;)
@@ -1164,52 +1174,55 @@ class OpenCVConan(ConanFile):
         if self.settings.os == &#39;Emscripten&#39;:
             opencv_libs.remove(&#34;videoio&#34;)
 
-        if self.settings.os != &#39;Android&#39;:
+        if not self.options.modules and self.settings.os != &#39;Android&#39;:
             # gapi depends on ade but ade disabled for Android
             # https://github.com/opencv/opencv/blob/4.0.1/modules/gapi/cmake/DownloadADE.cmake#L2
             opencv_libs.append(&#34;gapi&#34;)
 
         if self.options.contrib:
-            opencv_libs = [
-                &#34;aruco&#34;,
-                &#34;bgsegm&#34;,
-                &#34;bioinspired&#34;,
-                &#34;ccalib&#34;,
-                &#34;datasets&#34;,
-                &#34;dpm&#34;,
-                &#34;face&#34;,
-                &#34;freetype&#34;,
-                &#34;fuzzy&#34;,
-                &#34;hfs&#34;,
-                &#34;img_hash&#34;,
-                &#34;line_descriptor&#34;,
-                &#34;optflow&#34;,
-                &#34;phase_unwrapping&#34;,
-                &#34;plot&#34;,
-                &#34;reg&#34;,
-                &#34;rgbd&#34;,
-                &#34;saliency&#34;,
-                &#34;shape&#34;,
-                &#34;stereo&#34;,
-                &#34;structured_light&#34;,
-                &#34;superres&#34;,
-                &#34;surface_matching&#34;,
-                &#34;tracking&#34;,
-                &#34;videostab&#34;,
-                &#34;xfeatures2d&#34;,
-                &#34;ximgproc&#34;,
-                &#34;xobjdetect&#34;,
-                &#34;xphoto&#34;,
-                &#34;sfm&#34;] + opencv_libs
+            # Add all contrib modules if no specific list given
+            if not self.options.modules:
+                opencv_libs = [
+                    &#34;aruco&#34;,
+                    &#34;bgsegm&#34;,
+                    &#34;bioinspired&#34;,
+                    &#34;ccalib&#34;,
+                    &#34;datasets&#34;,
+                    &#34;dpm&#34;,
+                    &#34;face&#34;,
+                    &#34;freetype&#34;,
+                    &#34;fuzzy&#34;,
+                    &#34;hfs&#34;,
+                    &#34;img_hash&#34;,
+                    &#34;line_descriptor&#34;,
+                    &#34;optflow&#34;,
+                    &#34;phase_unwrapping&#34;,
+                    &#34;plot&#34;,
+                    &#34;reg&#34;,
+                    &#34;rgbd&#34;,
+                    &#34;saliency&#34;,
+                    &#34;shape&#34;,
+                    &#34;stereo&#34;,
+                    &#34;structured_light&#34;,
+                    &#34;superres&#34;,
+                    &#34;surface_matching&#34;,
+                    &#34;tracking&#34;,
+                    &#34;videostab&#34;,
+                    &#34;xfeatures2d&#34;,
+                    &#34;ximgproc&#34;,
+                    &#34;xobjdetect&#34;,
+                    &#34;xphoto&#34;,
+                    &#34;sfm&#34;] + opencv_libs
 
-            if not self.options.freetype or not self.options.harfbuzz:
-                opencv_libs.remove(&#34;freetype&#34;)
-            if not self.options.eigen or not self.options.glog or not self.options.gflags:
-                opencv_libs.remove(&#34;sfm&#34;)
-            if str(self.settings.os) in [&#34;iOS&#34;, &#34;watchOS&#34;, &#34;tvOS&#34;]:
-                opencv_libs.remove(&#34;superres&#34;)
+                if not self.options.freetype or not self.options.harfbuzz:
+                    opencv_libs.remove(&#34;freetype&#34;)
+                if not self.options.eigen or not self.options.glog or not self.options.gflags:
+                    opencv_libs.remove(&#34;sfm&#34;)
+                if str(self.settings.os) in [&#34;iOS&#34;, &#34;watchOS&#34;, &#34;tvOS&#34;]:
+                    opencv_libs.remove(&#34;superres&#34;)
 
-        if self.options.cuda:
+        # Add all cuda modules if cuda option given but no specific module list
+        if self.options.cuda and not self.options.modules:
             opencv_libs = [&#34;cudaarithm&#34;,
                             &#34;cudabgsegm&#34;,
                             &#34;cudacodec&#34;,
@@ -1269,7 +1282,7 @@ class OpenCVConan(ConanFile):
                 self.cpp_info.libs.append(&#39;ade&#39;)
                 if self.options.quirc:
                     self.cpp_info.libs.append(&#39;quirc%s&#39; % suffix)
-        if self.options.contrib and self.options.eigen and self.options.glog and self.options.gflags:
+        if &#39;sfm&#39; in opencv_libs and self.options.eigen and self.options.glog and self.options.gflags:
             self.cpp_info.libs.append(&#39;multiview&#39;)
 </code>
         </pre>
@@ -1291,7 +1304,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2020-06-12 04:09:08</span> | Work in progress
+  <span class="text-muted">Generation done at 2020-06-13 04:09:21</span> | Work in progress
 
       </div>
     </footer>
