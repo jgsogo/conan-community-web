@@ -119,7 +119,7 @@
                 <span data-feather="file-text"></span>
                 conan-opencv
                 
-                <span class="numberCircle numberCircle-error" title=""><span>50</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>56</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -553,6 +553,8 @@
         <a class="btn btn-sm btn-outline-secondary" href="https://github.com/conan-community/conan-opencv/tree/release/4.2.0" role="button">Github <span data-feather="external-link"></span></a>
         
         
+            <a class="btn btn-sm btn-outline-secondary" href="https://bintray.com/conan-community/conan/opencv%3Aconan/4.2.0%3Astable" role="button">Bintray <span data-feather="external-link"></span></a>
+        
     </div>
     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" id="branchesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span data-feather="git-branch"></span>
@@ -621,6 +623,14 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-opencv/detail/release-4-2-0.html">
                 release/4.2.0
                 
+                <span class="numberCircle numberCircle-error" title=""><span>6</span></span>
+                
+                
+            </a>
+        
+            <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-opencv/detail/release-4-3-0.html">
+                release/4.3.0
+                
                 <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
                 
                 
@@ -688,7 +698,7 @@ import os
 
 class OpenCVConan(ConanFile):
     name = &#34;opencv&#34;
-    version = &#34;4.1.1&#34;
+    version = &#34;4.2.0&#34;
     license = &#34;BSD-3-Clause&#34;
     homepage = &#34;https://github.com/opencv/opencv&#34;
     url = &#34;https://github.com/conan-community/conan-opencv&#34;
@@ -772,11 +782,11 @@ class OpenCVConan(ConanFile):
             del self.options.gflags
 
     def source(self):
-        sha256 = &#34;5de5d96bdfb9dad6e6061d70f47a0a91cee96bb35afb9afb9ecb3d43e243d217&#34;
+        sha256 = &#34;9ccb2192d7e8c03c58fee07051364d94ed7599363f3b0dce1c5e6cc11c1bb0ec&#34;
         tools.get(&#34;{}/archive/{}.tar.gz&#34;.format(self.homepage, self.version), sha256=sha256)
         os.rename(&#39;opencv-%s&#39; % self.version, self._source_subfolder)
 
-        sha256 = &#34;9f85d380758498d800fec26307e389620cde8b1a2e86ab51cddc5200fbe37102&#34;
+        sha256 = &#34;8a6b5661611d89baa59a26eb7ccf4abb3e55d73f99bb52d8f7c32265c8a43020&#34;
         tools.get(&#34;https://github.com/opencv/opencv_contrib/archive/{}.tar.gz&#34;.format(self.version), sha256=sha256)
         os.rename(&#39;opencv_contrib-%s&#39; % self.version, &#39;contrib&#39;)
 
@@ -1115,11 +1125,7 @@ class OpenCVConan(ConanFile):
                 &#34;ocv_is_opencv_directory(__result ${item})&#34;, &#34;set(__result TRUE)&#34;)
 
         tools.patch(base_path=self._source_subfolder,
-                    patch_file=os.path.join(&#34;patches&#34;, &#34;0001-fix-FindOpenEXR-to-respect-OPENEXR_ROOT.patch&#34;))
-        tools.patch(base_path=self._source_subfolder,
-                    patch_file=os.path.join(&#34;patches&#34;, &#34;fix-android-armv7-c++_static-init-crash.patch&#34;))
-        tools.patch(base_path=&#39;contrib&#39;,
-                    patch_file=os.path.join(&#34;patches&#34;, &#34;0001-fix-find_package-for-glog-gflags.patch&#34;))
+            patch_file=os.path.join(&#34;patches&#34;, &#34;0001-fix-FindOpenEXR-typo.patch&#34;))
 
         cmake = self._configure_cmake()
         cmake.build()
@@ -1289,7 +1295,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2020-06-13 04:09:21</span> | Work in progress
+  <span class="text-muted">Generation done at 2020-06-14 04:09:29</span> | Work in progress
 
       </div>
     </footer>
