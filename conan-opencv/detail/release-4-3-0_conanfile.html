@@ -119,7 +119,7 @@
                 <span data-feather="file-text"></span>
                 conan-opencv
                 
-                <span class="numberCircle numberCircle-error" title=""><span>56</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>57</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -553,6 +553,8 @@
         <a class="btn btn-sm btn-outline-secondary" href="https://github.com/conan-community/conan-opencv/tree/release/4.3.0" role="button">Github <span data-feather="external-link"></span></a>
         
         
+            <a class="btn btn-sm btn-outline-secondary" href="https://bintray.com/conan-community/conan/opencv%3Aconan/4.3.0%3Astable" role="button">Bintray <span data-feather="external-link"></span></a>
+        
     </div>
     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" id="branchesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span data-feather="git-branch"></span>
@@ -629,7 +631,7 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-opencv/detail/release-4-3-0.html">
                 release/4.3.0
                 
-                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>6</span></span>
                 
                 
             </a>
@@ -696,7 +698,7 @@ import os
 
 class OpenCVConan(ConanFile):
     name = &#34;opencv&#34;
-    version = &#34;4.2.0&#34;
+    version = &#34;4.3.0&#34;
     license = &#34;BSD-3-Clause&#34;
     homepage = &#34;https://github.com/opencv/opencv&#34;
     url = &#34;https://github.com/conan-community/conan-opencv&#34;
@@ -712,7 +714,7 @@ class OpenCVConan(ConanFile):
                &#34;tiff&#34;: [True, False],
                &#34;webp&#34;: [True, False],
                &#34;png&#34;: [True, False],
-               &#34;jasper&#34;: [True, False],
+               &#34;jpeg2000&#34;: [&#34;jasper&#34;, &#34;openjpeg&#34;, None],
                &#34;openexr&#34;: [True, False],
                &#34;gtk&#34;: [None, 2, 3],
                &#34;nonfree&#34;: [True, False],
@@ -738,7 +740,7 @@ class OpenCVConan(ConanFile):
                        &#34;tiff&#34;: True,
                        &#34;webp&#34;: True,
                        &#34;png&#34;: True,
-                       &#34;jasper&#34;: True,
+                       &#34;jpeg2000&#34;: &#34;openjpeg&#34;,
                        &#34;openexr&#34;: True,
                        &#34;gtk&#34;: None,
                        &#34;nonfree&#34;: False,
@@ -780,11 +782,11 @@ class OpenCVConan(ConanFile):
             del self.options.gflags
 
     def source(self):
-        sha256 = &#34;9ccb2192d7e8c03c58fee07051364d94ed7599363f3b0dce1c5e6cc11c1bb0ec&#34;
+        sha256 = &#34;68bc40cbf47fdb8ee73dfaf0d9c6494cd095cf6294d99de445ab64cf853d278a&#34;
         tools.get(&#34;{}/archive/{}.tar.gz&#34;.format(self.homepage, self.version), sha256=sha256)
         os.rename(&#39;opencv-%s&#39; % self.version, self._source_subfolder)
 
-        sha256 = &#34;8a6b5661611d89baa59a26eb7ccf4abb3e55d73f99bb52d8f7c32265c8a43020&#34;
+        sha256 = &#34;acb8e89c9e7d1174e63e40532125b60d248b00e517255a98a419d415228c6a55&#34;
         tools.get(&#34;https://github.com/opencv/opencv_contrib/archive/{}.tar.gz&#34;.format(self.version), sha256=sha256)
         os.rename(&#39;opencv_contrib-%s&#39; % self.version, &#39;contrib&#39;)
 
@@ -837,7 +839,9 @@ class OpenCVConan(ConanFile):
             self.requires.add(&#39;libwebp/1.0.3&#39;)
         if self.options.png:
             self.requires.add(&#39;libpng/1.6.37&#39;)
-        if self.options.jasper:
+        if self.options.jpeg2000 == &#34;openjpeg&#34;:
+            self.requires.add(&#39;openjpeg/2.3.1&#39;)
+        if self.options.jpeg2000 == &#34;jasper&#34;:
             self.requires.add(&#39;jasper/2.0.14&#39;)
             self.options[&#34;jasper&#34;].jpegturbo = self.options.jpegturbo
         if not tools.cross_building(self.settings) and self.options.openexr:
@@ -1006,8 +1010,20 @@ class OpenCVConan(ConanFile):
         cmake.definitions[&#39;WITH_ITT&#39;] = False
 
         # jasper
-        cmake.definitions[&#39;BUILD_JASPER&#39;] = False
-        cmake.definitions[&#39;WITH_JASPER&#39;] = self.options.jasper
+        if self.options.jpeg2000 == &#34;jasper&#34;:
+            cmake.definitions[&#39;BUILD_JASPER&#39;] = False
+            cmake.definitions[&#39;WITH_JASPER&#39;] = True
+
+        # openjpeg
+        if self.options.jpeg2000 == &#34;openjpeg&#34;:
+            cmake.definitions[&#39;OpenJPEG_FOUND&#39;] = True
+            cmake.definitions[&#39;BUILD_OPENJPEG&#39;] = False
+            cmake.definitions[&#39;WITH_OPENJPEG&#39;] = True
+            cmake.definitions[&#39;OPENJPEG_LIBRARIES&#39;] = &#39;;&#39;.join(self._gather_libs(&#39;openjpeg&#39;))
+            cmake.definitions[&#39;OPENJPEG_INCLUDE_DIRS&#39;] = &#39;;&#39;.join(self._gather_include_paths(&#39;openjpeg&#39;))
+            cmake.definitions[&#39;OPENJPEG_MAJOR_VERSION&#39;] = 2
+            cmake.definitions[&#39;OPENJPEG_MINOR_VERSION&#39;] = 3
+            cmake.definitions[&#39;OPENJPEG_BUILD_VERSION&#39;] = 1
 
         # JPEG
         cmake.definitions[&#39;BUILD_JPEG&#39;] = False
@@ -1124,6 +1140,10 @@ class OpenCVConan(ConanFile):
 
         tools.patch(base_path=self._source_subfolder,
             patch_file=os.path.join(&#34;patches&#34;, &#34;0001-fix-FindOpenEXR-typo.patch&#34;))
+        tools.patch(base_path=self._source_subfolder,
+            patch_file=os.path.join(&#34;patches&#34;, &#34;0002-fix-FindOpenJPEG-doesnt-exist.patch&#34;))
+        tools.patch(base_path=self._source_subfolder,
+            patch_file=os.path.join(&#34;patches&#34;, &#34;0003-OpenJPEG-fixed-compilation-and-warnings-with-VS.patch&#34;))
 
         cmake = self._configure_cmake()
         cmake.build()
@@ -1293,7 +1313,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2020-06-15 04:09:44</span> | Work in progress
+  <span class="text-muted">Generation done at 2020-06-16 04:10:58</span> | Work in progress
 
       </div>
     </footer>
