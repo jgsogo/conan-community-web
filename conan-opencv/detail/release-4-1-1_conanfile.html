@@ -732,7 +732,8 @@ class OpenCVConan(ConanFile):
                &#34;openblas&#34;: [True, False],
                &#34;ffmpeg&#34;: [True, False],
                &#34;lapack&#34;: [True, False],
-               &#34;quirc&#34;: [True, False]}
+               &#34;quirc&#34;: [True, False],
+               &#34;qt&#34;: [True, False]}
     default_options = {&#34;shared&#34;: False,
                        &#34;fPIC&#34;: True,
                        &#34;contrib&#34;: False,
@@ -759,7 +760,8 @@ class OpenCVConan(ConanFile):
                        &#34;openblas&#34;: False,
                        &#34;ffmpeg&#34;: False,
                        &#34;lapack&#34;: False,
-                       &#34;quirc&#34;: True}
+                       &#34;quirc&#34;: True,
+                       &#34;qt&#34;: False}
     exports_sources = [&#34;CMakeLists.txt&#34;, &#34;patches/*.patch&#34;]
     exports = &#34;LICENSE&#34;
     generators = &#34;cmake&#34;
@@ -862,6 +864,8 @@ class OpenCVConan(ConanFile):
             self.requires.add(&#39;ffmpeg/4.2.1@bincrafters/stable&#39;)
         if self.options.lapack:
             self.requires.add(&#39;lapack/3.7.1@conan/stable&#39;)
+        if self.options.qt:
+            self.requires.add(&#39;qt/5.14.1@bincrafters/stable&#39;)
         if self.options.contrib:
             if self.options.freetype:
                 self.requires.add(&#39;freetype/2.10.1&#39;)
@@ -1076,6 +1080,9 @@ class OpenCVConan(ConanFile):
         # This allows compilation on older GCC/NVCC, otherwise build errors.
         cmake.definitions[&#39;CUDA_NVCC_FLAGS&#39;] = &#39;--expt-relaxed-constexpr&#39;
 
+        # Qt
+        cmake.definitions[&#39;WITH_QT&#39;] = self.options.qt
+
         # opencv-contrib modules
         if self.options.contrib:
             cmake.definitions[&#39;OPENCV_EXTRA_MODULES_PATH&#39;] = os.path.join(self.build_folder, &#39;contrib&#39;, &#39;modules&#39;)
@@ -1108,6 +1115,16 @@ class OpenCVConan(ConanFile):
 
         if self.settings.os == &#39;Android&#39;:
             cmake.definitions[&#39;BUILD_ANDROID_EXAMPLES&#39;] = False
+            cmake.definitions[&#39;ANDROID_STL&#39;] = &#34;c++_static&#34;
+            cmake.definitions[&#39;ANDROID_NATIVE_API_LEVEL&#39;] = self.settings.os.api_level
+
+            cmake.definitions[&#39;BUILD_ANDROID_EXAMPLES&#39;] = False
+
+            cmake.definitions[&#39;ANDROID_ABI&#39;] = self._android_arch
+
+            if &#39;ANDROID_NDK_HOME&#39; in os.environ:
+                cmake.definitions[&#39;ANDROID_NDK&#39;] = os.environ.get(
+                    &#39;ANDROID_NDK_HOME&#39;)
 
         if str(self.settings.os) in [&#34;iOS&#34;, &#34;watchOS&#34;, &#34;tvOS&#34;]:
             cmake.definitions[&#39;IOS&#39;] = True
@@ -1312,7 +1329,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2020-06-16 04:10:58</span> | Work in progress
+  <span class="text-muted">Generation done at 2020-06-17 04:11:35</span> | Work in progress
 
       </div>
     </footer>

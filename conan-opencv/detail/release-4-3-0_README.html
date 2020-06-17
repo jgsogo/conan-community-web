@@ -709,35 +709,33 @@
 -If you wish to report an issue or make a request for a package, please do so here:
 -
 -[Issues Tracker](https://github.com/conan-community/community/issues)
-+[![Build Status](https://travis-ci.org/conan-community/conan-opencv.svg?branch=release/4.3.0)](https://travis-ci.org/conan-community/conan-opencv/builds/698573302)
-+[![Build Status](https://ci.appveyor.com/api/projects/status/github/conan-community%2Fconan-opencv?branch=release/4.3.0&amp;svg=true)](https://ci.appveyor.com/project/ConanCIintegration/conan-opencv/builds/33519594)
++[![Build Status](https://travis-ci.org/conan-community/conan-opencv.svg?branch=release/4.3.0)](https://travis-ci.org/conan-community/conan-opencv/builds/698811737)
++[![Build Status](https://ci.appveyor.com/api/projects/status/github/conan-community%2Fconan-opencv?branch=release/4.3.0&amp;svg=true)](https://ci.appveyor.com/project/ConanCIintegration/conan-opencv/builds/33545072)
  
  
 -## For Users
 +# conan-opencv
  
 -### Basic setup
- 
--    $ conan install opencv/4.1.1@conan/stable
- 
--### Project setup
++
++
 +[Conan](https://bintray.com/conan-community/conan/opencv%3Aconan/4.3.0%3Astable) package for conan-opencv library.
 +
 +
 +## Basic setup
-+
-+    $ conan install opencv/4.3.0@conan/stable
+ 
+     $ conan install opencv/4.3.0@conan/stable
+-
+-### Project setup
 +    
 +## Project setup
  
  If you handle multiple dependencies in your project is better to add a *conanfile.txt*
-+    
-+    [requires]
-+    opencv/4.3.0@conan/stable
- 
--    [requires]
--    opencv/4.1.1@conan/stable
 -
++    
+     [requires]
+     opencv/4.3.0@conan/stable
+ 
 +    [options]
 +    
      [generators]
@@ -771,7 +769,7 @@
 -| tiff      | True |  [True, False] | Build with libtiff |
 -| webp      | True |  [True, False] | Build with libwebp |
 -| png      | True |  [True, False] | Build with libpng |
--| jasper      | True |  [True, False] | Build with jasper |
+-| jpeg2000      | &#34;openjpeg&#34; |  [&#34;jasper&#34;, &#34;openjpeg&#34;, None] | Build with openjpeg / jasper / without jpeg support |
 -| openexr      | True |  [True, False] | Build with openexr |
 -| gtk      | None |  [None, 2, 3] | Build with system GTK-2.0 or GTK-3 |
 -| nonfree | False | [True, False] | Include non-free features in the build. This is required to use patented algorithms such as SIFT, SURF or KinectFusion. |
@@ -823,7 +821,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2020-06-16 04:10:58</span> | Work in progress
+  <span class="text-muted">Generation done at 2020-06-17 04:11:35</span> | Work in progress
 
       </div>
     </footer>
