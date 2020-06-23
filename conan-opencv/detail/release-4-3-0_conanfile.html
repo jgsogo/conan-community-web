@@ -1059,6 +1059,9 @@ class OpenCVConan(ConanFile):
         if self.options.protobuf and self.settings.compiler == &#39;Visual Studio&#39; and self.options.shared:
             # this relies on CMake&#39;s bundled FindProtobuf.cmake
             cmake.definitions[&#39;Protobuf_USE_STATIC_LIBS&#39;] = not self.options[&#39;protobuf&#39;].shared
+        if self.options.protobuf and self.settings.os == &#39;Android&#39;:
+            # add the log library as dependency of protobuf
+            cmake.definitions[&#39;CONAN_OPENCV_PROTOBUF_DEPENDENCIES&#39;] = &#39;log&#39;
 
         # Intel TBB
         cmake.definitions[&#39;BUILD_TBB&#39;] = False
@@ -1144,6 +1147,8 @@ class OpenCVConan(ConanFile):
             patch_file=os.path.join(&#34;patches&#34;, &#34;0002-fix-FindOpenJPEG-doesnt-exist.patch&#34;))
         tools.patch(base_path=self._source_subfolder,
             patch_file=os.path.join(&#34;patches&#34;, &#34;0003-OpenJPEG-fixed-compilation-and-warnings-with-VS.patch&#34;))
+        tools.patch(base_path=self._source_subfolder,
+            patch_file=os.path.join(&#34;patches&#34;, &#34;0004-add-protobuf-dependencies.patch&#34;))
 
         cmake = self._configure_cmake()
         cmake.build()
@@ -1313,7 +1318,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2020-06-22 04:14:19</span> | Work in progress
+  <span class="text-muted">Generation done at 2020-06-23 04:14:14</span> | Work in progress
 
       </div>
     </footer>
