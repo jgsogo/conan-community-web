@@ -816,6 +816,7 @@ class OpenCVConan(ConanFile):
                     packages.append(&#39;libgtk2.0-dev&#39;)
                 elif self.options.gtk == 3:
                     packages.append(&#39;libgtk-3-dev&#39;)
+                    packages.append(&#39;libselinux-dev&#39;)
                 for package in packages:
                     installer.install(package)
             elif tools.os_info.with_yum:
@@ -830,6 +831,9 @@ class OpenCVConan(ConanFile):
 
     def requirements(self):
         self.requires.add(&#39;zlib/1.2.11&#39;)
+        if self.settings.os == &#34;Linux&#34; and self.options.gtk == 3:
+            self.requires.add(&#39;libmount/2.33.1&#39;)
+            self.requires.add(&#39;libffi/3.3&#39;)
         if self.options.jpeg:
             # NOTE : use the same libjpeg implementation as jasper uses
             # otherwise, jpeg_create_decompress will fail on version check
@@ -1329,7 +1333,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2020-06-23 04:14:14</span> | Work in progress
+  <span class="text-muted">Generation done at 2020-06-24 04:14:51</span> | Work in progress
 
       </div>
     </footer>
