@@ -731,6 +731,7 @@ class OpenCVConan(ConanFile):
                &#34;openblas&#34;: [True, False],
                &#34;ffmpeg&#34;: [True, False],
                &#34;lapack&#34;: [True, False],
+               &#34;parallel&#34;: [&#34;tbb&#34;, &#34;openmp&#34;, None],
                &#34;quirc&#34;: [True, False]}
     default_options = {&#34;shared&#34;: False,
                        &#34;fPIC&#34;: True,
@@ -757,6 +758,7 @@ class OpenCVConan(ConanFile):
                        &#34;openblas&#34;: False,
                        &#34;ffmpeg&#34;: False,
                        &#34;lapack&#34;: False,
+                       &#34;parallel&#34;: None,
                        &#34;quirc&#34;: True}
     exports_sources = [&#34;CMakeLists.txt&#34;, &#34;patches/*.patch&#34;]
     exports = &#34;LICENSE&#34;
@@ -871,6 +873,8 @@ class OpenCVConan(ConanFile):
                 self.requires.add(&#39;glog/0.4.0&#39;)
             if self.options.gflags:
                 self.requires.add(&#39;gflags/2.2.2&#39;)
+        if self.options.parallel == &#34;tbb&#34;:
+                self.requires(&#39;tbb/2020.1&#39;)
 
     @property
     def _android_arch(self):
@@ -1090,6 +1094,12 @@ class OpenCVConan(ConanFile):
         cmake.definitions[&#39;WITH_CUDA&#39;] = self.options.cuda
         # This allows compilation on older GCC/NVCC, otherwise build errors.
         cmake.definitions[&#39;CUDA_NVCC_FLAGS&#39;] = &#39;--expt-relaxed-constexpr&#39;
+
+        # Parallel Framework
+        if self.options.parallel == &#34;tbb&#34;:
+            cmake.definitions[&#34;WITH_TBB&#34;] = True
+        elif self.options.parallel == &#34;openmp&#34;:
+            cmake.definitions[&#34;WITH_OPENMP&#34;] = True
 
         # opencv-conrib modules
         if self.options.contrib:
@@ -1318,7 +1328,7 @@ class OpenCVConan(ConanFile):
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2020-07-03 04:22:11</span> | Work in progress
+  <span class="text-muted">Generation done at 2020-07-04 04:21:57</span> | Work in progress
 
       </div>
     </footer>
