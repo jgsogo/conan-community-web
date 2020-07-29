@@ -553,6 +553,8 @@
         <a class="btn btn-sm btn-outline-secondary" href="https://github.com/conan-community/conan-openexr/tree/release/2.3.0" role="button">Github <span data-feather="external-link"></span></a>
         
         
+            <a class="btn btn-sm btn-outline-secondary" href="https://bintray.com/conan-community/conan/openexr%3Aconan/2.3.0%3Astable" role="button">Bintray <span data-feather="external-link"></span></a>
+        
     </div>
     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" id="branchesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span data-feather="git-branch"></span>
@@ -565,7 +567,7 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-openexr/detail/release-2-3-0.html">
                 release/2.3.0
                 
-                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>6</span></span>
                 
                 
             </a>
@@ -626,7 +628,7 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,79 +1,10 @@
+@@ -1,79 +1,37 @@
 -[![Download](https://api.bintray.com/packages/conan-community/conan/openexr%3Aconan/images/download.svg) ](https://bintray.com/conan-community/conan/openexr%3Aconan/_latestVersion)
 -[![Build Status Travis](https://travis-ci.org/conan-community/conan-openexr.svg)](https://travis-ci.org/conan-community/conan-openexr)
 -[![Build Status AppVeyor](https://ci.appveyor.com/api/projects/status/github/conan-community/conan-openexr?svg=true)](https://ci.appveyor.com/project/ConanCIintegration/conan-openexr)
@@ -659,27 +661,39 @@
  
  
 -## For Users
--
+ 
 -### Basic setup
--
--    $ conan install openexr/2.3.0@conan/stable
++[Conan](https://bintray.com/conan-community/conan/openexr%3Aconan/2.3.0%3Astable) package for conan-openexr library.
++
++
++## Basic setup
+ 
+     $ conan install openexr/2.3.0@conan/stable
 -
 -### Project setup
++    
++## Project setup
+ 
+ If you handle multiple dependencies in your project is better to add a *conanfile.txt*
 -
--If you handle multiple dependencies in your project is better to add a *conanfile.txt*
--
--    [requires]
--    openexr/2.3.0@conan/stable
--
--    [generators]
--    cmake
--
--Complete the installation of requirements for your project running:
--
++    
+     [requires]
+     openexr/2.3.0@conan/stable
+ 
++    [options]
++    
+     [generators]
+     cmake
+ 
+ Complete the installation of requirements for your project running:
+ 
 -    $ mkdir build &amp;&amp; cd build &amp;&amp; conan install ..
--
++    conan install . 
+ 
 -Note: It is recommended that you run conan install from a build directory and not the root of the project directory.  This is because conan generates *conanbuildinfo* files specific to a single build configuration which by default comes from an autodetected default profile located in ~/.conan/profiles/default .  If you pass different build configuration options to conan install, it will generate different *conanbuildinfo* files.  Thus, they should not be added to the root of the project, nor committed to git.
--
++Project setup installs the library (and all his dependencies) and generates the files *conanbuildinfo.cmake* with all the 
++paths and variables that you need to link with your dependencies.
+ 
 -
 -## Build and package
 -
@@ -728,7 +742,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2020-07-28 04:35:52</span> | Work in progress
+  <span class="text-muted">Generation done at 2020-07-29 04:36:30</span> | Work in progress
 
       </div>
     </footer>
