@@ -339,7 +339,7 @@
                 <span data-feather="file-text"></span>
                 conan-paho-c
                 
-                <span class="numberCircle numberCircle-error" title=""><span>28</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>29</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>1</span></span>
               </a>
@@ -553,8 +553,6 @@
         <a class="btn btn-sm btn-outline-secondary" href="https://github.com/conan-community/conan-pybind11/tree/release/2.2.4" role="button">Github <span data-feather="external-link"></span></a>
         
         
-            <a class="btn btn-sm btn-outline-secondary" href="https://bintray.com/conan-community/conan/pybind11%3Aconan/2.2.4%3Astable" role="button">Bintray <span data-feather="external-link"></span></a>
-        
     </div>
     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" id="branchesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span data-feather="git-branch"></span>
@@ -583,7 +581,7 @@
             <a class="dropdown-item" href="https://jgsogo.es/conan-community-web/conan-pybind11/detail/release-2-2-4.html">
                 release/2.2.4
                 
-                <span class="numberCircle numberCircle-error" title=""><span>6</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>5</span></span>
                 
                 
             </a>
@@ -668,7 +666,7 @@
         <pre>
             <code class="diff">--- actual
 +++ expected
-@@ -1,31 +1,37 @@
+@@ -1,31 +1,10 @@
 +
 +
 +
@@ -683,43 +681,30 @@
 -[![Download](https://api.bintray.com/packages/conan-community/conan/pybind11%3Aconan/images/download.svg)](https://bintray.com/conan-community/conan/pybind11%3Aconan/_latestVersion)
 -[![Build Status](https://travis-ci.org/conan-community/conan-pybind11.svg?branch=release%2F2.2.4)](https://travis-ci.org/conan-community/conan-pybind11)
 -[![Build status](https://ci.appveyor.com/api/projects/status/jyeh443gn0l0f3bi/branch/release/2.2.4?svg=true)](https://ci.appveyor.com/project/memsharded/conan-pybind11/branch/release/2.2.4)
- 
+-
 -[Conan.io](https://conan.io) package recipe for [pybind11](https://github.com/pybind/pybind11) project.
-+[Conan](https://bintray.com/conan-community/conan/pybind11%3Aconan/2.2.4%3Astable) package for conan-pybind11 library.
- 
+-
 -The packages generated with this **conanfile** can be found in [Bintray](https://bintray.com/conan-community/conan/pybind11%3Aconan).
- 
+-
 -## For Users: Use this package
 -
 -### Basic setup
-+## Basic setup
- 
-     $ conan install pybind11/2.2.4@conan/stable
+-
+-    $ conan install pybind11/2.2.4@conan/stable
 -
 -### Project setup
-+    
-+## Project setup
- 
- If you handle multiple dependencies in your project is better to add a *conanfile.txt*
 -
-+    
-     [requires]
-     pybind11/2.2.4@conan/stable
- 
-+    [options]
-+    
-     [generators]
-     cmake
- 
+-If you handle multiple dependencies in your project is better to add a *conanfile.txt*
+-
+-    [requires]
+-    pybind11/2.2.4@conan/stable
+-
+-    [generators]
+-    cmake
+-
 -## License
-+Complete the installation of requirements for your project running:
- 
--[MIT License](LICENSE)
-+    conan install . 
-+
-+Project setup installs the library (and all his dependencies) and generates the files *conanbuildinfo.cmake* with all the 
-+paths and variables that you need to link with your dependencies.
-+</code>
+-
+-[MIT License](LICENSE)</code>
         </pre>
     </div>
 
@@ -739,7 +724,7 @@
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2020-11-23 05:34:08</span> | Work in progress
+  <span class="text-muted">Generation done at 2020-11-24 06:16:38</span> | Work in progress
 
       </div>
     </footer>
