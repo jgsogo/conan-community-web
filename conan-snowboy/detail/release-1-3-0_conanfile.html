@@ -372,7 +372,7 @@
                 <span data-feather="file-text"></span>
                 conan-snowboy
                 
-                <span class="numberCircle numberCircle-error" title=""><span>9</span></span>
+                <span class="numberCircle numberCircle-error" title=""><span>10</span></span>
                 
                 <span class="numberCircle numberCircle-warning" title=""><span>2</span></span>
               </a>
@@ -633,6 +633,7 @@ class SnowboyConan(ConanFile):
     website = &#34;https://snowboy.kitt.ai&#34;
     settings = &#34;os&#34;, &#34;arch&#34;
     no_copy_sources = True
+    deprecated = True
 
     def configure(self):
         if False and not self._get_src_to_package():
@@ -683,10 +684,6 @@ Invalid settings, snowboy provides prebuilt binaries for:
         if self.settings.os == &#34;iOS&#34; or self.settings.os == &#34;Macos&#34; or \
                 (self.settings.os == &#34;Linux&#34; and &#34;arm&#34; in self.settings.arch):
             del self.info.settings.arch
-
-
-
-
 </code>
         </pre>
     </div>
@@ -707,7 +704,7 @@ Invalid settings, snowboy provides prebuilt binaries for:
     <footer class="fixed-bottom">
       <div class="container footer">
         
-  <span class="text-muted">Generation done at 2021-01-14 06:06:15</span> | Work in progress
+  <span class="text-muted">Generation done at 2021-01-15 06:06:57</span> | Work in progress
 
       </div>
     </footer>
